@@ -27,6 +27,7 @@ MM = 28.84; %evaluated considering a mixture of 0.21 O2 and 0.79 N2
 R_gas = 8314; %J/kmol/K
 cp = R_gas*gamma/(gamma-1)/MM; %J/kgK
 R_star = R_gas / MM; % J/kg/K
+mu = 1.81*10^-5; %Pas
 
 deltaHis_TT = cp * T_T0 * beta_TT ^ ((gamma - 1)/gamma); % J/kg
 
@@ -48,9 +49,6 @@ omega = n * 2 * pi / 60; %rad/s
 %Calculations
 D_s = D_t * (deltaHis_TT^(1/4))/sqrt(Q);
 omega_s = omega * sqrt(Q)/(deltaHis_TT^(3/4));
-
-omega_s_cordier = [10 8 7 6 5 4 3 2 1.5 1 0.9 0.8 0.7 0.6];
-D_s_cordier = [0.98 1.04 1.1 1.2 1.35 1.5 1.65 1.8 2 2.2 3 3.15 3.5 4 4.75];
 %
 %
 %
@@ -58,8 +56,7 @@ eta_TT = 0.8;
 
 %% IGV + ROTOR INLET DESIGN
 
-%1st subproblem
-
+%1st subproblem (VGV inlet velocity and thermodynamics)
 V_0A = 170;
 
 V_0T_t = 0;
@@ -70,9 +67,9 @@ V_0A_t = V_0A;
 V_0A_m = V_0A;
 V_0A_h = V_0A;
 
-alpha_0_t = atan(V_0T_t / V_0A_t);
-alpha_0_m = atan(V_0T_m / V_0A_m);
-alpha_0_h = atan(V_0T_h / V_0A_h);
+alpha_0_t = atand(V_0T_t / V_0A_t);
+alpha_0_m = atand(V_0T_m / V_0A_m);
+alpha_0_h = atand(V_0T_h / V_0A_h);
 
 V_0_t = sqrt(V_0A_t^2 + V_0T_t^2);
 V_0_m = sqrt(V_0A_m^2 + V_0T_m^2);
@@ -95,15 +92,15 @@ D_h = sqrt(D_t^2 - 4*bdm);
 b = (D_t - D_h) / 2;
 D_m = (D_t + D_h) / 2;
 
-%2nd subproblem
-V_1A = 180;
+%2nd subproblem (VGV outlet / Rotor inlet velocity triangles)
+V_1T_m = 180;
 
 U_1_t = omega / 2 * D_t;
 U_1_m = omega / 2 * D_m;
 U_1_h = omega / 2 * D_h;
 
 phi_1_m = 0.5; %Vavra hypothesis
-V_1_m = phi_1_m * U_1_m;
+V_1A = phi_1_m * U_1_m;
 
 T_T1_t = T_T0_t;
 T_T1_m = T_T0_m;
@@ -113,13 +110,13 @@ V_1A_t = V_1A;
 V_1A_m = V_1A;
 V_1A_h = V_1A;
 
-V_1T_m = sqrt(V_1_m^2 - V_1A_m^2);
-V_1T_t = V_1T_m * D_m / D_t;
-V_1T_h = V_1T_m * D_m / D_h;
+V_1_m = sqrt(V_1T_m^2 + V_1A_m^2);
+V_1T_t = V_1T_m * D_m / D_t; % Free vortex
+V_1T_h = V_1T_m * D_m / D_h; % Free vortex
 
-alpha_1_t = atan(V_1T_t / V_1A_t);
-alpha_1_m = atan(V_1T_m / V_1A_m);
-alpha_1_h = atan(V_1T_h / V_1A_h);
+alpha_1_t = atand(V_1T_t / V_1A_t);
+alpha_1_m = atand(V_1T_m / V_1A_m);
+alpha_1_h = atand(V_1T_h / V_1A_h);
 
 V_1_t = sqrt(V_1A_t^2 + V_1T_t^2);
 V_1_h = sqrt(V_1A_h^2 + V_1T_h^2);
@@ -136,14 +133,20 @@ W_1_t = sqrt(W_1A_t^2 + W_1T_t^2);
 W_1_m = sqrt(W_1A_m^2 + W_1T_m^2);
 W_1_h = sqrt(W_1A_h^2 + W_1T_h^2);
 
-beta_1_t = atan(W_1T_t / W_1A_t);
-beta_1_m = atan(W_1T_m / W_1A_m);
-beta_1_h = atan(W_1T_h / W_1A_h);
+beta_1_t = atand(W_1T_t / W_1A_t);
+beta_1_m = atand(W_1T_m / W_1A_m);
+beta_1_h = atand(W_1T_h / W_1A_h);
 
-%3rd subproblem
+rho_1_m = [1.00 1.02];
+rho_1_t = [1.00 1.02];
+rho_1_h = [1.00 1.02];
 
-T_1_t = T_T1_t - (V_1_t^2) / (2*cp);
-T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
-T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
+tol1 = 1e-12;
 
-
+%3rd subproblem solved in the script "IGV_losses.m"
+while(abs(rho_1_m(2)-rho_1_m(1)) > tol1 || abs(rho_1_t(2)-rho_1_t(1)) > tol1 || abs(rho_1_h(2)-rho_1_h(1)) > tol1)
+    rho_1_m(1) = rho_1_m(end);
+    rho_1_t(1) = rho_1_t(end);
+    rho_1_h(1) = rho_1_h(end);
+    IGV_losses;
+end
