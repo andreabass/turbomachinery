@@ -65,9 +65,17 @@
 
         % [INITIALIZATION] 
         % Total density @ IGV inlet as initial value for rho_1_m/t
-        rho_1_m = [rho_T0 rho_T0 + 2*tol];
         V_1T_m = 300 * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / 300^2 / 2 )  ;     
         V_1T_m = [V_1T_m V_1T_m+2*tol];
+        % Total pressure @ IGV inlet = p_T0
+        V_1_m = 
+        T_1_m = 
+        rho_1_m = p_T0 / (R_star * T_1_m + V_1_m^2 / 2);
+        
+        
+        
+        rho_1_m = [rho_T0 rho_T0 + 2*tol];
+        
        
     while abs(rho_1_m(end)-rho_1_m(end-1)) > tol && abs(V_1T_m(end)-V_1T_m(end-1)) > tol
         
@@ -297,13 +305,15 @@
     
     % p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
     
-    V_1_h = sqrt( 2*(p_T1_h - p_1_h)/rho_1_h ); % This velocity doesn't respect anymore the energy balance
+    V_1_h = sqrt( 2*(p_T1_h - p_1_h)/rho_1_h );
     
         alpha_1_h = acosd(V_1A/V_1_h);
     
         V_1T_h = V_1_h * sind(alpha_1_h);
     
         V_1T_m(end+1) = V_1T_h * D_h / D_m;
+        
+        T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
         
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -330,7 +340,7 @@
         V_1T_m  = V_1T_m(end);
         
         mass   = [ rho_0(end) * V_0A * pi * b *D_m, mean(rho_1) * V_1A * pi * b * D_m ];
-        energy = [ T_T0 T_T1_t ; T_T0 T_T1_m; T_T0 T_T1_h];
+        energy = [ T_T0 T_1_t + V_1_t^2/2/cp ; T_T0 T_1_m + V_1_m^2/2/cp; T_T0 T_1_h + V_1_h^2/2/cp];
        
     
     
