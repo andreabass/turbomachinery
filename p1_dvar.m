@@ -4,17 +4,17 @@
     V_0T_h = 0;
     
     phi_1_m = 0.5;
-          
+   
     b =  (D_t - D_h)/2 ;
     D_m = (D_h + D_t)/2;
     U_m = omega * D_m / 2;
     
-    V_1A_m     = phi_1_m * omega * D_m / 2;
-          V_1A       = V_1A_m; % (definition)
-    
+    V_1A_m = phi_1_m * U_m;
+
     V_1A_t = V_1A_m;
     V_1A_h = V_1A_m;
-  
+        V_1A = V_1A_m; % (definition)
+        
     c_IGV = 0.04;
     
     c_IGV_t = c_IGV;
@@ -99,6 +99,9 @@
         rho_1_m(end-1) = rho_1_m(end);  
         V_1T_m(end-1) = V_1T_m(end);
         
+        % Find a corrected value of D_h that takes into account the 
+        % current value of rho_1_m: assume uniform rho @ rotor inlet
+        
         while abs(b(end)-b(end-1))>tol
         b(end-1)   = b(end);
         D_m        = D_t - b(end);
@@ -110,6 +113,14 @@
     D_h = D_t - 2*b(end);
     D_m = (D_h + D_t)/2;
     U_m = omega * D_m / 2;
+    
+    V_1A_t = V_1A_m;
+    V_1A_h = V_1A_m;
+
+    W_1A_t = V_1A_t;
+    W_1A_m = V_1A_m;
+    W_1A_h = V_1A_h;
+        W_1A   = W_1A_m; % (definition)
         
     %%%% MID %%%%
 

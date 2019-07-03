@@ -89,7 +89,7 @@
         
         p1_1D
         
-        V_1T_m = [V_1T V_1T+2*tol];
+        V_1T_m  = [V_1T V_1T+2*tol];
         rho_1_m = [rho_1 rho_1+2*tol];
        
     while abs(rho_1_m(end)-rho_1_m(end-1)) > tol || abs(V_1T_m(end)-V_1T_m(end-1)) > tol

@@ -1,6 +1,8 @@
-      
+    
     rho_1 = rho_0(end) * V_0A / V_1A;
     
+    %%%% [INITIALIZATION] %%%%
+
         V_1T = U_m * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / U_m^2 / 2 );
         V_1T = [V_1T V_1T+2*tol];
         
