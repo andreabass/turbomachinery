@@ -65,13 +65,15 @@
 
         % [INITIALIZATION] 
         % Total density @ IGV inlet as initial value for rho_1_m/
-        V_1T_m = 300 * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / 300^2 / 2 )  ; 
+        %V_1T_m = 300 * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / 300^2 / 2 )  ; 
+        V_1T_m=156;
         V_1_m = sqrt(V_1T_m(end)^2 + V_1A_m^2);
         T_T1_m = T_T0;
         p_T1_m = p_T0;
         T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
         p_1_m = p_T1_m / (1 + (V_1_m^2)/(2 * R_star * T_1_m));
-        rho_1_m = p_1_m / (R_star*T_1_m);
+        %rho_1_m = p_1_m / (R_star*T_1_m);
+        rho_1_m=0.8597;
         rho_1_m = [rho_1_m rho_1_m + 2*tol];
         V_1T_m = [V_1T_m V_1T_m+2*tol];
        
