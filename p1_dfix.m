@@ -64,9 +64,15 @@
     end
 
         % [INITIALIZATION] 
-        % Total density @ IGV inlet as initial value for rho_1_m/t
-        rho_1_m = [rho_T0 rho_T0 + 2*tol];
-        V_1T_m = 300 * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / 300^2 / 2 )  ;     
+        % Total density @ IGV inlet as initial value for rho_1_m/
+        V_1T_m = 300 * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / 300^2 / 2 )  ; 
+        V_1_m = sqrt(V_1T_m(end)^2 + V_1A_m^2);
+        T_T1_m = T_T0;
+        p_T1_m = p_T0;
+        T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
+        p_1_m = p_T1_m / (1 + (V_1_m^2)/(2 * R_star * T_1_m));
+        rho_1_m = p_1_m / (R_star*T_1_m);
+        rho_1_m = [rho_1_m rho_1_m + 2*tol];
         V_1T_m = [V_1T_m V_1T_m+2*tol];
        
     while abs(rho_1_m(end)-rho_1_m(end-1)) > tol && abs(V_1T_m(end)-V_1T_m(end-1)) > tol
@@ -108,9 +114,17 @@
         Y_p_1_in = A_m;
         alpha_av_t_01 = atand((tand(alpha_0_m)+tand(alpha_1_m))/2);
         cL = 2 * s_over_c_min_m * (abs(tand(alpha_1_m)-tand(alpha_0_m)))*cosd(alpha_av_t_01);
-   
+    
+        % [INITIALIZATION] 
+        % Current density @ midspan as initial value for rho_1_m
+        rho_1_m = [rho_1_m(end) rho_1_m(end)+2*tol]; 
+    
+    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol
+    
+        rho_1_m(end-1) = rho_1_m(end); 
+        
     Re_1_m = rho_1_m(end) * V_1_m * c_IGV / mu;
-   
+    
         Y_p_1_Re = Y_p_1_in * (Re_ref / Re_1_m)^0.2;
         Y_1_sec = c_IGV / b *(0.0334 * cosd(alpha_1_m)/cosd(alpha_0_m)) * (cL / s_over_c_min_m)^2 * ((cosd(alpha_1_m))^2) / (cosd(alpha_av_t_01))^3;
     
@@ -120,21 +134,30 @@
 
     T_T1_m = T_T0_m;
     
+    T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
+    
+    p_1_m = p_T1_m / (1 + (V_1_m^2)/(2 * R_star * T_1_m));
+    
+    rho_1_m(end+1) = p_1_m / R_star / T_1_m;
+    
+    end     
+    
+
     %%%%%%%%%%%%%%%%% 
     
-    T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
+
     
     % T_1_m = p_1_m / ( R_star * rho_1_m(end) );
     
     % V_1_m = sqrt(2*cp*(T_T1_m-T_1_m));
     
-    p_1_m = R_star * rho_1_m(end) * T_1_m;
+    %p_1_m = R_star * rho_1_m(end) * T_1_m;
     
     % p_1_m = p_T1_m - rho_1_m(end) * V_1_m^2 / 2 ;
     
     % V_1_m = sqrt( 2*(p_T1_m - p_1_m)/rho_1_m(end) );
     
-    rho_1_m(end+1) =  2*(p_T1_m - p_1_m)/V_1_m^2; 
+    %rho_1_m(end+1) =  2*(p_T1_m - p_1_m)/V_1_m^2; 
     
            % rho_1_m(end+1) = p_1_m / ( R_star * rho_1_m(end) )
     
@@ -271,47 +294,81 @@
         X_AM_h = s_over_c_h - s_over_c_min_h;
         Y_p_1_in_h = A_h+B_h*X_AM_h^2+C_h*X_AM_h^3;
         end
+        
+        % [INITIALIZATION] 
+        % Current density @ midspan as initial value for rho_1_t
+            rho_1_h = [rho_1_m(end) rho_1_m(end)+2*tol]; 
+            alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
+            cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
     
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-    T_T1_h = T_T0_h;
-        
-    T_1_h = T_T1_h - (V_1_h^2) / (2*cp); % Energy balance  
+    while abs(rho_1_h(end)-rho_1_h(end-1)) > tol
     
-    rho_1_h = 3 * rho_0(end) * V_0A / V_1A - rho_1_m(end) - rho_1_t(end); % Mass balance 
-   
-    p_1_h = R_star * rho_1_h * T_1_h; % Pressure respecting energy and mass balances 
-   
-        Y_p_1_in_h = A_h;
-        alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
-        cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
+        rho_1_h(end-1) = rho_1_h(end); 
         
-    Re_1_h = V_1_h * rho_1_h * c_IGV / mu;
+    Re_1_h = V_1_h * rho_1_h(end) * c_IGV / mu;
     
         Y_p_1_Re_h = Y_p_1_in_h * (Re_ref / Re_1_h)^0.2;
         Y_1_sec_h = c_IGV / b *(0.0334 * cosd(alpha_1_h)/cosd(alpha_0_h)) * (cL / s_over_c_h)^2 * ((cosd(alpha_1_h))^2) / (cosd(alpha_av_t_01_h))^3;
         
     Y_1_p_tot_h = Y_p_1_Re_h + Y_1_sec_h;
-        
+    
+    T_T1_h = T_T0_h;
+
+    T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
+    
     p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
     
-    % p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
+    p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
     
-    V_1_h = sqrt( 2*(p_T1_h - p_1_h)/rho_1_h );
+    rho_1_h(end+1) = p_1_h / R_star / T_1_h;
     
-        alpha_1_h = acosd(V_1A/V_1_h);
+    end
     
-        V_1T_h = V_1_h * sind(alpha_1_h);
+    rho_1_m(end+1) = 3 * rho_0(end) * V_0A / V_1A - rho_1_h(end) - rho_1_t(end);
+    T_1_m = p_1_m / (R_star*rho_1_m(end)); 
+    V_1_m = sqrt(2*cp*(T_T1_m-T_1_m));
+        V_1T_m(end+1) = sign(V_1T_m(end))*sqrt(V_1_m^2-V_1A_m^2);
     
-        V_1T_m(end+1) = V_1T_h * D_h / D_m;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-        T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
+%     T_T1_h = T_T0_h;
+%         
+%     T_1_h = T_T1_h - (V_1_h^2) / (2*cp); % Energy balance  
+%     
+%     rho_1_h = 3 * rho_0(end) * V_0A / V_1A - rho_1_m(end) - rho_1_t(end); % Mass balance 
+%    
+%     p_1_h = R_star * rho_1_h * T_1_h; % Pressure respecting energy and mass balances 
+%    
+%         Y_p_1_in_h = A_h;
+%         alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
+%         cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
+%         
+%     Re_1_h = V_1_h * rho_1_h * c_IGV / mu;
+%     
+%         Y_p_1_Re_h = Y_p_1_in_h * (Re_ref / Re_1_h)^0.2;
+%         Y_1_sec_h = c_IGV / b *(0.0334 * cosd(alpha_1_h)/cosd(alpha_0_h)) * (cL / s_over_c_h)^2 * ((cosd(alpha_1_h))^2) / (cosd(alpha_av_t_01_h))^3;
+%         
+%     Y_1_p_tot_h = Y_p_1_Re_h + Y_1_sec_h;
+%         
+%     p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
+%     
+%     % p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
+%     
+%     V_1_h = sqrt( 2*(p_T1_h - p_1_h)/rho_1_h );
+%     
+%         alpha_1_h = acosd(V_1A/V_1_h);
+%     
+%         V_1T_h = V_1_h * sind(alpha_1_h);
+%     
+%         V_1T_m(end+1) = V_1T_h * D_h / D_m;
+%         
+%         T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
         
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     end
  
-        rho_1 = [rho_1_h rho_1_m(end) rho_1_t(end)];
+        rho_1 = [rho_1_h(end) rho_1_m(end) rho_1_t(end)];
         V_1   = [V_1_h V_1_m V_1_t];
         T_1   = [T_1_h T_1_m T_1_t];
         p_1   = [p_1_h p_1_m p_1_t];
