@@ -1,13 +1,19 @@
 
-    V_0T_m = 0; % (eq. 12)
-    V_0T_t = 0; % (eq. 13)
-    V_0T_h = 0; % (eq. 14)
+    V_0T_m = 0;
+    V_0T_t = 0; 
+    V_0T_h = 0;
     
     phi_1_m = 0.5;
-  
-    T_T1_t = T_T0_t;
-    T_T1_m = T_T0_m;
-    T_T1_h = T_T0_h;
+          
+    b =  (D_t - D_h)/2 ;
+    D_m = (D_h + D_t)/2;
+    U_m = omega * D_m / 2;
+    
+    V_1A_m     = phi_1_m * omega * D_m / 2;
+          V_1A       = V_1A_m; % (definition)
+    
+    V_1A_t = V_1A_m;
+    V_1A_h = V_1A_m;
   
     c_IGV = 0.04;
     
@@ -16,32 +22,6 @@
   
     t_over_s_h = 0.02;
     
-        b = (D_t-D_h)/2;
-    D_m = (D_h + D_t)/2;
-    U_m = omega * D_m / 2;
-    V_1A_m     = phi_1_m * omega * D_m / 2;
-    
-    V_1A_t = V_1A_m;
-    V_1A_h = V_1A_m;
-    V_1A = V_1A_m;
-
-    W_1A_t = V_1A_t;
-    W_1A_m = V_1A_m;
-    W_1A_h = V_1A_h;
-        W_1A   = W_1A_m; % (definition)
-
-        % [INITIALIZATION] 
-        % Total density @ IGV inlet as initial value for rho_1_m/t
-        rho_1_m = [rho_T0 rho_T0 + 2*tol];
-        
-        initial = 1;
-    
-    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol
-        
-        rho_1_m(end-1) = rho_1_m(end);  
-        
-
-        
     %%%%%%%%%%%%%%%%%%%
     %%%% IGV INLET %%%%
     %%%%%%%%%%%%%%%%%%%
@@ -50,7 +30,7 @@
         % Total density @ IGV inlet as initial value for rho_0
         rho_0 = [rho_T0 rho_T0+2*tol ];
     
-    while abs(rho_0(end)-rho_0(end-1)) > tol
+    while abs(rho_0(end)-rho_0(end-1)) > tol 
         
         rho_0(end-1) = rho_0(end);    
         
@@ -82,18 +62,16 @@
         rho_0(end+1) = rho_0_m;              % (definition)
         
     end
-      
-       rho_1_h = 3 * rho_0(end) * V_0A / V_1A - rho_1_m(end) - rho_1_t(end);
-    
-    
-        if initial == 1
-        V_1T_m = U_m * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / U_m^2 / 2 )  ;
+
+        % [INITIALIZATION] 
+        % Total density @ IGV inlet as initial value for rho_1_m/t
+        rho_1_m = [rho_T0 rho_T0 + 2*tol];
+        V_1T_m = 300 * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / 300^2 / 2 )  ;     
         V_1T_m = [V_1T_m V_1T_m+2*tol];
-        end
+       
+    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol && abs(V_1T_m(end)-V_1T_m(end-1)) > tol
         
-    while abs(V_1T_m(end)-V_1T_m(end-1)) > tol
-        
-        initial = 0;
+        rho_1_m(end-1) = rho_1_m(end);  
         V_1T_m(end-1) = V_1T_m(end);
         
     %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,13 +84,13 @@
 
     W_1T_m = V_1T_m(end) - U_m;
 
+    W_1A_m = V_1A_m;
+
     W_1_m = sqrt(W_1A_m^2 + W_1T_m^2);
 
     beta_1_m = atand(W_1T_m / W_1A_m);
-
-    T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
              
-        alpha_2prime_m = 90 - alpha_1_m;
+        alpha_2prime_m = 90 - abs(alpha_1_m);
    
         if alpha_2prime_m > 30
         s_over_c_min_m = 0.614 + alpha_2prime_m / 130;
@@ -137,12 +115,34 @@
         Y_1_sec = c_IGV / b *(0.0334 * cosd(alpha_1_m)/cosd(alpha_0_m)) * (cL / s_over_c_min_m)^2 * ((cosd(alpha_1_m))^2) / (cosd(alpha_av_t_01))^3;
     
     Y_1_p_tot = Y_p_1_Re + Y_1_sec;
-
-    p_T1_m = p_T0_m - Y_1_p_tot * (p_T0_m - p_0_m);
     
-    p_1_m = p_T1_m / (1 + (V_1_m^2)/(2 * R_star * T_1_m));
+    p_T1_m = p_T0_m - Y_1_p_tot * (p_T0_m - p_0_m);
 
-    rho_1_m(end+1) = p_1_m / R_star / T_1_m;
+    T_T1_m = T_T0_m;
+    
+    %%%%%%%%%%%%%%%%% 
+    
+    T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
+    
+    % T_1_m = p_1_m / ( R_star * rho_1_m(end) );
+    
+    % V_1_m = sqrt(2*cp*(T_T1_m-T_1_m));
+    
+    p_1_m = R_star * rho_1_m(end) * T_1_m;
+    
+    % p_1_m = p_T1_m - rho_1_m(end) * V_1_m^2 / 2 ;
+    
+    % V_1_m = sqrt( 2*(p_T1_m - p_1_m)/rho_1_m(end) );
+    
+    rho_1_m(end+1) =  2*(p_T1_m - p_1_m)/V_1_m^2; 
+    
+           % rho_1_m(end+1) = p_1_m / ( R_star * rho_1_m(end) )
+    
+           % alpha_1_m = acosd(V_1A/V_1_m);
+    
+           % V_1T_m(end) = V_1_m * sind(alpha_1_m);
+           
+    %%%%%%%%%%%%%%%%%
        
     s_IGV_m = s_over_c_min_m * c_IGV;
     
@@ -165,12 +165,12 @@
     V_1_t = sqrt(V_1A_t^2 + V_1T_t^2);
 
     W_1T_t = V_1T_t - U_t;
+    
+    W_1A_t = V_1A_t;
 
     W_1_t = sqrt(W_1A_t^2 + W_1T_t^2);
 
     beta_1_t = atand(W_1T_t / W_1A_t);
-
-    T_1_t = T_T1_t - (V_1_t^2) / (2*cp);
 
         alpha_2prime_t = 90 - alpha_1_t;
         
@@ -213,6 +213,10 @@
     
     Y_1_p_tot_t = Y_p_1_Re_t + Y_1_sec_t;
     
+    T_T1_t = T_T0_t;
+
+    T_1_t = T_T1_t - (V_1_t^2) / (2*cp);
+    
     p_T1_t = p_T0_t - Y_1_p_tot_t * (p_T0_t - p_0_t);
     
     p_1_t = p_T1_t / (1 + (V_1_t^2)/(2 * R_star * T_1_t));
@@ -237,13 +241,13 @@
 
     V_1_h = sqrt(V_1A_h^2 + V_1T_h^2);
     
+    W_1A_h = V_1A_h;
+    
     W_1T_h = V_1T_h - U_h;
 
     W_1_h = sqrt(W_1A_h^2 + W_1T_h^2);
 
     beta_1_h = atand(W_1T_h / W_1A_h);
-
-    T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
 
         alpha_2prime_h = 90 - alpha_1_h;
         
@@ -268,6 +272,16 @@
         Y_p_1_in_h = A_h+B_h*X_AM_h^2+C_h*X_AM_h^3;
         end
     
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+    T_T1_h = T_T0_h;
+        
+    T_1_h = T_T1_h - (V_1_h^2) / (2*cp); % Energy balance  
+    
+    rho_1_h = 3 * rho_0(end) * V_0A / V_1A - rho_1_m(end) - rho_1_t(end); % Mass balance 
+   
+    p_1_h = R_star * rho_1_h * T_1_h; % Pressure respecting energy and mass balances 
+   
         Y_p_1_in_h = A_h;
         alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
         cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
@@ -281,41 +295,45 @@
         
     p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
     
-    p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
+    % p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
     
-    T_1_h = p_1_h / R_star / rho_1_h;
-   
-         V_1_h = sqrt(2*cp*(T_T1_h-T_1_h));
+    V_1_h = sqrt( 2*(p_T1_h - p_1_h)/rho_1_h );
     
-         V_1T_h = sqrt(V_1_h^2 - V_1A^2);
+        alpha_1_h = acosd(V_1A/V_1_h);
+    
+        V_1T_h = V_1_h * sind(alpha_1_h);
+    
+        V_1T_m(end+1) = V_1T_h * D_h / D_m;
         
-         V_1T_m(end+1) = V_1T_h * D_h / D_m;
+        T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
+        
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     end
+ 
+        rho_1 = [rho_1_h rho_1_m(end) rho_1_t(end)];
+        V_1   = [V_1_h V_1_m V_1_t];
+        T_1   = [T_1_h T_1_m T_1_t];
+        p_1   = [p_1_h p_1_m p_1_t];
+        V_1T  = [V_1T_h V_1T_m(end) V_1T_t];
     
-    end
-    
+        story_rho_b   = b;
         story_rho_0   = rho_0;
         story_rho_1_m = rho_1_m;
         story_rho_1_t = rho_1_t; 
         story_rho_0   = rho_0; 
         story_V_1T_m  = V_1T_m;
 
+        b = b;
         rho_0   = rho_0(end);
         rho_1_m = rho_1_m(end);
         rho_1_t = rho_1_t(end);
         rho_0   = rho_0(end);
         V_1T_m  = V_1T_m(end);
-       
-
-
-
         
-
-
-
-    
-   
+        mass   = [ rho_0(end) * V_0A * pi * b *D_m, mean(rho_1) * V_1A * pi * b * D_m ];
+        energy = [ T_T0 T_1_t + V_1_t^2/2/cp ; T_T0 T_1_m + V_1_m^2/2/cp; T_T0 T_1_h + V_1_h^2/2/cp];
+       
     
     
     
