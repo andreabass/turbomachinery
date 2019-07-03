@@ -66,14 +66,14 @@
         % [INITIALIZATION] 
         % Total density @ IGV inlet as initial value for rho_1_m/
         %V_1T_m = 300 * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / 300^2 / 2 )  ; 
-        V_1T_m=156;
+        V_1T_m = 156;
         V_1_m = sqrt(V_1T_m(end)^2 + V_1A_m^2);
         T_T1_m = T_T0;
         p_T1_m = p_T0;
         T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
         p_1_m = p_T1_m / (1 + (V_1_m^2)/(2 * R_star * T_1_m));
         %rho_1_m = p_1_m / (R_star*T_1_m);
-        rho_1_m=0.8597;
+        rho_1_m = 0.8597;
         rho_1_m = [rho_1_m rho_1_m + 2*tol];
         V_1T_m = [V_1T_m V_1T_m+2*tol];
        
@@ -98,7 +98,7 @@
 
     beta_1_m = atand(W_1T_m / W_1A_m);
              
-        alpha_2prime_m = 90 - abs(alpha_1_m);
+        alpha_2prime_m = 90 - alpha_1_m;
    
         if alpha_2prime_m > 30
         s_over_c_min_m = 0.614 + alpha_2prime_m / 130;
@@ -116,14 +116,6 @@
         Y_p_1_in = A_m;
         alpha_av_t_01 = atand((tand(alpha_0_m)+tand(alpha_1_m))/2);
         cL = 2 * s_over_c_min_m * (abs(tand(alpha_1_m)-tand(alpha_0_m)))*cosd(alpha_av_t_01);
-    
-        % [INITIALIZATION] 
-        % Current density @ midspan as initial value for rho_1_m
-        rho_1_m = [rho_1_m(end) rho_1_m(end)+2*tol]; 
-    
-    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol
-    
-        rho_1_m(end-1) = rho_1_m(end); 
         
     Re_1_m = rho_1_m(end) * V_1_m * c_IGV / mu;
     
@@ -133,7 +125,7 @@
     Y_1_p_tot = Y_p_1_Re + Y_1_sec;
     
     p_T1_m = p_T0_m - Y_1_p_tot * (p_T0_m - p_0_m);
-
+    
     T_T1_m = T_T0_m;
     
     T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
@@ -142,24 +134,27 @@
     
     rho_1_m(end+1) = p_1_m / R_star / T_1_m;
     
-    end     
+    % p_1_m = R_star * rho_1_m(end) * T_1_m;
     
-
+    % V_1_m = sqrt( 2*(p_T1_m - p_1_m)/rho_1_m(end) );
+    
+      %  alpha_1_m = acosd(V_1A/V_1_m);
+        
+      %  V_1T_m(end+1) = V_1_m * sind(alpha_1_m);
+    
     %%%%%%%%%%%%%%%%% 
-    
-
-    
+   
     % T_1_m = p_1_m / ( R_star * rho_1_m(end) );
     
     % V_1_m = sqrt(2*cp*(T_T1_m-T_1_m));
     
-    %p_1_m = R_star * rho_1_m(end) * T_1_m;
+    % p_1_m = R_star * rho_1_m(end) * T_1_m;
     
     % p_1_m = p_T1_m - rho_1_m(end) * V_1_m^2 / 2 ;
     
     % V_1_m = sqrt( 2*(p_T1_m - p_1_m)/rho_1_m(end) );
     
-    %rho_1_m(end+1) =  2*(p_T1_m - p_1_m)/V_1_m^2; 
+    % rho_1_m(end+1) =  2*(p_T1_m - p_1_m)/V_1_m^2; 
     
            % rho_1_m(end+1) = p_1_m / ( R_star * rho_1_m(end) )
     
@@ -327,10 +322,7 @@
     end
     
     rho_1_m(end+1) = 3 * rho_0(end) * V_0A / V_1A - rho_1_h(end) - rho_1_t(end);
-    T_1_m = p_1_m / (R_star*rho_1_m(end)); 
-    V_1_m = sqrt(2*cp*(T_T1_m-T_1_m));
-        V_1T_m(end+1) = sign(V_1T_m(end))*sqrt(V_1_m^2-V_1A_m^2);
-    
+  
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
 %     T_T1_h = T_T0_h;
