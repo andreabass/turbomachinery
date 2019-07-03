@@ -312,7 +312,7 @@
         
         %%%%%% [INITIALIZATION] %%%%%%%
         
-        % Current density @ midspan as initial value for rho_1_t
+        % Current density @ midspan as initial value for rho_1_h
         
             rho_1_h = [rho_1_m(end) rho_1_m(end)+2*tol]; 
             alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
@@ -368,15 +368,20 @@
         rho_0   = rho_0(end);
         rho_1_m = rho_1_m(end);
         rho_1_t = rho_1_t(end);
-        rho_0   = rho_0(end);
         V_1T_m  = V_1T_m(end);
         
+        %Mass and energy conservation check and initialization variables
+        %convergence check
         mass   = [ rho_0(end) * V_0A * pi * b *D_m, mean(rho_1) * V_1A * pi * b * D_m ];
         energy = [ T_T0 T_1_t + V_1_t^2/2/cp ; T_T0 T_1_m + V_1_m^2/2/cp; T_T0 T_1_h + V_1_h^2/2/cp];
-       
-    
-    
-    
-
-
-
+        
+        figure(1)
+        plot(story_rho_b);
+        figure(2)
+        plot(story_rho_0);
+        figure(3)
+        plot(story_rho_1_m);
+        figure(4)
+        plot(story_rho_1_t);
+        figure(5)
+        plot(story_V_1T_m);
