@@ -22,15 +22,23 @@
   
     t_over_s_h = 0.02;
     
-    %%%%%%%%%%%%%%%%%%%
-    %%%% IGV INLET %%%%
-    %%%%%%%%%%%%%%%%%%%
+    %% IGV INLET %%
+    %%%%%%%%%%%%%%%
+     %%%%%%%%%%%%%
+      %%%%%%%%%%%
+       %%%%%%%%%
+        %%%%%%%
+         %%%%%
+          %%%
+           %
     
-        % [INITIALIZATION] 
+        %%%%%% [INITIALIZATION] %%%%%%%
+      
         % Total density @ IGV inlet as initial value for rho_0
+        
         rho_0 = [rho_T0 rho_T0+2*tol ];
-    
-    while abs(rho_0(end)-rho_0(end-1)) > tol 
+
+        while abs(rho_0(end)-rho_0(end-1)) > tol 
         
         rho_0(end-1) = rho_0(end);    
         
@@ -61,30 +69,35 @@
     rho_0_h = p_0_h / R_star / T_0_h; % (eq. 32)
         rho_0(end+1) = rho_0_m;              % (definition)
         
-    end
+        end
 
-        % [INITIALIZATION] 
-        % Total density @ IGV inlet as initial value for rho_1_m/
-        %V_1T_m = 300 * ( 1 + 0.5 - deltaHis_TT / eta_TT_m / 300^2 / 2 )  ; 
-        V_1T_m = 156;
-        V_1_m = sqrt(V_1T_m(end)^2 + V_1A_m^2);
-        T_T1_m = T_T0;
-        p_T1_m = p_T0;
-        T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
-        p_1_m = p_T1_m / (1 + (V_1_m^2)/(2 * R_star * T_1_m));
-        %rho_1_m = p_1_m / (R_star*T_1_m);
-        rho_1_m = 0.8597;
-        rho_1_m = [rho_1_m rho_1_m + 2*tol];
-        V_1T_m = [V_1T_m V_1T_m+2*tol];
+    %% ROTOR INLET %%
+     %%%%%%%%%%%%%%%
+      %%%%%%%%%%%%%
+       %%%%%%%%%%%
+        %%%%%%%%%
+         %%%%%%%
+          %%%%%
+           %%%
+            %
+        
+        %%%%%% [INITIALIZATION] %%%%%%%
+        
+        % Solution of simplified 1D problem as initial value for V_1T_m
+        % and rho_1_m (initialization of 1D problem: Vavra assumption for
+        % reaction degree).
+        
+        p1_1D
+        
+        V_1T_m = [V_1T V_1T+2*tol];
+        rho_1_m = [rho_1 rho_1+2*tol];
        
-    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol && abs(V_1T_m(end)-V_1T_m(end-1)) > tol
+    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol || abs(V_1T_m(end)-V_1T_m(end-1)) > tol
         
         rho_1_m(end-1) = rho_1_m(end);  
         V_1T_m(end-1) = V_1T_m(end);
         
-    %%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%% ROTOR INLET MID %%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%% MID %%%%
 
     V_1_m = sqrt(V_1T_m(end)^2 + V_1A_m^2);
     
@@ -117,6 +130,16 @@
         alpha_av_t_01 = atand((tand(alpha_0_m)+tand(alpha_1_m))/2);
         cL = 2 * s_over_c_min_m * (abs(tand(alpha_1_m)-tand(alpha_0_m)))*cosd(alpha_av_t_01);
         
+        %%%%%% [INITIALIZATION] %%%%%%%
+        
+        % Current density @ midspan as initial value for rho_1_t
+        
+        rho_1_m = [rho_1_m(end) rho_1_m(end)+2*tol]; 
+        
+    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol
+    
+        rho_1_m(end-1) = rho_1_m(end); 
+        
     Re_1_m = rho_1_m(end) * V_1_m * c_IGV / mu;
     
         Y_p_1_Re = Y_p_1_in * (Re_ref / Re_1_m)^0.2;
@@ -134,43 +157,13 @@
     
     rho_1_m(end+1) = p_1_m / R_star / T_1_m;
     
-    % p_1_m = R_star * rho_1_m(end) * T_1_m;
-    
-    % V_1_m = sqrt( 2*(p_T1_m - p_1_m)/rho_1_m(end) );
-    
-      %  alpha_1_m = acosd(V_1A/V_1_m);
-        
-      %  V_1T_m(end+1) = V_1_m * sind(alpha_1_m);
-    
-    %%%%%%%%%%%%%%%%% 
-   
-    % T_1_m = p_1_m / ( R_star * rho_1_m(end) );
-    
-    % V_1_m = sqrt(2*cp*(T_T1_m-T_1_m));
-    
-    % p_1_m = R_star * rho_1_m(end) * T_1_m;
-    
-    % p_1_m = p_T1_m - rho_1_m(end) * V_1_m^2 / 2 ;
-    
-    % V_1_m = sqrt( 2*(p_T1_m - p_1_m)/rho_1_m(end) );
-    
-    % rho_1_m(end+1) =  2*(p_T1_m - p_1_m)/V_1_m^2; 
-    
-           % rho_1_m(end+1) = p_1_m / ( R_star * rho_1_m(end) )
-    
-           % alpha_1_m = acosd(V_1A/V_1_m);
-    
-           % V_1T_m(end) = V_1_m * sind(alpha_1_m);
-           
-    %%%%%%%%%%%%%%%%%
+    end
        
     s_IGV_m = s_over_c_min_m * c_IGV;
     
     N_bl_IGV = pi * D_m / s_IGV_m;
         
-    %%%%%%%%%%%%%%%%%%%%%%%%%
     %%%% ROTOR INLET TIP %%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%
     
     s_IGV_t = pi * D_t / N_bl_IGV;
     
@@ -218,8 +211,10 @@
         alpha_av_t_01_t = atand((tand(alpha_0_t)+tand(alpha_1_t))/2);
         cL_t = 2 * s_over_c_t * (abs(tand(alpha_1_t)-tand(alpha_0_t)))*cosd(alpha_av_t_01_t);
     
-        % [INITIALIZATION] 
+        %%%%%% [INITIALIZATION] %%%%%%%
+        
         % Current density @ midspan as initial value for rho_1_t
+        
         rho_1_t = [rho_1_m(end) rho_1_m(end)+2*tol]; 
     
     while abs(rho_1_t(end)-rho_1_t(end-1)) > tol
@@ -244,10 +239,8 @@
     rho_1_t(end+1) = p_1_t / R_star / T_1_t;
     
     end
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%
+
     %%%% ROTOR INLET HUB %%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%
     
     s_IGV_h = pi * D_h / N_bl_IGV;
     
@@ -292,8 +285,10 @@
         Y_p_1_in_h = A_h+B_h*X_AM_h^2+C_h*X_AM_h^3;
         end
         
-        % [INITIALIZATION] 
+        %%%%%% [INITIALIZATION] %%%%%%%
+        
         % Current density @ midspan as initial value for rho_1_t
+        
             rho_1_h = [rho_1_m(end) rho_1_m(end)+2*tol]; 
             alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
             cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
@@ -322,43 +317,12 @@
     end
     
     rho_1_m(end+1) = 3 * rho_0(end) * V_0A / V_1A - rho_1_h(end) - rho_1_t(end);
-  
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-%     T_T1_h = T_T0_h;
-%         
-%     T_1_h = T_T1_h - (V_1_h^2) / (2*cp); % Energy balance  
-%     
-%     rho_1_h = 3 * rho_0(end) * V_0A / V_1A - rho_1_m(end) - rho_1_t(end); % Mass balance 
-%    
-%     p_1_h = R_star * rho_1_h * T_1_h; % Pressure respecting energy and mass balances 
-%    
-%         Y_p_1_in_h = A_h;
-%         alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
-%         cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
-%         
-%     Re_1_h = V_1_h * rho_1_h * c_IGV / mu;
-%     
-%         Y_p_1_Re_h = Y_p_1_in_h * (Re_ref / Re_1_h)^0.2;
-%         Y_1_sec_h = c_IGV / b *(0.0334 * cosd(alpha_1_h)/cosd(alpha_0_h)) * (cL / s_over_c_h)^2 * ((cosd(alpha_1_h))^2) / (cosd(alpha_av_t_01_h))^3;
-%         
-%     Y_1_p_tot_h = Y_p_1_Re_h + Y_1_sec_h;
-%         
-%     p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
-%     
-%     % p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
-%     
-%     V_1_h = sqrt( 2*(p_T1_h - p_1_h)/rho_1_h );
-%     
-%         alpha_1_h = acosd(V_1A/V_1_h);
-%     
-%         V_1T_h = V_1_h * sind(alpha_1_h);
-%     
-%         V_1T_m(end+1) = V_1T_h * D_h / D_m;
-%         
-%         T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
-        
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+            V_1_m = sqrt( 2*(p_T1_m - p_1_m)/rho_1_m(end) );
+            
+            alpha_1_m = acosd(V_1A/V_1_m);
+    
+            V_1T_m(end) = V_1_m * sind(alpha_1_m);
     
     end
  

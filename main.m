@@ -18,7 +18,7 @@ initial_values
 %% p1: IGV
 % OPEN
 % INPUT 1: D_h
-p1_dfix
+p1_dvar
 
 %% p2: ROTOR 
 % OPEN
