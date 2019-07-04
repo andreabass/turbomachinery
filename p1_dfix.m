@@ -89,7 +89,7 @@
         
         p1_1D
         
-        V_1T_m = [V_1T V_1T+2*tol];
+        V_1T_m  = [V_1T(end) V_1T(end)+2*tol];
         rho_1_m = [rho_1 rho_1+2*tol];
        
     while abs(rho_1_m(end)-rho_1_m(end-1)) > tol || abs(V_1T_m(end)-V_1T_m(end-1)) > tol
@@ -132,7 +132,7 @@
         
         %%%%%% [INITIALIZATION] %%%%%%%
         
-        % Current density @ midspan as initial value for rho_1_t
+        % Current density @ midspan as initial value for rho_1_m
         
         rho_1_m = [rho_1_m(end) rho_1_m(end)+2*tol]; 
         
@@ -322,7 +322,7 @@
             
             alpha_1_m = acosd(V_1A/V_1_m);
     
-            V_1T_m(end) = V_1_m * sind(alpha_1_m);
+            V_1T_m(end+1) = V_1_m * sind(alpha_1_m);
     
     end
  
@@ -339,19 +339,25 @@
         story_rho_0   = rho_0; 
         story_V_1T_m  = V_1T_m;
 
-        b = b;
         rho_0   = rho_0(end);
         rho_1_m = rho_1_m(end);
         rho_1_t = rho_1_t(end);
         rho_0   = rho_0(end);
         V_1T_m  = V_1T_m(end);
         
+        %Mass and energy conservation check and initialization variables
+        %convergence check
         mass   = [ rho_0(end) * V_0A * pi * b *D_m, mean(rho_1) * V_1A * pi * b * D_m ];
         energy = [ T_T0 T_1_t + V_1_t^2/2/cp ; T_T0 T_1_m + V_1_m^2/2/cp; T_T0 T_1_h + V_1_h^2/2/cp];
-       
-    
-    
-    
+        
+        figure(1)
+        plot(story_rho_0);
+        figure(2)
+        plot(story_rho_1_m);
+        figure(3)
+        plot(story_rho_1_t);
+        figure(4)
+        plot(story_V_1T_m);
 
 
 
