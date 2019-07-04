@@ -351,7 +351,109 @@
        
     
     
-    
+  %% ROTOR  OUTLET %%
+          %%%%%%%%%%%%%%%
+           %%%%%%%%%%%%%
+            %%%%%%%%%%%
+             %%%%%%%%%
+              %%%%%%%
+               %%%%%
+                %%%
+                 %
+        
+                 
+        %%%%%% [INITIALIZATION] %%%%%%%
+        %Initialization value for V_2A_m
+        V_2A_m = V_1A_m;
+        V_2A_t = V_2A_m;
+        V_2A_h = V_2A_m;
+        
+        % Let's define initialization values for inlet axial velocity and
+        % rotor efficiency defined as the ratio between isentropic static
+        % enthalpy change and real static enthalpy change. Thanks to these
+        % values we'll be able to fully determine the VT and TDN quantities
+        % at the rotor outlet that will allow us to calculate losses and
+        % therefore get to adjusted values of the TDN quantities. Such
+        % updated values will be finally used to recalculate the efficiency
+        % of the rotor.In the meanwhile for every cycle we'll impose the
+        % mass balance to update the axial velocity.
+        
+        V_2A = [V_2A_m V_2A_m + 2*tol];
+        eta_R_t = [eta_TT_m - 2*tol eta_TT_m];
+        eta_R_m = [eta_TT_m - 2*tol eta_TT_m];
+        eta_R_h = [eta_TT_m - 2*tol eta_TT_m];
+        
+        while abs(eta_R_t(end) - eta_R_t(end-1))> tol || abs(eta_R_m(end) - eta_R_m(end-1))> tol || abs(eta_R_h(end) - eta_R_h(end-1))> tol
+        while abs(V_2A(end) - V_2A(end-1))> tol
+        V_2A(end-1) = V_2A(end);
+        
+        l_Eu = deltaHis_TT / eta_TT_m;
+        V_2T_m = V_1T_m - l_Eu / U_m;
+        V_2T_t = V_2T_m * D_m / D_t;
+        V_2T_h = V_2T_m * D_m / D_h;
+        
+        W_2T_m = V_2T_m - U_m;
+        W_2T_t = V_2T_t - U_t;
+        W_2T_h = V_2T_h - U_h;
+        
+        W_2A_m = V_2A(end);
+        W_2A_t = V_2A(end);
+        W_2A_h = V_2A(end);
+        
+        W_2A = W_2A_m;
+        
+        V_2_t = sqrt(V_2T_t^2 + V_2A(end)^2);
+        V_2_m = sqrt(V_2T_m^2 + V_2A(end)^2);
+        V_2_h = sqrt(V_2T_h^2 + V_2A(end)^2);
+        
+        W_2_t = sqrt(W_2T_t^2 + W_2A^2);
+        W_2_m = sqrt(W_2T_m^2 + W_2A^2);
+        W_2_h = sqrt(W_2T_h^2 + W_2A^2);
+        
+        alpha_2_t = atand(V_2T_t / V_2A(end));
+        alpha_2_m = atand(V_2T_m / V_2A(end));
+        alpha_2_h = atand(V_2T_h / V_2A(end));
+        
+        beta_2_t = atand(W_2T_t / W_2A);
+        beta_2_m = atand(W_2T_m / W_2A);
+        beta_2_h = atand(W_2T_h / W_2A);
+        
+        Xi_t = (W_1_t^2 - W_2_t^2) / 2 / l_Eu;
+        Xi_m = (W_1_m^2 - W_2_m^2) / 2 / l_Eu;
+        Xi_h = (W_1_h^2 - W_2_h^2) / 2 / l_Eu;
+        
+        DeltaH_R_t = Xi_t * l_Eu;
+        DeltaH_R_m = Xi_m * l_Eu;
+        DeltaH_R_h = Xi_h * l_Eu;
+        
+        T_2_t = T_1_t + DeltaH_R_t / cp;
+        T_2_m = T_1_m + DeltaH_R_m / cp;
+        T_2_h = T_1_h + DeltaH_R_h / cp;
+        
+        T_2_t_is = eta_R_t(end) * (T_2_t - T_1_t);
+        T_2_m_is = eta_R_m(end) * (T_2_m - T_1_m);
+        T_2_h_is = eta_R_h(end) * (T_2_h - T_1_h);
+        
+        % The outlet pressure is equal to the one we'd reach with an
+        % isentropic process
+        
+        p_2_t = p_1_t * (T_1_t / T_2_t_is) ^ (gamma/(1-gamma));
+        p_2_m = p_1_m * (T_1_m / T_2_m_is) ^ (gamma/(1-gamma));
+        p_2_h = p_1_h * (T_1_h / T_2_h_is) ^ (gamma/(1-gamma));
+        
+        rho_2_t = p_2_t / R_star / T_2_t;
+        rho_2_m = p_2_m / R_star / T_2_m;
+        rho_2_h = p_2_h / R_star / T_2_h;
+        
+        V_2A(end+1) = 3 * m / pi / b / D_m / (rho_2_t + rho_2_m + rho_2_h);
+        end
+        
+        %   HOWELL CORRELATION %
+        Re_How = 3e5;
+        sigma_R_m = 1;
+        
+        %Chord calculation based on Howell value for Reynolds number
+         
 
 
-
+        end
