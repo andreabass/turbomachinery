@@ -239,8 +239,10 @@
     rho_1_t(end+1) = p_1_t / R_star / T_1_t;
     
     end
-
-    %%%% ROTOR INLET HUB %%%%
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%% [INITIALIZATION] %%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%
     
     s_IGV_h = pi * D_h / N_bl_IGV;
     
@@ -285,10 +287,8 @@
         Y_p_1_in_h = A_h+B_h*X_AM_h^2+C_h*X_AM_h^3;
         end
         
-        %%%%%% [INITIALIZATION] %%%%%%%
-        
+        % [INITIALIZATION] 
         % Current density @ midspan as initial value for rho_1_t
-        
             rho_1_h = [rho_1_m(end) rho_1_m(end)+2*tol]; 
             alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
             cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
@@ -323,6 +323,43 @@
             alpha_1_m = acosd(V_1A/V_1_m);
     
             V_1T_m(end) = V_1_m * sind(alpha_1_m);
+            
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+%     T_T1_h = T_T0_h;
+%         
+%     T_1_h = T_T1_h - (V_1_h^2) / (2*cp); % Energy balance  
+%     
+%     rho_1_h = 3 * rho_0(end) * V_0A / V_1A - rho_1_m(end) - rho_1_t(end); % Mass balance 
+%    
+%     p_1_h = R_star * rho_1_h * T_1_h; % Pressure respecting energy and mass balances 
+%    
+%         Y_p_1_in_h = A_h;
+%         alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
+%         cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
+%         
+%     Re_1_h = V_1_h * rho_1_h * c_IGV / mu;
+%     
+%         Y_p_1_Re_h = Y_p_1_in_h * (Re_ref / Re_1_h)^0.2;
+%         Y_1_sec_h = c_IGV / b *(0.0334 * cosd(alpha_1_h)/cosd(alpha_0_h)) * (cL / s_over_c_h)^2 * ((cosd(alpha_1_h))^2) / (cosd(alpha_av_t_01_h))^3;
+%         
+%     Y_1_p_tot_h = Y_p_1_Re_h + Y_1_sec_h;
+%         
+%     p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
+%     
+%     % p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
+%     
+%     V_1_h = sqrt( 2*(p_T1_h - p_1_h)/rho_1_h );
+%     
+%         alpha_1_h = acosd(V_1A/V_1_h);
+%     
+%         V_1T_h = V_1_h * sind(alpha_1_h);
+%     
+%         V_1T_m(end+1) = V_1T_h * D_h / D_m;
+%         
+%         T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
+        
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     end
  
