@@ -385,6 +385,7 @@
         
         l_Eu = deltaHis_TT / eta_TT_m;
 %        while abs(eta_R_t(end) - eta_R_t(end-1))> tol || abs(eta_R_m(end) - eta_R_m(end-1))> tol || abs(eta_R_h(end) - eta_R_h(end-1))> tol
+        
         while abs(V_2A(end) - V_2A(end-1))> tol
         V_2A(end-1) = V_2A(end);
         
