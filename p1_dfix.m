@@ -383,12 +383,12 @@
         eta_R_m = [eta_TT_m - 2*tol eta_TT_m];
         eta_R_h = [eta_TT_m - 2*tol eta_TT_m];
         
-        while abs(eta_R_t(end) - eta_R_t(end-1))> tol || abs(eta_R_m(end) - eta_R_m(end-1))> tol || abs(eta_R_h(end) - eta_R_h(end-1))> tol
+%        while abs(eta_R_t(end) - eta_R_t(end-1))> tol || abs(eta_R_m(end) - eta_R_m(end-1))> tol || abs(eta_R_h(end) - eta_R_h(end-1))> tol
         while abs(V_2A(end) - V_2A(end-1))> tol
         V_2A(end-1) = V_2A(end);
         
         l_Eu = deltaHis_TT / eta_TT_m;
-        V_2T_m = V_1T_m - l_Eu / U_m;
+        V_2T_m = V_1T_m + l_Eu / U_m;
         V_2T_t = V_2T_m * D_m / D_t;
         V_2T_h = V_2T_m * D_m / D_h;
         
@@ -455,5 +455,3 @@
         %Chord calculation based on Howell value for Reynolds number
          
 
-
-        end
