@@ -8,22 +8,17 @@
         W_2T_m = V_2T_m - U_m;
         W_2T_t = V_2T_t - U_t;
         W_2T_h = V_2T_h - U_h;
-       
-        %%% INITIALIZATION %%%
         
-        % Constant axial velocity as initial value
-        
-        V_2A_m = V_1A_m;
-        V_2A = [V_2A_m V_2A_m + 2*tol];
+              V_2A = [V_2A(end) V_2A(end) + 2*tol];
         
 while abs(V_2A(end) - V_2A(end-1))> tol
-        V_2A(end-1) = V_2A(end);
+               V_2A(end-1) = V_2A(end);
         
         W_2A_m = V_2A(end);
         W_2A_t = V_2A(end);
         W_2A_h = V_2A(end);
         
-        W_2A = W_2A_m;
+               W_2A = W_2A_m;
         
         V_2_t = sqrt(V_2T_t^2 + V_2A(end)^2);
         V_2_m = sqrt(V_2T_m^2 + V_2A(end)^2);

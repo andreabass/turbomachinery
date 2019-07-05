@@ -1,12 +1,14 @@
          %% ROTOR  OUTLET %%
-          %%%%%%%%%%%%%%%
-           %%%%%%%%%%%%%
-            %%%%%%%%%%%
-             %%%%%%%%%
-              %%%%%%%
-               %%%%%
-                %%%
-                 %
+          %%%%%%%%%%%%%%%%%
+           %%%%%%%%%%%%%%%
+            %%%%%%%%%%%%%
+             %%%%%%%%%%%
+              %%%%%%%%%
+               %%%%%%%
+                %%%%%
+                 %%%
+                  %
+                  
             
         %%% INITIALIZATION %%%
 
@@ -20,7 +22,11 @@
         
         eta_R_t = [eta_R_t eta_R_t + 2*tol];
         eta_R_m = [eta_R_m eta_R_m + 2*tol];
-        eta_R_h = [eta_R_h eta_R_h + 2*tol];
+        eta_R_h = [eta_R_h eta_R_h + 2*tol];    
+        
+        % Constant axial velocity as initial value
+        
+        V_2A = V_1A_m;
         
         % while abs(eta_R_t(end) - eta_R_t(end-1))>tol || abs(eta_R_m(end) - eta_R_m(end-1))>tol || abs(eta_R_h(end) - eta_R_h(end-1))>tol
         % eta_R_t(end-1) = eta_R_t(end);
