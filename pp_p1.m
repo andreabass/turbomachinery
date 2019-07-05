@@ -11,14 +11,14 @@
         story_rho_0   = rho_0; 
         story_V_1T_m  = V_1T_m;
 
-        b = b;
+        b = b(end);
         rho_0   = rho_0(end);
         rho_1_m = rho_1_m(end);
         rho_1_t = rho_1_t(end);
         rho_0   = rho_0(end);
         V_1T_m  = V_1T_m(end);
         
-        mass   = [ rho_0(end) * V_0A * pi * b *D_m, mean(rho_1) * V_1A * pi * b * D_m ];
-        energy = [ T_T0 T_1_t + V_1_t^2/2/cp ; T_T0 T_1_m + V_1_m^2/2/cp; T_T0 T_1_h + V_1_h^2/2/cp];
+        mass_IGV   = [ m- rho_0(end) * V_0A * pi * b * D_m, m- mean(rho_1) * V_1A * pi * b * D_m ];
+        energy_IGV = [ T_T0 - (T_1_t + V_1_t^2/2/cp) , T_T0 - (T_1_m + V_1_m^2/2/cp), T_T0 - (T_1_h + V_1_h^2/2/cp)];
        
     

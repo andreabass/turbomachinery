@@ -20,11 +20,8 @@ initial_values
 % INPUT 1: D_h
 
 p1_pre
-  
 p1_igvinlet
-
 p1_rotin_m_t_h
-
 pp_p1
     
 %% p2: ROTOR 
@@ -33,5 +30,6 @@ pp_p1
 % INPUT 2: 
 
 p2_rotout_m_t_h
+pp_p2
 
 
