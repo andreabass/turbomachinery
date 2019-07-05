@@ -170,13 +170,13 @@
 
     %%%% ROTOR INLET HUB %%%%
     
-    s_IGV_h = pi * D_h / N_IGV;
+    s_IGV_h = pi * D_h(end) / N_IGV;
     
     s_over_c_h = s_IGV_h / c_IGV;
     
-    U_h = omega / 2 * D_h;
+    U_h = omega / 2 * D_h(end);
 
-    V_1T_h = V_1T_m(end) * D_m / D_h; 
+    V_1T_h = V_1T_m(end) * D_m / D_h(end); 
 
     alpha_1_h = atand(V_1T_h / V_1A_h);
 

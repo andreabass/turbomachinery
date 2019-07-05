@@ -2,7 +2,7 @@
         V_2T_m = V_1T_m + l_Eu / U_m;
         
         V_2T_t = V_2T_m * D_m / D_t;
-        V_2T_h = V_2T_m * D_m / D_h;
+        V_2T_h = V_2T_m * D_m / D_h(end);
         
         W_2T_m = V_2T_m - U_m;
         W_2T_t = V_2T_t - U_t;

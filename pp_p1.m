@@ -18,7 +18,12 @@
         rho_0   = rho_0(end);
         V_1T_m  = V_1T_m(end);
         
-        mass_IGV   = [ m- rho_0(end) * V_0A * pi * b * D_m, m- mean(rho_1) * V_1A * pi * b * D_m ];
-        energy_IGV = [ T_T0 - (T_1_t + V_1_t^2/2/cp) , T_T0 - (T_1_m + V_1_m^2/2/cp), T_T0 - (T_1_h + V_1_h^2/2/cp)];
-       
-    
+        T_1_m_is  = T_0_m * ( p_1_m / p_0_m )^((gamma-1)/gamma);
+        T_1_t_is  = T_0_t * ( p_1_t / p_0_t )^((gamma-1)/gamma);
+        T_1_h_is  = T_0_h * ( p_1_h / p_0_h )^((gamma-1)/gamma);
+        
+        eta_IGV_m = ( T_0_m - T_1_m ) / ( T_0_m - T_1_m_is );
+        eta_IGV_t = ( T_0_t - T_1_t ) / ( T_0_t - T_1_t_is );
+        eta_IGV_h = ( T_0_h - T_1_h ) / ( T_0_h - T_1_h_is );
+        
+        eta_IGV_av = mean([eta_IGV_t eta_IGV_m eta_IGV_h]);

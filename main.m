@@ -6,14 +6,19 @@ options
 
 %% Input values
 D_t = 1; %m
-n = 9250; %rpm
+lambda = 0.56;
+n = 9000; %rpm
 omega = n * 2 * pi / 60; %rad/s
 
 %% Problem data
 data
 
 %% Problem initialization 
-initial_values
+eta_TT = 0.85;
+eta_TT = [eta_TT eta_TT+2*tol];
+
+while abs(eta_TT(end)-eta_TT(end-1))>tol
+    eta_TT(end-1) = eta_TT(end);
 
 %% p1: IGV
 % 1 DOF
@@ -25,13 +30,29 @@ p1_rotin_m_t_h
 pp_p1
     
 %% p2: ROTOR 
-% 2 DOF
-% INPUT 1: eta_TT,m
-% INPUT 2: 
+% 1 DOF
+% INPUT 1: eta_TT_m
 
 p2_rotout_m_t_h
 pp_p2
 
-% Remember to add check on D ( D<0.6 blade loading)
+%% p3: STATOR
+% 0 DOF
+
+p3_statout_m_t_h
+pp_p3
+
+
+%% UPDATE D_h and eta_TT,m
+
+update
+
+end
+
+check
+
+results
+
+% Remember to add check on D ( D<0.6 blade loading )
 
 

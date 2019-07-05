@@ -13,7 +13,5 @@
         eta_R_h   = eta_R_h(end);
         V_2A      = V_2A(end);
         
-        mass_R   = [ m - mean(rho_1) * V_1A * pi * b *D_m, m - mean(rho_2) * V_2A * pi * b * D_m ];
-        energy_R = [ l_Eu - cp*(T_T2_m - T_T1_m) ; l_Eu - cp*(T_T2_t - T_T1_t); l_Eu - cp*(T_T2_h - T_T1_h)];
-       
-    
+        eta_R_av = mean([eta_R_t eta_R_m eta_R_h]);
+  

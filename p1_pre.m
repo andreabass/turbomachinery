@@ -4,8 +4,8 @@
     
   phi_1_m = 0.5;
           
-  b =  (D_t - D_h)/2 ;
-  D_m = (D_h + D_t)/2;
+  b =  (D_t - D_h(end))/2 ;
+  D_m = (D_h(end) + D_t)/2;
   U_m = omega * D_m / 2;
     
   V_1A_m     = phi_1_m * omega * D_m / 2;
