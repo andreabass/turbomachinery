@@ -14,3 +14,4 @@
         V_3      = V_3A(end);
         
         eta_S_av = mean([eta_S_t eta_S_m eta_S_h]);
+        Y_p_S_av = mean([Y_3_p_tot_h Y_3_p_tot_m Y_3_p_tot_t]);

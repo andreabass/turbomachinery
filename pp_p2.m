@@ -14,4 +14,5 @@
         V_2A      = V_2A(end);
         
         eta_R_av = mean([eta_R_t eta_R_m eta_R_h]);
+        Y_p_R_av = mean([Y_2_p_tot_h Y_2_p_tot_m Y_2_p_tot_t]);
   
