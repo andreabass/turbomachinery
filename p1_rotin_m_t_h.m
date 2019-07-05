@@ -88,11 +88,12 @@
        
     s_IGV_m = s_over_c_min_m * c_IGV;
     
-    N_bl_IGV = pi * D_m / s_IGV_m;
+    N_IGV = ceil(pi * D_m / s_IGV_m);
+        s_IGV_m = pi * D_m / N_IGV;
         
     %%%% ROTOR INLET TIP %%%%
     
-    s_IGV_t = pi * D_t / N_bl_IGV;
+    s_IGV_t = pi * D_t / N_IGV;
     
     s_over_c_t = s_IGV_t / c_IGV;
     
@@ -169,7 +170,7 @@
 
     %%%% ROTOR INLET HUB %%%%
     
-    s_IGV_h = pi * D_h / N_bl_IGV;
+    s_IGV_h = pi * D_h / N_IGV;
     
     s_over_c_h = s_IGV_h / c_IGV;
     

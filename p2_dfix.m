@@ -35,7 +35,8 @@
          
          %Rotor geometry
          s_R_m = c_R_m / sigma_R_m;
-         N_R = floor(pi * D_m / s_R_m);
+         N_R = ceil(pi * D_m / s_R_m);
+            s_R_m = pi * D_m / N_R;
          
          
            
