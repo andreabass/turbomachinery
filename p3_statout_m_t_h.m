@@ -127,6 +127,16 @@
 
         end
         
+        story_eta_S_t = eta_S_t;
+        story_eta_S_m = eta_S_m; 
+        story_eta_S_h = eta_S_h; 
+        story_V_3A    = V_3A;
+
+        eta_S_m   = eta_S_m(end);
+        eta_S_t   = eta_S_t(end);
+        eta_S_h   = eta_S_h(end);
+        V_3      = V_3A(end);
+        
         
         
         

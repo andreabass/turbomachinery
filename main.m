@@ -7,7 +7,7 @@ options
 %% Input values
 D_t = 1; %m
 lambda = 0.56;
-n = 9000; %rpm
+n = 9250; %rpm
 omega = n * 2 * pi / 60; %rad/s
 
 %% Problem data
@@ -27,27 +27,27 @@ while abs(eta_TT(end)-eta_TT(end-1))>tol
 p1_pre
 p1_igvinlet
 p1_rotin_m_t_h
-pp_p1
     
 %% p2: ROTOR 
 % 1 DOF
 % INPUT 1: eta_TT_m
 
 p2_rotout_m_t_h
-pp_p2
 
 %% p3: STATOR
 % 0 DOF
 
 p3_statout_m_t_h
-pp_p3
-
 
 %% UPDATE D_h and eta_TT,m
 
 update
 
 end
+
+pp_p1
+pp_p2
+pp_p3
 
 check
 

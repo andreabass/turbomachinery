@@ -135,7 +135,15 @@
         end
         
         
-        
+        story_eta_R_t = eta_R_t;
+        story_eta_R_m = eta_R_m; 
+        story_eta_R_h = eta_R_h; 
+        story_V_2A    = V_2A;
+
+        eta_R_m   = eta_R_m(end);
+        eta_R_t   = eta_R_t(end);
+        eta_R_h   = eta_R_h(end);
+        V_2A      = V_2A(end);
         
            
 

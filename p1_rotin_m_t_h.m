@@ -74,11 +74,13 @@
     
     Y_1_p_tot = Y_p_1_Re + Y_1_sec;
     
-    p_T1_m = p_T0_m - Y_1_p_tot * (p_T0_m - p_0_m);
-    
     T_T1_m = T_T0_m;
     
     T_1_m = T_T1_m - (V_1_m^2) / (2*cp);
+    
+    % p_T1_m = p_T0_m - Y_1_p_tot * (p_T0_m - p_0_m);
+    
+    p_T1_m = p_T0_m / (1 + Y_1_p_tot*(1-1/(1+V_1_m^2/2/R_star/T_1_m)));
     
     p_1_m = p_T1_m / (1 + (V_1_m^2)/(2 * R_star * T_1_m));
     
@@ -160,7 +162,9 @@
 
     T_1_t = T_T1_t - (V_1_t^2) / (2*cp);
     
-    p_T1_t = p_T0_t - Y_1_p_tot_t * (p_T0_t - p_0_t);
+    % p_T1_t = p_T0_t - Y_1_p_tot_t * (p_T0_t - p_0_t);
+    
+    p_T1_t = p_T0_t / (1 + Y_1_p_tot_t*(1-1/(1+V_1_t^2/2/R_star/T_1_t)));
     
     p_1_t = p_T1_t / (1 + (V_1_t^2)/(2 * R_star * T_1_t));
     
@@ -236,7 +240,9 @@
 
     T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
     
-    p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
+    % p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
+    
+    p_T1_h = p_T0_h / (1 + Y_1_p_tot_h*(1-1/(1+V_1_h^2/2/R_star/T_1_h)));
     
     p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
     
@@ -253,3 +259,17 @@
             V_1T_m(end) = V_1_m * sind(alpha_1_m);
     
     end
+    
+            story_rho_b   = b;
+        story_rho_0   = rho_0;
+        story_rho_1_m = rho_1_m;
+        story_rho_1_t = rho_1_t; 
+        story_rho_0   = rho_0; 
+        story_V_1T_m  = V_1T_m;
+
+        b = b(end);
+        rho_0   = rho_0(end);
+        rho_1_m = rho_1_m(end);
+        rho_1_t = rho_1_t(end);
+        rho_0   = rho_0(end);
+        V_1T_m  = V_1T_m(end);
