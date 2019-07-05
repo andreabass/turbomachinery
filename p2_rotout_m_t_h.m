@@ -37,7 +37,14 @@
          s_R_m = c_R_m / sigma_R_m;
          N_R = ceil(pi * D_m / s_R_m);
             s_R_m = pi * D_m / N_R;
-         
+            sigma_R_m = c_R_m / s_R_m;
+          
+        s_R_t = pi * D_t / N_R;
+        sigma_R_t = c_R_t / s_R_t;
+        s_R_h = pi * D_h / N_R;
+        sigma_R_h = c_R_h / s_R_h;
+        
+        %
          
            
 
