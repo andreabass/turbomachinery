@@ -46,7 +46,7 @@
             Db_Psi = ppval(Dbeta_Psi_curve, abs(beta_2_m));
             Psi_opt = Db_Psi/(beta_2_m-beta_1_m);
             x=0.4:0.001:1.6;
-            s_over_c = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001))); 
+            s_over_c = x( mean(find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001))); 
         
         %Chord calculation based on Howell value for Reynolds number
             c_How_m = mu*Re_How/rho_2_m/W_2_m;
