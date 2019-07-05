@@ -42,12 +42,12 @@
         %principle is necessary to check also that the deflection Dbeta is
         %sufficiently close to the optimal value associated to beta2
             Re_How = 3e5;
-        sigma_R_m = 1;
             Howell_correlation
             Db_Psi = ppval(Dbeta_Psi_curve, abs(beta_2_m));
             Psi_opt = Db_Psi/(beta_2_m-beta_1_m);
             x=0.4:0.001:1.6;
-            s_over_c = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001))); 
+            s_over_c = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));       
+        sigma_R_m = 1/s_over_c;
         
         %Chord calculation based on Howell value for Reynolds number
         

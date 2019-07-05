@@ -32,4 +32,6 @@ pp_p1
 p2_rotout_m_t_h
 pp_p2
 
+% Remember to add check on D ( D<0.6 blade loading)
+
 
