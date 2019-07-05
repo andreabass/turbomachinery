@@ -57,7 +57,7 @@
         s_R_h = pi * D_h / N_R;
         sigma_R_h = c_R_h / s_R_h;
         
-        %
+            
          
            
 

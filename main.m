@@ -32,6 +32,6 @@ pp_p1
 % INPUT 1: eta_TT,m
 % INPUT 2: 
 
-p2_dfix
+p2_rotout_m_t_h
 
 
