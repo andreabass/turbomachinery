@@ -1,16 +1,13 @@
        
-        l_Eu = deltaHis_TT / eta_TT_m;
-        
         V_2T_m = V_1T_m + l_Eu / U_m;
+        
         V_2T_t = V_2T_m * D_m / D_t;
         V_2T_h = V_2T_m * D_m / D_h;
         
         W_2T_m = V_2T_m - U_m;
         W_2T_t = V_2T_t - U_t;
         W_2T_h = V_2T_h - U_h;
-        
-              V_2A = [V_2A(end) V_2A(end) + 2*tol];
-        
+
 while abs(V_2A(end) - V_2A(end-1))> tol
                V_2A(end-1) = V_2A(end);
         
