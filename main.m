@@ -39,9 +39,9 @@ p2_rotout_m_t_h
 
 p3_statout_m_t_h
 
-%% UPDATE D_h and eta_TT,m
+%% UPDATE eta_TT,m
 
-update
+updateval
 
 end
 
