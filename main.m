@@ -6,7 +6,7 @@ options
 
 %% Input values
 D_t = 1; %m
-lambda = 0.56;
+lambda = 0.569;
 n = 9250; %rpm
 omega = n * 2 * pi / 60; %rad/s
 
@@ -14,7 +14,7 @@ omega = n * 2 * pi / 60; %rad/s
 data
 
 %% Problem initialization 
-eta_TT = 0.85;
+eta_TT = 0.8;
 eta_TT = [eta_TT eta_TT+2*tol];
 
 while abs(eta_TT(end)-eta_TT(end-1))>tol

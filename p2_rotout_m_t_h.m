@@ -51,7 +51,7 @@
         %    s_over_c = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));       
         % sigma_R_m = 1/s_over_c;
         
-        sigma_R_m = 1; 
+        sigma_R_m = 0.9; 
         
         %Chord calculation based on Howell value for Reynolds number
         
