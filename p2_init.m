@@ -1,8 +1,10 @@
 
-while abs(V_2A(end) - V_2A(end-1))> tol
-        V_2A(end-1) = V_2A(end);
+        eta_R_t = eta_TT_m;
+        eta_R_m = eta_TT_m;
+        eta_R_h = eta_TT_m;
         
-
+        l_Eu = deltaHis_TT / eta_TT_m;
+        
         V_2T_m = V_1T_m + l_Eu / U_m;
         V_2T_t = V_2T_m * D_m / D_t;
         V_2T_h = V_2T_m * D_m / D_h;
@@ -10,6 +12,16 @@ while abs(V_2A(end) - V_2A(end-1))> tol
         W_2T_m = V_2T_m - U_m;
         W_2T_t = V_2T_t - U_t;
         W_2T_h = V_2T_h - U_h;
+       
+        %%% INITIALIZATION %%%
+        
+        % Constant axial velocity as initial value
+        
+        V_2A_m = V_1A_m;
+        V_2A = [V_2A_m V_2A_m + 2*tol];
+        
+while abs(V_2A(end) - V_2A(end-1))> tol
+        V_2A(end-1) = V_2A(end);
         
         W_2A_m = V_2A(end);
         W_2A_t = V_2A(end);
@@ -48,9 +60,6 @@ while abs(V_2A(end) - V_2A(end-1))> tol
         T_2_t_is = T_1_t + eta_R_t(end) * (T_2_t - T_1_t);
         T_2_m_is = T_1_m + eta_R_m(end) * (T_2_m - T_1_m);
         T_2_h_is = T_1_h + eta_R_h(end) * (T_2_h - T_1_h);
-        
-        % The outlet pressure is equal to the one we'd reach with an
-        % isentropic process
         
         p_2_t = p_1_t * (T_1_t / T_2_t_is) ^ (gamma/(1-gamma));
         p_2_m = p_1_m * (T_1_m / T_2_m_is) ^ (gamma/(1-gamma));

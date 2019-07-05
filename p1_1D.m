@@ -57,6 +57,3 @@
         V_1T(end+1) = V_1 * sind(alpha_1);
     
     end
-    
-    mass   = [ rho_0(end) * V_0_m * pi * b *D_m, rho_1 * V_1A * pi * b * D_m ];
-    energy = [ T_T0 T_1 + V_1^2/2/cp];
