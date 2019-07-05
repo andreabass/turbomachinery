@@ -1,8 +1,4 @@
-
-        eta_R_t = eta_TT_m;
-        eta_R_m = eta_TT_m;
-        eta_R_h = eta_TT_m;
-        
+       
         l_Eu = deltaHis_TT / eta_TT_m;
         
         V_2T_m = V_1T_m + l_Eu / U_m;

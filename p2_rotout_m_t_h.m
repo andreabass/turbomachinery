@@ -10,11 +10,24 @@
             
         %%% INITIALIZATION %%%
 
-        % To initialize the velocity triangle at the outlet of the rotor
-        % we refer to an equivalent problem in which the losses are 
-        % assumed through the condition eta_R,j = eta_TT for j = m,t,h
-
-        p2_init
+        % We initialize the losses in the rotor by assuming each static
+        % efficiency (mid, tip. hub) equal to the total-to-total efficiency
+        % of the stage
+        
+        eta_R_t = eta_TT_m;
+        eta_R_m = eta_TT_m;
+        eta_R_h = eta_TT_m;
+        
+        eta_R_t = [eta_R_t eta_R_t + 2*tol];
+        eta_R_m = [eta_R_m eta_R_m + 2*tol];
+        eta_R_h = [eta_R_h eta_R_h + 2*tol];
+        
+        % while abs(eta_R_t(end) - eta_R_t(end-1))>tol || abs(eta_R_m(end) - eta_R_m(end-1))>tol || abs(eta_R_h(end) - eta_R_h(end-1))>tol
+        % eta_R_t(end-1) = eta_R_t(end);
+        % eta_R_m(end-1) = eta_R_m(end);
+        % eta_R_h(end-1) = eta_R_h(end);
+        
+        p2_rotvelout
         
         %   HOWELL CORRELATION %
         %These assumptions are used to obtain the two correction
