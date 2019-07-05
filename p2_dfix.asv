@@ -48,12 +48,10 @@
             c_How_t = mu*Re_How/rho_2_t/W_2_t;
             c_How_h = mu*Re_How/rho_2_h/W_2_h;
          c_R_m = 1.1*max(max(c_How_m,c_How_t), c_How_h);
-         c_R_t = c_R_m;
-         c_R_h = c_R_m;
          
          %Rotor geometry
          s_R_m = c_R_m / sigma_R_m;
-         N_R = floor(pi * D_m / s_R_m);
+         N_
          
          
            
