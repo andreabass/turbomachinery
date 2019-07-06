@@ -11,7 +11,7 @@
               
         % Velocity triangle @ stator outlet
         
-        V_3T_m = 0;
+        V_3T_m = V_1T_m;
         
         V_3T_t = V_3T_m * D_m / D_t;
         V_3T_h = V_3T_m * D_m / D_h(end);
@@ -56,7 +56,7 @@
         %    s_over_c = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));       
         % sigma_R_m = 1/s_over_c;
         
-        sigma_S_m = 1.5; 
+        sigma_S_m = 1; 
         
         %Chord calculation based on Howell value for Reynolds number
         

@@ -6,8 +6,8 @@ options
 
 %% Input values
 D_t = 1; %m
-lambda = 0.5688;
-n = 9300; %rpm
+lambda = 0.569;
+n = 9255; %rpm
 omega = n * 2 * pi / 60; %rad/s
 
 %% Problem data
