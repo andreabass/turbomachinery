@@ -54,14 +54,22 @@ dev_0_rott = Ksh*Kth_dev*dev0_10t;
 dev_0_rotm = Ksh*Kth_dev*dev0_10m;
 dev_0_roth = Ksh*Kth_dev*dev0_10h;
 
+% CAMBER ANGLE
 teta_tip = (Dbeta_12_t- i_0_rott + dev_0_rott)/(1-m_t+n_LIEt);
 teta_mid = (Dbeta_12_m- i_0_rotm + dev_0_rotm)/(1-m_m+n_LIEm);
 teta_hub = (Dbeta_12_h- i_0_roth + dev_0_roth)/(1-m_h+n_LIEh);
 
+% INCIDENCE ANGLE
 i_opt_rott = Ksh*Kth*i0_10tip+n_LIEt*teta_tip;
 i_opt_rotm = Ksh*Kth*i0_10mid+n_LIEm*teta_mid;
 i_opt_roth = Ksh*Kth*i0_10hub+n_LIEh*teta_hub;
 
+% DEVIATION ANGLE
 dev_opt_rott = Ksh*Kth_dev*dev0_10t+m_t*teta_tip;
 dev_opt_rotm = Ksh*Kth_dev*dev0_10m+m_m*teta_mid;
 dev_opt_roth = Ksh*Kth_dev*dev0_10h+m_h*teta_hub;
+
+% STAGGER ANGLE
+gamma_roth = abs(beta_1_h)-abs(teta_hub)/2-(i_opt_roth);
+gamma_rotm = abs(beta_1_m)-abs(teta_mid)/2-(i_opt_rotm);
+gamma_rott = abs(beta_1_t)-abs(teta_tip)/2-(i_opt_rott);

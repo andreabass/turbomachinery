@@ -2,6 +2,9 @@ clc
 clear
 close all
 
+% A pagine 125/128 dell’Aungier ci sono 
+% le correlazioni per il deviation angle nell’IGV
+
 %% OPTIONS
 options
 
@@ -53,9 +56,12 @@ results
 
 %% DESIGN PROBLEM (GEOMETRY)
 
+geo_IGV
 geo_rotor
 geo_stator
+blade_IGV
 blade_rotor
 blade_stator
+bladeplot
 
 
