@@ -19,7 +19,7 @@
         V_1T_m = [V_1T V_1T+2*tol];
         rho_1_m = [rho_1 rho_1+2*tol];
        
-    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol || abs(V_1T_m(end)-V_1T_m(end-1)) > tol
+    while abs((rho_1_m(end)-rho_1_m(end-1))/rho_1_m(end-1)) > tol || abs((V_1T_m(end)-V_1T_m(end-1))/V_1T_m(end-1)) > tol
         
         rho_1_m(end-1) = rho_1_m(end);  
         V_1T_m(end-1) = V_1T_m(end);
@@ -63,7 +63,7 @@
         
         rho_1_m = [rho_1_m(end) rho_1_m(end)+2*tol]; 
         
-    while abs(rho_1_m(end)-rho_1_m(end-1)) > tol
+    while abs((rho_1_m(end)-rho_1_m(end-1))/rho_1_m(end-1)) > tol
     
         rho_1_m(end-1) = rho_1_m(end); 
         
@@ -80,9 +80,13 @@
     
     % p_T1_m = p_T0_m - Y_1_p_tot * (p_T0_m - p_0_m);
     
-    p_T1_m = p_T0_m / (1 + Y_1_p_tot*(1-1/(1+V_1_m^2/2/R_star/T_1_m)));
-    
-    p_1_m = p_T1_m / (1 + (V_1_m^2)/(2 * R_star * T_1_m));
+    p_T1_m = [2*p_T0_m p_T0_m];
+    while abs((p_T1_m(end)-p_T1_m(end-1))/p_T1_m(end-1))>tol
+    p_T1_m(end-1) = p_T1_m(end);
+    p_1_m = p_T1_m(end) / ( (1+(gamma-1)/2*(V_1_m^2/(gamma*R_star*T_1_m)))^(gamma/(gamma-1)) );
+    p_T1_m(end+1) = ( p_T0_m + Y_1_p_tot * p_1_m ) / (Y_1_p_tot+1);      
+    end
+    p_T1_m = p_T1_m(end);
     
     rho_1_m(end+1) = p_1_m / R_star / T_1_m;
     
@@ -147,7 +151,7 @@
         
         rho_1_t = [rho_1_m(end) rho_1_m(end)+2*tol]; 
     
-    while abs(rho_1_t(end)-rho_1_t(end-1)) > tol
+    while abs((rho_1_t(end)-rho_1_t(end-1))/rho_1_t(end-1)) > tol
     
         rho_1_t(end-1) = rho_1_t(end); 
         
@@ -164,9 +168,13 @@
     
     % p_T1_t = p_T0_t - Y_1_p_tot_t * (p_T0_t - p_0_t);
     
-    p_T1_t = p_T0_t / (1 + Y_1_p_tot_t*(1-1/(1+V_1_t^2/2/R_star/T_1_t)));
-    
-    p_1_t = p_T1_t / (1 + (V_1_t^2)/(2 * R_star * T_1_t));
+    p_T1_t = [2*p_T0_t p_T0_t];
+    while abs((p_T1_t(end)-p_T1_t(end-1))/p_T1_t(end-1))>tol
+    p_T1_t(end-1) = p_T1_t(end);
+    p_1_t = p_T1_t(end) / ( (1+(gamma-1)/2*(V_1_t^2/(gamma*R_star*T_1_t)))^(gamma/(gamma-1)) );
+    p_T1_t(end+1) = ( p_T0_t + Y_1_p_tot_t * p_1_t ) / (Y_1_p_tot_t+1);      
+    end
+    p_T1_t = p_T1_t(end);
     
     rho_1_t(end+1) = p_1_t / R_star / T_1_t;
     
@@ -225,7 +233,7 @@
             alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
             cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
     
-    while abs(rho_1_h(end)-rho_1_h(end-1)) > tol
+    while abs((rho_1_h(end)-rho_1_h(end-1))/rho_1_h(end-1)) > tol
     
         rho_1_h(end-1) = rho_1_h(end); 
         
@@ -242,9 +250,13 @@
     
     % p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
     
-    p_T1_h = p_T0_h / (1 + Y_1_p_tot_h*(1-1/(1+V_1_h^2/2/R_star/T_1_h)));
-    
-    p_1_h = p_T1_h / (1 + (V_1_h^2)/(2 * R_star * T_1_h));
+    p_T1_h = [2*p_T0_h p_T0_h];
+    while abs((p_T1_h(end)-p_T1_h(end-1))/p_T1_h(end-1))>tol
+    p_T1_h(end-1) = p_T1_h(end);
+    p_1_h = p_T1_h(end) / ( (1+(gamma-1)/2*(V_1_h^2/(gamma*R_star*T_1_h)))^(gamma/(gamma-1)) );
+    p_T1_h(end+1) = ( p_T0_h + Y_1_p_tot_h * p_1_h ) / (Y_1_p_tot_h+1);      
+    end
+    p_T1_h = p_T1_h(end);
     
     rho_1_h(end+1) = p_1_h / R_star / T_1_h;
     

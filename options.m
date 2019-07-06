@@ -1,1 +1,1 @@
-tol = 1e-12; % Absolute tolerance
+tol = 1e-6; % Absolute tolerance
