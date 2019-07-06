@@ -25,7 +25,10 @@
         
         V_2A = V_1A_m;
         V_2A = [V_2A V_2A + 2*tol];
+        Howell_correlation
+        opt=1;
         
+        for i=1:2
         while abs(eta_R_t(end) - eta_R_t(end-1))>tol || abs(eta_R_m(end) - eta_R_m(end-1))>tol || abs(eta_R_h(end) - eta_R_h(end-1))>tol
             eta_R_t(end-1) = eta_R_t(end);
             eta_R_m(end-1) = eta_R_m(end);
@@ -41,14 +44,10 @@
             
         Re_How = 3e5;
        
-        %    Howell_correlation
-        %    Db_Psi = ppval(Dbeta_Psi_curve, abs(beta_2_m));
-        %    Psi_opt = Db_Psi/(beta_2_m-beta_1_m);
-        %    x=0.4:0.001:1.6;
-        %    s_over_c = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));       
-        % sigma_R_m = 1/s_over_c;
+        if i==1
+            sigma_R_m = 1; 
+        end
         
-        sigma_R_m = 0.88; 
         
         %Chord calculation based on Howell value for Reynolds number
         
@@ -127,8 +126,36 @@
             rho_2_t = p_2_t / R_star / T_2_t; 
             rho_2_h = p_2_h / R_star / T_2_h; 
             
-            V_2A(end+1) = 3 * m / pi / b / D_m / (rho_2_t + rho_2_m + rho_2_h);        
+            V_2A(end+1) = 3 * m / pi / b / D_m / (rho_2_t + rho_2_m + rho_2_h);
 
+    
+        end
+        
+        %Now we optimize the solidity with the Howell correlation and we
+        %evaluate again the efficiency
+        
+           if i==1
+               
+           Db_Psi = ppval(Dbeta_Psi_curve, abs(beta_2_m));
+           Psi_opt = Db_Psi/(beta_2_m-beta_1_m);        
+           if Psi_opt<1.329 && Psi_opt>0.749
+           x=0.4:0.001:1.6;
+           s_over_c_R = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));
+           Howell_R='Rotor Optimized';
+           elseif Psi_opt>1.329
+           s_over_c_R = 0.4;
+           Howell_R='Rotor Overloaded';
+           else
+           s_over_c_R = 1.6;        
+           Howell_R='Rotor Underloaded';
+           end
+           sigma_R_m = 1/s_over_c_R;
+           eta_R_t = [eta_R_t(end) eta_R_t(end) + 2*tol];
+           eta_R_m = [eta_R_m(end) eta_R_m(end) + 2*tol];
+           eta_R_h = [eta_R_h(end) eta_R_h(end) + 2*tol];
+           
+           end
+        
         end
         
         
@@ -141,6 +168,7 @@
         eta_R_t   = eta_R_t(end);
         eta_R_h   = eta_R_h(end);
         V_2A      = V_2A(end);
+        
         
            
 

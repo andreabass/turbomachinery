@@ -6,7 +6,7 @@ options
 
 %% Input values
 D_t = 1; %m
-lambda = 0.569;
+lambda = 0.55;
 n = 9255; %rpm
 omega = n * 2 * pi / 60; %rad/s
 
@@ -54,5 +54,4 @@ check
 results
 
 % Remember to add check on D ( D<0.6 blade loading )
-
 
