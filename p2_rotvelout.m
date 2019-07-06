@@ -58,4 +58,8 @@ while abs(V_2A(end) - V_2A(end-1))> tol
         rho_2_h = p_2_h / R_star / T_2_h;
         
         V_2A(end+1) = 3 * m / pi / b / D_m / (rho_2_t + rho_2_m + rho_2_h);
+        
 end
+
+        V_2A_t = V_2A;
+        V_2A_h = V_2A;

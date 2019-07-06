@@ -56,7 +56,7 @@
         %    s_over_c = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));       
         % sigma_R_m = 1/s_over_c;
         
-        sigma_S_m = 1; 
+        sigma_S_m = 1.5; 
         
         %Chord calculation based on Howell value for Reynolds number
         
@@ -95,10 +95,10 @@
         p_T3_t = p_T2_t - Y_3_p_tot_t * (p_T2_t - p_2_t);
         p_T3_h = p_T2_h - Y_3_p_tot_h * (p_T2_h - p_2_h);  
         
-        p_3_m   = p_T3_m - rho_3_m * V_3_m^2 / 2;
-        p_3_t   = p_T3_t - rho_3_t * V_3_t^2 / 2;
-        p_3_h   = p_T3_h - rho_3_h * V_3_h^2 / 2;
-        
+        p_3_m = p_T3_m / ( (1+(gamma-1)/2*(rho_3_m*V_3_m^2/(gamma*p_3_m)))^(gamma/(gamma-1)) );
+        p_3_t = p_T3_t / ( (1+(gamma-1)/2*(rho_3_t*V_3_t^2/(gamma*p_3_t)))^(gamma/(gamma-1)) );
+        p_3_h = p_T3_h / ( (1+(gamma-1)/2*(rho_3_h*V_3_h^2/(gamma*p_3_h)))^(gamma/(gamma-1)) );
+
         T_3_m_is  = T_2_m * ( p_3_m / p_2_m )^((gamma-1)/gamma);
         T_3_t_is  = T_2_t * ( p_3_t / p_2_t )^((gamma-1)/gamma);
         T_3_h_is  = T_2_h * ( p_3_h / p_2_h )^((gamma-1)/gamma);

@@ -33,9 +33,6 @@
         
             p2_rotvelout
         
-        V_2A_t = V_2A;
-        V_2A_h = V_2A;
-        
         %   HOWELL CORRELATION %
         %These assumptions are used to obtain the two correction
         %coefficients of Howell correlation (Psi, Phi) equal to one. In
@@ -85,26 +82,30 @@
         Y_2_p_tot_h = 0.0035*(1+3.5*Dh+37*(Dh)^4)*2*sigma_R_h/cosd(beta_2_h);
         
         %TDN variables
-            
-        p_TR1_m = p_1_m + rho_1_m(end) * W_1_m^2 / 2;
-        p_TR1_t = p_1_t + rho_1_t(end) * W_1_t^2 / 2;
-        p_TR1_h = p_1_h + rho_1_h(end) * W_1_h^2 / 2;
+        
+        p_TR1_m = p_1_m * ( (1+(gamma-1)/2*(W_1_m^2/(gamma*R_star*T_1_m)))^(gamma/(gamma-1)) );
+        p_TR1_t = p_1_t * ( (1+(gamma-1)/2*(W_1_t^2/(gamma*R_star*T_1_t)))^(gamma/(gamma-1)) );
+        p_TR1_h = p_1_h * ( (1+(gamma-1)/2*(W_1_h^2/(gamma*R_star*T_1_h)))^(gamma/(gamma-1)) );
         
         p_TR2_m = p_TR1_m - Y_2_p_tot_m * (p_TR1_m - p_1_m);
         p_TR2_t = p_TR1_t - Y_2_p_tot_t * (p_TR1_t - p_1_t);
         p_TR2_h = p_TR1_h - Y_2_p_tot_h * (p_TR1_h - p_1_h);
         
-        p_2_m   = p_TR2_m - rho_2_m * W_2_m^2 / 2;
-        p_2_t   = p_TR2_t - rho_2_t * W_2_t^2 / 2;
-        p_2_h   = p_TR2_h - rho_2_h * W_2_h^2 / 2;
-        
-        p_T2_m  = p_2_m + rho_2_m * V_2_m^2 / 2;
-        p_T2_t  = p_2_t + rho_2_t * V_2_t^2 / 2;
-        p_T2_h  = p_2_h + rho_2_h * V_2_h^2 / 2;
-        
         T_T2_m  = T_T1_m + l_Eu/cp;
         T_T2_t  = T_T1_t + l_Eu/cp;
         T_T2_h  = T_T1_h + l_Eu/cp;
+       
+        T_2_m = T_T2_m - V_2_m^2 / 2 / cp;
+        T_2_t = T_T2_t - V_2_t^2 / 2 / cp;
+        T_2_h = T_T2_h - V_2_h^2 / 2 / cp;
+        
+        p_2_m = p_TR2_m / ( (1+(gamma-1)/2*(W_2_m^2/(gamma*R_star*T_2_m)))^(gamma/(gamma-1)) );
+        p_2_t = p_TR2_t / ( (1+(gamma-1)/2*(W_2_t^2/(gamma*R_star*T_2_t)))^(gamma/(gamma-1)) );
+        p_2_h = p_TR2_h / ( (1+(gamma-1)/2*(W_2_h^2/(gamma*R_star*T_2_h)))^(gamma/(gamma-1)) );
+        
+        p_T2_m = p_2_m * ( (1+(gamma-1)/2*(rho_2_m*V_2_m^2/(gamma*p_2_m)))^(gamma/(gamma-1)) );
+        p_T2_t = p_2_t * ( (1+(gamma-1)/2*(rho_2_t*V_2_t^2/(gamma*p_2_t)))^(gamma/(gamma-1)) );
+        p_T2_h = p_2_h * ( (1+(gamma-1)/2*(rho_2_h*V_2_h^2/(gamma*p_2_h)))^(gamma/(gamma-1)) );
         
         T_2_m_is  = T_1_m * ( p_2_m / p_1_m )^((gamma-1)/gamma);
         T_2_t_is  = T_1_t * ( p_2_t / p_1_t )^((gamma-1)/gamma);
@@ -113,10 +114,6 @@
         T_T2_m_is  = T_T1_m * ( p_T2_m / p_T1_m )^((gamma-1)/gamma);
         T_T2_t_is  = T_T1_t * ( p_T2_t / p_T1_t )^((gamma-1)/gamma);
         T_T2_h_is  = T_T1_h * ( p_T2_h / p_T1_h )^((gamma-1)/gamma);
-        
-        T_2_m = T_T2_m - V_2_m^2 / 2 / cp;
-        T_2_t = T_T2_t - V_2_t^2 / 2 / cp;
-        T_2_h = T_T2_h - V_2_h^2 / 2 / cp;
         
         %Update SS efficiency @ rotor outlet
         

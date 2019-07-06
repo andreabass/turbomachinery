@@ -16,13 +16,13 @@
         
         p1_1D
         
-        V_1T_m = [V_1T V_1T+2*tol];
-        rho_1_m = [rho_1 rho_1+2*tol];
+        V_1T_m = [2*V_1T(end) V_1T(end)];
+        rho_1_m = [2*rho_1 rho_1];
        
     while abs((rho_1_m(end)-rho_1_m(end-1))/rho_1_m(end-1)) > tol || abs((V_1T_m(end)-V_1T_m(end-1))/V_1T_m(end-1)) > tol
         
-        rho_1_m(end-1) = rho_1_m(end);  
-        V_1T_m(end-1) = V_1T_m(end);
+    rho_1_m(end-1) = rho_1_m(end); 
+    V_1T_m(end-1) = V_1T_m(end);    
         
     %%%% MID %%%%
 
@@ -61,13 +61,13 @@
         
         % Current density @ midspan as initial value for rho_1_t
         
-        rho_1_m = [rho_1_m(end) rho_1_m(end)+2*tol]; 
+        rho_1_m_loss = [2*rho_1_m(end) rho_1_m(end)]; 
         
-    while abs((rho_1_m(end)-rho_1_m(end-1))/rho_1_m(end-1)) > tol
-    
-        rho_1_m(end-1) = rho_1_m(end); 
+    while abs((rho_1_m_loss(end)-rho_1_m_loss(end-1))/rho_1_m_loss(end-1)) > tol
         
-    Re_1_m = rho_1_m(end) * V_1_m * c_IGV / mu;
+        rho_1_m_loss(end-1) = rho_1_m_loss(end); 
+        
+    Re_1_m = rho_1_m_loss(end) * V_1_m * c_IGV / mu;
     
         Y_p_1_Re = Y_p_1_in * (Re_ref / Re_1_m)^0.2;
         Y_1_sec = c_IGV / b *(0.0334 * cosd(alpha_1_m)/cosd(alpha_0_m)) * (cL / s_over_c_min_m)^2 * ((cosd(alpha_1_m))^2) / (cosd(alpha_av_t_01))^3;
@@ -86,9 +86,9 @@
     p_1_m = p_T1_m(end) / ( (1+(gamma-1)/2*(V_1_m^2/(gamma*R_star*T_1_m)))^(gamma/(gamma-1)) );
     p_T1_m(end+1) = ( p_T0_m + Y_1_p_tot * p_1_m ) / (Y_1_p_tot+1);      
     end
-    p_T1_m = p_T1_m(end);
-    
-    rho_1_m(end+1) = p_1_m / R_star / T_1_m;
+    p_T1_m = p_T1_m(end); 
+
+    rho_1_m_loss(end+1) = p_1_m / R_star / T_1_m;
     
     end
        
@@ -149,7 +149,7 @@
         
         % Current density @ midspan as initial value for rho_1_t
         
-        rho_1_t = [rho_1_m(end) rho_1_m(end)+2*tol]; 
+        rho_1_t = [2*rho_1_m(end) rho_1_m(end)]; 
     
     while abs((rho_1_t(end)-rho_1_t(end-1))/rho_1_t(end-1)) > tol
     
@@ -229,10 +229,10 @@
         
         % Current density @ midspan as initial value for rho_1_t
         
-            rho_1_h = [rho_1_m(end) rho_1_m(end)+2*tol]; 
             alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
             cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
     
+            rho_1_h = [2*rho_1_m(end) rho_1_m(end)]; 
     while abs((rho_1_h(end)-rho_1_h(end-1))/rho_1_h(end-1)) > tol
     
         rho_1_h(end-1) = rho_1_h(end); 
@@ -268,7 +268,7 @@
             
             alpha_1_m = acosd(V_1A/V_1_m);
     
-            V_1T_m(end) = V_1_m * sind(alpha_1_m);
+            V_1T_m(end+1) = V_1_m * sind(alpha_1_m);
     
     end
     

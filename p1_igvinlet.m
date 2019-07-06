@@ -12,9 +12,9 @@
       
         % Total density @ IGV inlet as initial value for rho_0
         
-        rho_0 = [rho_T0 rho_T0+2*tol ];
+        rho_0 = [2*rho_T0 rho_T0 ];
 
-        while abs(rho_0(end)-rho_0(end-1)) > tol 
+        while abs((rho_0(end)-rho_0(end-1))/rho_0(end-1)) > tol 
         
         rho_0(end-1) = rho_0(end);    
         
@@ -36,9 +36,9 @@
     T_0_m = T_T0_m - (V_0_m^2)/(2*cp); % (eq. 25)
     T_0_h = T_T0_h - (V_0_h^2)/(2*cp); % (eq. 26)
 
-    p_0_t = p_T0_t / (1 + (V_0_t^2)/(2 * R_star * T_0_t)); % (eq. 27)
-    p_0_m = p_T0_m / (1 + (V_0_m^2)/(2 * R_star * T_0_m)); % (eq. 28)
-    p_0_h = p_T0_h / (1 + (V_0_h^2)/(2 * R_star * T_0_h)); % (eq. 29)
+    p_0_t = p_T0_m / ( (1+(gamma-1)/2*(V_0_t^2/(gamma*R_star*T_0_t)))^(gamma/(gamma-1)) ); 
+    p_0_m = p_T0_m / ( (1+(gamma-1)/2*(V_0_m^2/(gamma*R_star*T_0_m)))^(gamma/(gamma-1)) );
+    p_0_h = p_T0_m / ( (1+(gamma-1)/2*(V_0_h^2/(gamma*R_star*T_0_h)))^(gamma/(gamma-1)) ); 
 
     rho_0_t = p_0_t / R_star / T_0_t; % (eq. 30)
     rho_0_m = p_0_m / R_star / T_0_m; % (eq. 31)

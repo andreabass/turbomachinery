@@ -29,6 +29,39 @@ if m*0.99999 <= mean(rho_1) * V_1A * pi * b *D_m <= m*1.00001
 else
         disp('[ ERROR ] Discharged mass flow rate')
 end
+
+disp(' ')
+
+if all(M_1 < 1)
+    disp('Subsonic flow at the IGV outlet (section 1)')
+else
+        disp('Supersonic flow at the IGV outlet (section 1)')
+        
+        if all(M_1 < 1.4)
+            disp('    Mach number at IGV outlet lower than 1.4')
+        end
+end
+
+if all(MR_2 < 1)
+    disp('Subsonic flow at the rotor outlet (section 2)')
+else
+        disp('Supersonic flow at the rotor outlet (section 2)')
+                if all(MR_2 < 1.4)
+            disp('    Relative Mach number at rotor outlet lower than 1.4')
+        end
+       
+end
+
+if all(M_3 < 1)
+    disp('Subsonic flow at the stator outlet (section 3)')
+else
+        disp('Supersonic flow at the stator outlet (section 3)')
+                if all(M_3 < 1.4)
+            disp('    Mach number at stator outlet lower than 1.4')
+        end
+end
+
+
             
        
     
