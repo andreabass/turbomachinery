@@ -31,8 +31,7 @@
         V_3A = V_2A;
         V_3A = [V_3A V_3A + 2*tol];
         
-        for i=1:2
-            
+        for i=1:KK
         while abs(eta_S_t(end) - eta_S_t(end-1))>tol || abs(eta_S_m(end) - eta_S_m(end-1))>tol || abs(eta_S_h(end) - eta_S_h(end-1))>tol
             eta_S_t(end-1) = eta_S_t(end);
             eta_S_m(end-1) = eta_S_m(end);
@@ -126,7 +125,7 @@
         
         %Now we optimize the solidity with the Howell correlation and we
         %evaluate again the efficiency
-        if i==3
+        if i==1 && HOW_OPT == 1
            Db_Psi = ppval(Dbeta_Psi_curve, abs(beta_2_m));
            Psi_opt = Db_Psi/(beta_2_m-beta_1_m);        
            if Psi_opt<1.329 && Psi_opt>0.749

@@ -28,7 +28,14 @@
         Howell_correlation
         opt=1;
         
-        for i=1:2
+        % Check if the Howell optimization procedure was selected
+        if HOW_OPT == 1
+            KK = 2;
+        else
+            KK = 1;
+        end
+        
+        for i=1:KK
         while abs(eta_R_t(end) - eta_R_t(end-1))>tol || abs(eta_R_m(end) - eta_R_m(end-1))>tol || abs(eta_R_h(end) - eta_R_h(end-1))>tol
             eta_R_t(end-1) = eta_R_t(end);
             eta_R_m(end-1) = eta_R_m(end);
@@ -134,7 +141,7 @@
         %Now we optimize the solidity with the Howell correlation and we
         %evaluate again the efficiency
         
-           if i==1
+           if i==1 && HOW_OPT == 1
                
            Db_Psi = ppval(Dbeta_Psi_curve, abs(beta_2_m));
            Psi_opt = Db_Psi/(beta_2_m-beta_1_m);        
