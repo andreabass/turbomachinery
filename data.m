@@ -22,6 +22,7 @@ cp = R_gas*gamma/(gamma-1)/MM; % [J/kgK]
 R_star = R_gas / MM; % [J/kg/K]
 mu = 1.81*10^-5; % [Pas]
 
+omega = n * 2 * pi / 60; %rad/s
 deltaHis_TT = cp * T_T0 * (beta_TT ^ ((gamma - 1)/gamma)-1); % [J/kg]
 
 %Density calculation

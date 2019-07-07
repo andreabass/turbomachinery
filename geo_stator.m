@@ -1,4 +1,3 @@
-th_c = 0.08; % percentage thickness (assumed equal to rotor)
 
 Dalpha_23_t = abs(alpha_2_t-alpha_3_t);
 Dalpha_23_m = abs(alpha_2_m-alpha_3_m);

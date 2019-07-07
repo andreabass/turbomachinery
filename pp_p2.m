@@ -5,6 +5,7 @@
         p_2   = [p_2_h p_2_m p_2_t];
         
         MR_2   = W_2./sqrt(gamma*R_star*T_2);
+        M_2    = V_2./sqrt(gamma*R_star*T_2);
           
         eta_R_av = mean([eta_R_h eta_R_m eta_R_t]);
         Y_p_R_av = mean([Y_2_p_tot_h Y_2_p_tot_m Y_2_p_tot_t]);

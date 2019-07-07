@@ -1,7 +1,7 @@
 %% NACA A4K6 SERIES BLADE DATA
 % (suggested by AUNGIER)
 
-x_perc=[0 1.25 2.5 5 10 15 20 30 40 50 60 70 80 90 95 100];% chord percenage x/c
+x_perc=[0 1.25 2.5 5 10 15 20 30 40 50 60 70 80 90 95 100];% chord percentage x/c
 y_t_perc=[0 0.771 1.057 1.462 2.01 2.386 2.656 2.954 2.971 2.723 2.301 1.87 1.438 1.007 0.791 0];% half thickness t/c
 y_c_perc=[0 0.792 1.357 2.248 3.531 4.42 5.04 5.71 5.82 5.516 4.891 4.011 2.922 1.642 0.912 0];% camber line y/c
 dy_dx_perc=[Inf 0.5034 0.41 0.3131 0.2110 0.1483 0.1023 0.0359 0.0116 0.0478 0.0761 0.099 0.1184 0.1387 0.155 -Inf];% derivative
@@ -13,7 +13,7 @@ y_t_IGV = c_IGV*y_t_perc*0.8;
 %% HUB 
 
 % CAMBER LINE PROFILE
-cl_IGVh=theta_IGV_hub/25;
+cl_IGVh=teta_hub_IGV/25;
 y_IGVh = c_IGV*y_c_perc*cl_IGVh;
 dy_dx_IGVh = dy_dx_perc*cl_IGVh;
 eps_IGVh = atand(dy_dx_IGVh);
@@ -36,7 +36,7 @@ AX_coord_ps_IGVh = xps_IGVh*cosd(gamma_IGVh)-yps_IGVh*sind(gamma_IGVh);
 %% MID 
 
 % CAMBER LINE PROFILE
-cl_IGVm=theta_IGV_mid/25;
+cl_IGVm=teta_mid_IGV/25;
 y_IGVm = c_IGV*y_c_perc*cl_IGVm;
 dy_dx_IGVm = dy_dx_perc*cl_IGVm;
 
@@ -59,7 +59,7 @@ AX_coord_ps_IGVm = xps_IGVm*cosd(gamma_IGVm)-yps_IGVm*sind(gamma_IGVm);
 %% TIP 
 
 % CAMBER LINE PROFILE
-cl_IGVt=theta_IGV_tip/25;
+cl_IGVt=teta_tip_IGV/25;
 y_IGVt = c_IGV*y_c_perc*cl_IGVt;
 dy_dx_IGVt = dy_dx_perc*cl_IGVt;
 eps_IGVt = atand(dy_dx_IGVt);

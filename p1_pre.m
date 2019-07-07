@@ -13,10 +13,6 @@
     
   V_1A_t = V_1A_m;
   V_1A_h = V_1A_m;
-  
-  c_IGV = 0.04;
     
   c_IGV_t = c_IGV;
   c_IGV_h = c_IGV;
-  
-  t_over_s_h = 0.02;

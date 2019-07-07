@@ -2,17 +2,31 @@ clc
 clear
 close all
 
-% A pagine 125/128 dell’Aungier ci sono 
-% le correlazioni per il deviation angle nell’IGV
-
 %% OPTIONS
 options
 
 %% INPUT VALUES
+
+% 1
 D_t = 1; %m
-lambda = 0.569;
-n = 9300; %rpm
-omega = n * 2 * pi / 60; %rad/s
+
+% 2
+lambda = 0.5673;
+
+% 3
+n = 9230; %rpm
+
+% 4
+c_IGV = 0.04;
+
+% 5
+t_over_s_h = 0.02; % Relative trailing edge thickness
+
+% 6
+th_c = 0.08; % Percentage thickness (same for IGV, rotor and stator blades
+
+% 7
+% V_3T_m
 
 %% PROBLEM DATA
 data
@@ -56,7 +70,7 @@ results
 
 %% DESIGN PROBLEM (GEOMETRY)
 
-geo_IGV
+geo_IGV2
 geo_rotor
 geo_stator
 blade_IGV

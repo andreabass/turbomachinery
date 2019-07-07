@@ -1,4 +1,3 @@
-th_c = 0.08; % percentage thickness (assumed)
 
 Dbeta_12_t = abs(beta_1_t-beta_2_t);
 Dbeta_12_m = abs(beta_1_m-beta_2_m);

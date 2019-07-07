@@ -6,6 +6,7 @@
         V_1T  = [V_1T_h V_1T_m(end) V_1T_t];
         
         M_1 = V_1./sqrt(gamma*R_star*T_1);
+        MR_1 = W_1./sqrt(gamma*R_star*T_1);
         
         T_1_m_is  = T_0_m * ( p_1_m / p_0_m )^((gamma-1)/gamma);
         T_1_t_is  = T_0_t * ( p_1_t / p_0_t )^((gamma-1)/gamma);
