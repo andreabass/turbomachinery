@@ -90,6 +90,19 @@ while abs( (dev_opt_IGVt(end)-dev_opt_IGVt(end-1))/dev_opt_IGVt(end-1) )  > tol
 end
 dev_opt_IGVt = dev_opt_IGVt(end);
 
+dev_opt_IGVh = dev_opt_IGVh + 10*(1-V_1A/V_0A);
+dev_opt_IGVm = dev_opt_IGVm + 10*(1-V_1A/V_0A);
+dev_opt_IGVt = dev_opt_IGVt + 10*(1-V_1A/V_0A);
+
+% INLET GEOMETRICAL ANGLE
+alpha_0_h_geo = alpha_0_h - i_IGV_h;
+alpha_0_m_geo = alpha_0_m - i_IGV_m;
+alpha_0_t_geo = alpha_0_t - i_IGV_t;
+
+% OUTLET GEOMETRICAL ANGLE
+alpha_1_h_geo = alpha_1_h - dev_opt_IGVh;
+alpha_1_m_geo = alpha_1_m - dev_opt_IGVm;
+alpha_1_t_geo = alpha_1_t - dev_opt_IGVt;
 
 % STAGGER ANGLE
 gamma_IGVh = abs(alpha_0_h)-abs(teta_hub_IGV)/2;

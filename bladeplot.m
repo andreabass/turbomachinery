@@ -3,7 +3,7 @@ figure
 
 XXstart = -1.5;
 XXend = 6.25;
-YYstart = -6.3;
+YYstart = -6.8;
 YYend = 8.875;
 
 TRASX_S = 0.5;

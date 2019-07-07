@@ -33,17 +33,9 @@ while abs(V_2A(end) - V_2A(end-1))> tol
         beta_2_m = atand(W_2T_m / W_2A);
         beta_2_h = atand(W_2T_h / W_2A);
         
-        Xi_t = (W_1_t^2 - W_2_t^2) / 2 / l_Eu;
-        Xi_m = (W_1_m^2 - W_2_m^2) / 2 / l_Eu;
-        Xi_h = (W_1_h^2 - W_2_h^2) / 2 / l_Eu;
-        
-        DeltaH_R_t = Xi_t * l_Eu;
-        DeltaH_R_m = Xi_m * l_Eu;
-        DeltaH_R_h = Xi_h * l_Eu;
-        
-        T_2_t = T_1_t + DeltaH_R_t / cp;
-        T_2_m = T_1_m + DeltaH_R_m / cp;
-        T_2_h = T_1_h + DeltaH_R_h / cp;
+        T_2_t = T_1_t + (W_1_t^2 - W_2_t^2) / 2 / cp;
+        T_2_m = T_1_m + (W_1_m^2 - W_2_m^2) / 2 / cp;
+        T_2_h = T_1_h + (W_1_h^2 - W_2_h^2) / 2 / cp;
         
         T_2_t_is = T_1_t + eta_R_t(end) * (T_2_t - T_1_t);
         T_2_m_is = T_1_m + eta_R_m(end) * (T_2_m - T_1_m);

@@ -17,9 +17,9 @@
         % efficiency (mid, tip. hub) equal to the total-to-total efficiency
         % of the stage
         
-        eta_R_t = [eta_TT(end) eta_TT(end) + 2*tol];
-        eta_R_m = [eta_TT(end) eta_TT(end) + 2*tol];
-        eta_R_h = [eta_TT(end) eta_TT(end) + 2*tol];    
+        eta_R_t = [2*eta_TT(end) eta_TT(end)];
+        eta_R_m = [2*eta_TT(end) eta_TT(end)];
+        eta_R_h = [2*eta_TT(end) eta_TT(end)];    
         
         % Constant axial velocity as initial value
         
@@ -165,9 +165,9 @@
            Howell_R='Rotor Underloaded';
            end
            sigma_R_m = 1/s_over_c_R;
-           eta_R_t = [eta_R_t(end) eta_R_t(end) + 2*tol];
-           eta_R_m = [eta_R_m(end) eta_R_m(end) + 2*tol];
-           eta_R_h = [eta_R_h(end) eta_R_h(end) + 2*tol];
+           eta_R_t = [2*eta_R_t(end) eta_R_t(end)];
+           eta_R_m = [2*eta_R_m(end) eta_R_m(end)];
+           eta_R_h = [2*eta_R_h(end) eta_R_h(end)];
            
            end
         
