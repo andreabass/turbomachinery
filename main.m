@@ -11,10 +11,10 @@ options
 D_t = 1; %m
 
 % 2
-lambda = 0.5673;
+lambda = 0.56;
 
 % 3
-n = 9230; %rpm
+n = 10000; %rpm
 
 % 4
 c_IGV = 0.04;
@@ -27,6 +27,18 @@ th_c = 0.08; % Percentage thickness (same for IGV, rotor and stator blades
 
 % 7
 % V_3T_m
+
+% 8 
+sigma_R_m_design = 1;
+
+% 9
+sigma_S_m_design = 1.2;
+
+% 10
+c_R_design = 0.05;
+
+% 11
+c_S_design = 0.05;
 
 %% PROBLEM DATA
 data
@@ -77,5 +89,7 @@ blade_IGV
 blade_rotor
 blade_stator
 bladeplot
+frontview
+
 
 

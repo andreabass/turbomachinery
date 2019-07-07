@@ -52,7 +52,7 @@
         Re_How = 3e5;
        
         if i==1
-            sigma_R_m = 1; 
+            sigma_R_m = sigma_R_m_design; 
         end
         
         
@@ -61,7 +61,7 @@
             c_How_m = mu*Re_How/rho_2_m/W_2_m;
             c_How_t = mu*Re_How/rho_2_t/W_2_t;
             c_How_h = mu*Re_How/rho_2_h/W_2_h;
-         c_R_m = 1.1*max(max(c_How_m,c_How_t), c_How_h);
+         c_R_m = max( max(max(c_How_m,c_How_t), c_How_h), c_R_design );
          c_R_t = c_R_m;
          c_R_h = c_R_m;
 
@@ -79,13 +79,17 @@
         
         %Losses correlations
         
-        Dm = (W_1_m-W_2_m)/W_1_t+abs((W_1T_m-W_2T_m)/(2*W_1_m*sigma_R_m));
-        Dt = (W_1_t-W_2_t)/W_1_t+abs((W_1T_t-W_2T_t)/(2*W_1_t*sigma_R_t));
-        Dh = (W_1_h-W_2_h)/W_1_h+abs((W_1T_h-W_2T_h)/(2*W_1_h*sigma_R_h));
+        Wmax_W1_m = 1.12 + 0.61 * cosd(beta_1_m)^2/sigma_R_m * ( V_1T_m - V_2T_m ) / V_1A_m;
+        Wmax_W1_t = 1.12 + 0.61 * cosd(beta_1_t)^2/sigma_R_t * ( V_1T_t - V_2T_t ) / V_1A_t;
+        Wmax_W1_h = 1.12 + 0.61 * cosd(beta_1_h)^2/sigma_R_h * ( V_1T_h - V_2T_h ) / V_1A_h;
         
-        Y_2_p_tot_m = 0.0035*(1+3.5*Dm+37*(Dm)^4)*2*sigma_R_m/cosd(beta_2_m);
-        Y_2_p_tot_t = 0.0035*(1+3.5*Dt+37*(Dt)^4)*2*sigma_R_t/cosd(beta_2_t);
-        Y_2_p_tot_h = 0.0035*(1+3.5*Dh+37*(Dh)^4)*2*sigma_R_h/cosd(beta_2_h);
+        Dm = Wmax_W1_m * W_1_m / W_2_m;
+        Dt = Wmax_W1_t * W_1_t / W_2_t;
+        Dh = Wmax_W1_h * W_1_h / W_2_h;
+        
+        Y_2_p_tot_m = 0.004 * ( 1 + 3.1*(Dm-1)^2 + 0.4*(Dm-1)^8 ) * 2 * sigma_R_m / cosd(beta_2_m) * (W_2_m/W_1_m)^2;
+        Y_2_p_tot_t = 0.004 * ( 1 + 3.1*(Dt-1)^2 + 0.4*(Dt-1)^8 ) * 2 * sigma_R_t / cosd(beta_2_t) * (W_2_t/W_1_t)^2;
+        Y_2_p_tot_h = 0.004 * ( 1 + 3.1*(Dh-1)^2 + 0.4*(Dh-1)^8 ) * 2 * sigma_R_h / cosd(beta_2_h) * (W_2_h/W_1_h)^2;
         
         %TDN variables
         
@@ -137,6 +141,10 @@
 
     
         end
+        
+           V_2A_m = V_2A(end);
+           V_2A_h = V_2A_h(end);
+           V_2A_t = V_2A_t(end);
         
         %Now we optimize the solidity with the Howell correlation and we
         %evaluate again the efficiency
