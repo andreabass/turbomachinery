@@ -17,31 +17,17 @@
     T_1 = T_T1 - (V_1^2) / (2*cp);
     
     p_1 = R_star * rho_1 * T_1;
-             
-        alpha_2prime = 90 - alpha_1;
-   
-        if alpha_2prime > 30
-        s_over_c_min = 0.614 + alpha_2prime / 130;
-        else
-   s_over_c_min = 0.46 + alpha_2prime / 77;
-        end
-
-        if alpha_2prime > 27
-        A = 0.025 + (27 - alpha_2prime) / 3085;
-        else
-        A = 0.025 + (27 - alpha_2prime) / 530;
-        end
-
-        Re_ref = 2e5;
-        Y_p_1_in = A;
-        alpha_av_t_01 = atand((tand(alpha_0_m)+tand(alpha_1))/2);
-        cL = 2 * s_over_c_min * (abs(tand(alpha_1)-tand(alpha_0_m)))*cosd(alpha_av_t_01);
-   
-    Re_1 = rho_1(end) * V_1 * c_IGV / mu;
-   
-        Y_p_1_Re = Y_p_1_in * (Re_ref / Re_1)^0.2;
-        Y_1_sec = c_IGV / b *(0.0334 * cosd(alpha_1)/cosd(alpha_0_m)) * (cL / s_over_c_min)^2 * ((cosd(alpha_1))^2) / (cosd(alpha_av_t_01))^3;
+            
+    Y_p_1_in = y_AM_inc_min(alpha_1);
+        
+    Re_1 = rho_1 * V_1 * c_IGV / mu;
     
+    Y_p_1_Re = y_AM_Re(Y_p_1_in,Re_1); 
+    
+    s_over_c_min = s_c_min_AM(alpha_1);
+
+    Y_1_sec = y_AM_sec(alpha_1,alpha_0_m,c_IGV,b,s_over_c_min);
+        
     Y_1_p_tot = Y_p_1_Re + Y_1_sec;
     
     p_T1 = ( p_T0 + Y_1_p_tot * p_1 ) / (Y_1_p_tot+1); 
