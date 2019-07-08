@@ -11,17 +11,14 @@
         %%%%%% [INITIALIZATION] %%%%%%%
         
         % Solution of simplified 1D problem as initial value for V_1T_m
-        % and rho_1_m (initialization of 1D problem: Vavra assumption for
-        % reaction degree).
+        % (initialization of 1D problem: Vavra assumption for reaction degree).
         
         p1_1D
         
         V_1T_m = [2*V_1T(end) V_1T(end)];
-        rho_1_m = [2*rho_1 rho_1];
        
-    while abs((rho_1_m(end)-rho_1_m(end-1))/rho_1_m(end-1)) > tol || abs((V_1T_m(end)-V_1T_m(end-1))/V_1T_m(end-1)) > tol
-        
-    rho_1_m(end-1) = rho_1_m(end); 
+    while abs((V_1T_m(end)-V_1T_m(end-1))/V_1T_m(end-1)) > tol
+       
     V_1T_m(end-1) = V_1T_m(end);    
         
     %%%% MID %%%%
@@ -59,15 +56,15 @@
         
         %%%%%% [INITIALIZATION] %%%%%%%
         
-        % Current density @ midspan as initial value for rho_1_t
+        % IGV inlet density as initial value for rho_1_m
         
-        rho_1_m_loss = [2*rho_1_m(end) rho_1_m(end)]; 
+        rho_1_m = [2*rho_0(end) rho_0(end)]; 
         
-    while abs((rho_1_m_loss(end)-rho_1_m_loss(end-1))/rho_1_m_loss(end-1)) > tol
+    while abs((rho_1_m(end)-rho_1_m(end-1))/rho_1_m(end-1)) > tol
         
-        rho_1_m_loss(end-1) = rho_1_m_loss(end); 
+        rho_1_m(end-1) = rho_1_m(end); 
         
-    Re_1_m = rho_1_m_loss(end) * V_1_m * c_IGV / mu;
+    Re_1_m = rho_1_m(end) * V_1_m * c_IGV / mu;
     
         Y_p_1_Re = Y_p_1_in * (Re_ref / Re_1_m)^0.2;
         Y_1_sec = c_IGV / b *(0.0334 * cosd(alpha_1_m)/cosd(alpha_0_m)) * (cL / s_over_c_min_m)^2 * ((cosd(alpha_1_m))^2) / (cosd(alpha_av_t_01))^3;
@@ -88,7 +85,7 @@
     end
     p_T1_m = p_T1_m(end); 
 
-    rho_1_m_loss(end+1) = p_1_m / R_star / T_1_m;
+    rho_1_m(end+1) = p_1_m / R_star / T_1_m;
     
     end
        
@@ -225,19 +222,12 @@
         Y_p_1_in_h = A_h+B_h*X_AM_h^2+C_h*X_AM_h^3;
         end
         
-        %%%%%% [INITIALIZATION] %%%%%%%
-        
-        % Current density @ midspan as initial value for rho_1_t
-        
             alpha_av_t_01_h = atand((tand(alpha_0_h)+tand(alpha_1_h))/2);
             cL_h = 2 * s_over_c_h * (abs(tand(alpha_1_h)-tand(alpha_0_h)))*cosd(alpha_av_t_01_h);
     
-            rho_1_h = [2*rho_1_m(end) rho_1_m(end)]; 
-    while abs((rho_1_h(end)-rho_1_h(end-1))/rho_1_h(end-1)) > tol
-    
-        rho_1_h(end-1) = rho_1_h(end); 
+    rho_1_h = 3 * rho_0(end) * V_0A / V_1A - rho_1_m(end) - rho_1_t(end);
         
-    Re_1_h = V_1_h * rho_1_h(end) * c_IGV / mu;
+    Re_1_h = V_1_h * rho_1_h * c_IGV / mu;
     
         Y_p_1_Re_h = Y_p_1_in_h * (Re_ref / Re_1_h)^0.2;
         Y_1_sec_h = c_IGV / b *(0.0334 * cosd(alpha_1_h)/cosd(alpha_0_h)) * (cL / s_over_c_h)^2 * ((cosd(alpha_1_h))^2) / (cosd(alpha_av_t_01_h))^3;
@@ -248,8 +238,6 @@
 
     T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
     
-    % p_T1_h = p_T0_h - Y_1_p_tot_h * (p_T0_h - p_0_h);
-    
     p_T1_h = [2*p_T0_h p_T0_h];
     while abs((p_T1_h(end)-p_T1_h(end-1))/p_T1_h(end-1))>tol
     p_T1_h(end-1) = p_T1_h(end);
@@ -257,18 +245,12 @@
     p_T1_h(end+1) = ( p_T0_h + Y_1_p_tot_h * p_1_h ) / (Y_1_p_tot_h+1);      
     end
     p_T1_h = p_T1_h(end);
-    
-    rho_1_h(end+1) = p_1_h / R_star / T_1_h;
-    
-    end
-    
-    rho_1_m(end+1) = 3 * rho_0(end) * V_0A / V_1A - rho_1_h(end) - rho_1_t(end);
-    
-            V_1_m = sqrt( 2*(p_T1_m - p_1_m)/rho_1_m(end) );
+ 
+            V_1_h = sqrt( 2 * gamma * p_1_h / rho_1_h / (gamma-1) * ( (p_T1_h/p_1_h)^((gamma-1)/gamma) - 1 ) );
             
-            alpha_1_m = acosd(V_1A/V_1_m);
+            V_1T_h = sqrt( V_1_h^2-V_1A^2 );
     
-            V_1T_m(end+1) = V_1_m * sind(alpha_1_m);
+            V_1T_m(end+1) = V_1T_h * D_h / D_m;
     
     end
     

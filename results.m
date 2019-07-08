@@ -6,7 +6,7 @@
 
 disp(' ')
 disp(['Total-to-total stage efficiency         :     ', num2str(eta_TT(end)*100),'%'])
-disp(['Static-to-static row efficiencies       :     ', num2str(eta_IGV_av*100), '%   ', num2str(eta_R_av*100), '%   ', num2str(eta_S_av*100),'%'])
+disp(['Static-to-static row efficiencies       :     ', num2str(eta_IGV_av*100), '%   ', num2str(eta_R_av*100), '%  ', num2str(eta_S_av*100),'%'])
 disp(['Pressure loss coefficients              :     ', num2str(Y_p_IGV_av*100), '%    ', num2str(Y_p_R_av*100), '%   ', num2str(Y_p_S_av*100),'%'])
 disp(' ')
 disp(['Tip peripheral velocity        [m/s]    :     ', num2str(U_m)]);
@@ -17,7 +17,7 @@ disp(' ')
 disp(['IGV outlet Mach numbers        (h/m/t)  :     ', num2str(M_1(1)), '    ', num2str(M_1(2)), '    ', num2str(M_1(3))])
 disp(['Rotor inlet rel. Mach numbers  (h/m/t)  :     ', num2str(MR_1(1)), '    ', num2str(MR_1(2)), '     ', num2str(MR_1(3))])
 disp(['Rotor outlet rel. Mach numbers (h/m/t)  :     ', num2str(MR_2(1)), '    ', num2str(MR_2(2)), '    ', num2str(MR_2(3))])
-disp(['Stator inlet Mach numbers      (h/m/t)  :     ', num2str(M_2(1)), '     ', num2str(M_2(2)), '    ', num2str(M_2(3))])
+disp(['Stator inlet Mach numbers      (h/m/t)  :     ', num2str(M_2(1)), '    ', num2str(M_2(2)), '    ', num2str(M_2(3))])
 disp(['Stator outlet Mach numbers     (h/m/t)  :     ', num2str(M_3(1)), '    ', num2str(M_3(2)), '    ', num2str(M_3(3))])
 disp(' ')
 disp(['Number of blades                        :     ', num2str(N_IGV), '          ', num2str(N_R), '          ', num2str(N_S)])

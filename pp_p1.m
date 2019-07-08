@@ -1,3 +1,6 @@
+        p_0   = [p_0_h p_0_m p_0_t];
+        rho_0 = [rho_0_h rho_0_m rho_0_t];
+        T_0   = [T_0_h T_0_m T_0_t];
         rho_1 = [rho_1_h(end) rho_1_m(end) rho_1_t(end)];
         V_1   = [V_1_h V_1_m V_1_t];
         W_1   = [W_1_h W_1_m W_1_t];
