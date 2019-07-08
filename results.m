@@ -21,7 +21,7 @@ disp(['Stator inlet Mach numbers      (h/m/t)  :     ', num2str(M_2(1)), '    ',
 disp(['Stator outlet Mach numbers     (h/m/t)  :     ', num2str(M_3(1)), '    ', num2str(M_3(2)), '    ', num2str(M_3(3))])
 disp(' ')
 disp(['Number of blades                        :     ', num2str(N_IGV), '          ', num2str(N_R), '          ', num2str(N_S)])
-Xi_m = cp * (T_2_m-T_1_m) / l_Eu;
-disp(['Reaction degree at midspan              :     ', num2str(Xi_m)])
+Xi = cp * (T_2-T_1) / l_Eu;
+disp(['Reaction degree                (h/m/t)  :     ', num2str(Xi(1)), '    ', num2str(Xi(2)), '     ', num2str(Xi(3))])
 %disp(['According to Howell Statistics      :     ', Howell_R, Howell_S])
 
