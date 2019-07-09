@@ -19,7 +19,6 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
     V_1_m = sqrt(V_1T_m(end)^2 + V_1A_m(end)^2);
     alpha_1_m = atand(V_1T_m(end) / V_1A_m(end));
     
-    
     T_T1_m = T_T0_m;
     T_1_m = T_T1_m - (V_1_m^2) / (2*cp); 
         
@@ -90,7 +89,7 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
         V_1T_t(end-1) = V_1T_t(end);
         
         alpha_1_t = delta_od_IGV_t(end) + alpha_1_t_geo_od;
-        V_1A_t = V_1T_t(end) / alpha_1_t;
+        V_1A_t = V_1T_t(end) / tand(alpha_1_t);
         V_1_t = sqrt(V_1A_t^2 + V_1T_t(end)^2);
         W_1T_t = V_1T_t(end) - U_t;
         W_1A_t = V_1A_t;
@@ -124,7 +123,7 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
     rho_1_t(end+1) = p_1_t / R_star / T_1_t;
     
     end
-        Ba = 5;
+        Ba = 1;
         V_1T_t(end+1) = sqrt((2/Ba*(p_1_t-p_1_m)/(D_t-D_m)*2 - (V_1T_m^2 * rho_1_m(end)/(D_m/2)))*D_t/2/rho_1_t(end));
         %V_1T_t(end+1) = V_1T_m * D_m/D_t;
     end
@@ -143,8 +142,6 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
         end
     end
 
-        
-        
     %%%% ROTOR INLET HUB %%%%
     alpha_1_h_geo_od = alpha_1_h_geo + IGV_rotation;
     
@@ -160,7 +157,7 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
         V_1T_h(end-1) = V_1T_h(end);
         
         alpha_1_h = delta_od_IGV_h(end) + alpha_1_h_geo_od;
-        V_1A_h = V_1T_h(end) / alpha_1_h;
+        V_1A_h = V_1T_h(end) / tand(alpha_1_h);
         V_1_h = sqrt(V_1A_h^2 + V_1T_h(end)^2);
         W_1T_h = V_1T_h(end) - U_h;
         W_1A_h = V_1A_h;
@@ -194,8 +191,8 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
     rho_1_h(end+1) = p_1_h / R_star / T_1_h;
     
     end
-        Ba = 5;
-        V_1T_h(end+1) = sqrt((2/Ba*(p_1_h-p_1_m)/(D_h-D_m)*2 - (V_1T_m^2 * rho_1_m(end)/(D_m/2)))*D_h/2/rho_1_h(end));
+        Ba = 1;
+        V_1T_h(end+1) = sqrt((2/Ba* (p_1_h-p_1_m)/(D_h-D_m) *2 - (V_1T_m^2 * rho_1_m(end)/(D_m/2)))*D_h/2/rho_1_h(end));
         %V_1T_h(end+1) = V_1T_m * D_m/D_h;
     end
     
