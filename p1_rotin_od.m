@@ -74,149 +74,100 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
         IGV_rotation = alpha_1_m_geo_od - alpha_1_m_geo;
         
         
-    %%%% ROTOR INLET TIP %%%%
-    alpha_1_t_geo_od = alpha_1_t_geo + IGV_rotation;
+    %%%% ROTOR INLET HIGH %%%%
     
-    T_T1_t = T_T0_t;
+    % Profiles
+    delta_od_IGV(1) = delta_od_IGV_m;
+    V_1T(1) =  V_1T_m;
     
-    delta_od_IGV_t = [2*delta_od_IGV_m 0*delta_od_IGV_m];
+    alpha_1_geo_od = alpha_1_geo_high + IGV_rotation;
     
-    while abs((delta_od_IGV_t(end)-delta_od_IGV_t(end-1))/delta_od_IGV_t(end-1)) > tol
-        delta_od_IGV_t(end-1) = delta_od_IGV_t(end);
+    p1 = p_1_m;
+    
+    s_IGV_high = pi * 2 * rhigh / N_IGV;
+    
+    o_IGV_high = s_IGV_high .* sind(alpha_1_geo_od);
+    
+    for i = 2:length(alpha_1_geo_od)
+    
+    T_T1(i) = T_T0;
+    
+    delta_od_IGV_iter = [2*delta_od_IGV_m 0*delta_od_IGV_m];
+    
+    while abs((delta_od_IGV_iter(end)-delta_od_IGV_iter(end-1))/delta_od_IGV_iter(end-1)) > tol
+        delta_od_IGV_iter(end-1) = delta_od_IGV_iter(end);
         
-        V_1T_t = [V_1T_m*2 0.65*V_1T_m];
-    while abs((V_1T_t(end)-V_1T_t(end-1))/V_1T_t(end-1)) > tol
-        V_1T_t(end-1) = V_1T_t(end);
+        V_1T_iter = [V_1T_m*2 0.7*V_1T_m];
+    while abs((V_1T_iter(end)-V_1T_iter(end-1))/V_1T_iter(end-1)) > tol
+        V_1T_iter(end-1) = V_1T_iter(end);
         
-        alpha_1_t = alpha_1_t_geo_od - delta_od_IGV_t(end);
-        V_1A_t = V_1T_t(end) / tand(alpha_1_t);
-        V_1_t = sqrt(V_1A_t^2 + V_1T_t(end)^2);
-        W_1T_t = V_1T_t(end) - U_t;
-        W_1A_t = V_1A_t;
-        W_1_t = sqrt(W_1A_t^2 + W_1T_t^2);
-        beta_1_t = atand(W_1T_t / W_1A_t);
-        
-        %Rho initialization for losses calculation
-        rho_1_t = [2*rho_1_m(end) rho_1_m(end)]; 
-    
-    while abs((rho_1_t(end)-rho_1_t(end-1))/rho_1_t(end-1)) > tol
-    
-        rho_1_t(end-1) = rho_1_t(end); 
-        
-        Re_1_t = V_1_t * rho_1_t(end) * c_IGV / mu;
- 
-        Y_1_p_tot_t = y_AM_od(alpha_1_t_geo,alpha_0_t,alpha_1_t,sigma_IGV_t,alpha_1_t-alpha_1_t_geo,rho_1_t(end),b,c_IGV_t,V_1_t,mu);
-
-        T_1_t = T_T1_t - (V_1_t^2) / (2*cp);
-    
-    p_T1_t = [2*p_T0_t p_T0_t];
-    while abs((p_T1_t(end)-p_T1_t(end-1))/p_T1_t(end-1))>tol
-    p_T1_t(end-1) = p_T1_t(end);
-    
-    p_1_t = p_T1_t(end) / ( (1+(gamma-1)/2*(V_1_t^2/(gamma*R_star*T_1_t)))^(gamma/(gamma-1)) );
-    
-    p_T1_t(end+1) = ( p_T0_t + Y_1_p_tot_t * p_1_t ) / (Y_1_p_tot_t+1);
-    
-    end
-    p_T1_t = p_T1_t(end);
-    
-    rho_1_t(end+1) = p_1_t / R_star / T_1_t;
-    
-    end
-        Ba = 1.7;
-        V_1T_t(end+1) = sqrt((2/Ba*(p_1_t-p_1_m)/(D_t-D_m)*2 - (V_1T_m^2 * rho_1_m(end)/(D_m/2)))*D_t/2/rho_1_t(end));
-        %V_1T_t(end+1) = V_1T_m * D_m/D_t;
-    end
-    
-        o_IGV_t = s_IGV_t * sind(alpha_1_t_geo_od);
-        
-        delta_0_od_IGV_t = asind(o_IGV_t/s_IGV_t*(1+(1-o_IGV_t/s_IGV_t)*(alpha_1_t_geo_od/90)^2)) - alpha_1_t_geo_od;
-        
-        Ma_1_t_od = V_1_t /sqrt(gamma*R_star*T_1_t);
-        
-        if Ma_1_t_od < 0.5
-            delta_od_IGV_t(end+1) = delta_0_od_IGV_t;
-        else
-            ics_delta_t = 2 * Ma_1_t_od - 1;
-            delta_od_IGV_t(end+1) = delta_0_od_IGV_t * (1 - 10*ics_delta_t^3 + 15*ics_delta_t^4 - 6*ics_delta_t^5);
-        end
-    end
-
-    %%%% ROTOR INLET HUB %%%%
-    alpha_1_h_geo_od = alpha_1_h_geo + IGV_rotation;
-    
-    T_T1_h = T_T0_h;
-    
-    delta_od_IGV_h = [2*delta_od_IGV_m delta_od_IGV_m];
-    
-    while abs((delta_od_IGV_h(end)-delta_od_IGV_h(end-1))/delta_od_IGV_h(end-1)) > tol
-        delta_od_IGV_h(end-1) = delta_od_IGV_h(end);
-        
-        V_1T_h = [V_1T_m*2 V_1T_m];
-        while abs((V_1T_h(end)-V_1T_h(end-1))/V_1T_h(end-1)) > tol
-        V_1T_h(end-1) = V_1T_h(end);
-        
-        alpha_1_h = alpha_1_h_geo_od - delta_od_IGV_h(end);
-        V_1A_h = V_1T_h(end) / tand(alpha_1_h);
-        V_1_h = sqrt(V_1A_h^2 + V_1T_h(end)^2);
-        W_1T_h = V_1T_h(end) - U_h;
-        W_1A_h = V_1A_h;
-        W_1_h = sqrt(W_1A_h^2 + W_1T_h^2);
-        beta_1_h = atand(W_1T_h / W_1A_h);
+        alpha_1_iter = alpha_1_geo_od - delta_od_IGV_iter(end);
+        V_1A_iter = V_1T_iter(end) / tand(alpha_1_iter);
+        V_1_iter = sqrt(V_1A_iter^2 + V_1T_iter(end)^2);
+        W_1T_iter = V_1T_iter(end) - U_t;
+        W_1A_iter = V_1A_iter;
+        W_1_iter = sqrt(W_1A_iter^2 + W_1T_iter^2);
+        beta_1_iter = atand(W_1T_iter / W_1A_iter);
         
         %Rho initialization for losses calculation
-        rho_1_h = [2*rho_1_m(end) rho_1_m(end)]; 
+        rho_1_iter = [2*rho_1_m(end) rho_1_m(end)]; 
     
-    while abs((rho_1_h(end)-rho_1_h(end-1))/rho_1_h(end-1)) > tol
+    while abs((rho_1_iter(end)-rho_1_iter(end-1))/rho_1_iter(end-1)) > tol
     
-        rho_1_h(end-1) = rho_1_h(end); 
+        rho_1_iter(end-1) = rho_1_iter(end); 
         
-        Re_1_h = V_1_h * rho_1_h(end) * c_IGV_h / mu;
+        Re_1_iter = V_1_iter * rho_1_iter(end) * c_IGV / mu;
  
-        Y_1_p_tot_h = y_AM_od(alpha_1_h_geo,alpha_0_h,alpha_1_h,sigma_IGV_h,alpha_1_h-alpha_1_h_geo,rho_1_h(end),b,c_IGV_h,V_1_h,mu);
+        Y_1_p_tot_iter = y_AM_od(alpha_1_geo_od(i),alpha_0_t,alpha_1_iter,sigma_IGV_t,alpha_1_iter-alpha_1_t_geo,rho_1_iter(end),b,c_IGV_t,V_1_iter,mu);
 
-        T_1_h = T_T1_h - (V_1_h^2) / (2*cp);
+        T_1_iter = T_T1(i) - (V_1_iter^2) / (2*cp);
     
-    p_T1_h = [2*p_T0_h p_T0_h];
-    while abs((p_T1_h(end)-p_T1_h(end-1))/p_T1_h(end-1))>tol
-    p_T1_h(end-1) = p_T1_h(end);
+    p_T1_iter = [2*p_T0 p_T0];
+    while abs((p_T1_iter(end)-p_T1_iter(end-1))/p_T1_iter(end-1))>tol
+    p_T1_iter(end-1) = p_T1_iter(end);
     
-    p_1_h = p_T1_h(end) / ( (1+(gamma-1)/2*(V_1_h^2/(gamma*R_star*T_1_h)))^(gamma/(gamma-1)) );
+    p_1_iter = p_T1_iter(end) / ( (1+(gamma-1)/2*(V_1_iter^2/(gamma*R_star*T_1_iter)))^(gamma/(gamma-1)) );
     
-    p_T1_h(end+1) = ( p_T0_h + Y_1_p_tot_h * p_1_h ) / (Y_1_p_tot_h+1);
-    
-    end
-    p_T1_h = p_T1_h(end);
-    
-    rho_1_h(end+1) = p_1_h / R_star / T_1_h;
+    p_T1_iter(end+1) = ( p_T0_t + Y_1_p_tot_iter * p_1_iter ) / (Y_1_p_tot_iter+1);
     
     end
-        Ba = 0.91;
-        V_1T_h(end+1) = sqrt((2/Ba* (p_1_h-p_1_m)/(D_h-D_m) *2 - (V_1T_m^2 * rho_1_m(end)/(D_m/2)))*D_h/2/rho_1_h(end));
-        %V_1T_h(end+1) = V_1T_m * D_m/D_h;
-    end
+    p_T1_iter = p_T1_iter(end);
     
-        o_IGV_h = s_IGV_h * sind(alpha_1_h_geo_od);
+    rho_1_iter(end+1) = p_1_iter / R_star / T_1_iter;
+    
+    end
+    rho_1_iter = rho_1_iter(end);
+    
+        V_1T_iter(end+1) = sqrt((p_1_iter-p_1(i-1)) / Dr * rhigh(i) / rho_1_iter) ;
         
-        delta_0_od_IGV_h = asind(o_IGV_h/s_IGV_h*(1+(1-o_IGV_h/s_IGV_h)*(alpha_1_h_geo_od/90)^2)) - alpha_1_h_geo_od;
+    end
         
-        Ma_1_h_od = V_1_h /sqrt(gamma*R_star*T_1_h);
+        delta_0_od_IGV_iter = asind(o_IGV_high(i)/s_IGV_high(i)*(1+(1-o_IGV_high(i)/s_IGV_high(i))*(alpha_1_geo_od(i)/90)^2)) - alpha_1_geo_od(i);
         
-        if Ma_1_h_od < 0.5
-            delta_od_IGV_h(end+1) = delta_0_od_IGV_h;
+        Ma_1_iter_od = V_1_iter /sqrt(gamma*R_star*T_1_iter);
+        
+        if Ma_1_iter_od < 0.5
+            delta_od_IGV_iter(end+1) = delta_0_od_IGV_iter;
         else
-            ics_delta_h = 2 * Ma_1_t_od - 1;
-            delta_od_IGV_h(end+1) = delta_0_od_IGV_h * (1 - 10*ics_delta_h^3 + 15*ics_delta_h^4 - 6*ics_delta_h^5);
+            ics_delta_iter = 2 * Ma_1_iter_od - 1;
+            delta_od_IGV_iter(end+1) = delta_0_od_IGV_iter * (1 - 10*ics_delta_iter^3 + 15*ics_delta_iter^4 - 6*ics_delta_iter^5);
         end
+        
+    end
+
+    delta_od_IGV(i) = delta_od_IGV_iter(end);
+    V_1T(i) =  V_1T_iter(end);
+    
+    
     end
     
-    V_1A_m(end+1) = (3*rho_0_m * V_0A - rho_1_t(end)*V_1A_t - rho_1_h(end)*V_1A_h)/rho_1_m(end);
+    V_1A_m(end+1) = (3*rho_0_m * V_0A - rho_1_iter*V_1A_iter - rho_1_h(end)*V_1A_h)/rho_1_m(end);
     
     end
 
             story_rho_b   = b;
         story_rho_0   = rho_0;
         story_rho_1_m = rho_1_m;
-        story_rho_1_t = rho_1_t; 
+        story_rho_1_t = rho_1_iter; 
         story_rho_0   = rho_0; 
         story_V_1A_m  = V_1A_m;
