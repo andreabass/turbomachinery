@@ -10,7 +10,7 @@ options
 % 1
 D_t = 1; %m
 % 2
-lambda = 0.55;
+lambda = 0.50434;
 % 3
 n = 10000; %rpm
 % 4

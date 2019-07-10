@@ -73,14 +73,14 @@ dev_opt_rotm = dev_opt_rotm + 10*(1-V_2A(end)/V_1A);
 dev_opt_roth = dev_opt_roth + 10*(1-V_2A(end)/V_1A);
 
 % INLET GEOMETRICAL ANGLE
-beta_1_h_geo = beta_1_h - i_opt_roth;
-beta_1_m_geo = beta_1_m - i_opt_rotm;
-beta_1_t_geo = beta_1_t - i_opt_rott;
+beta_1_h_geo = beta_1_h + i_opt_roth;
+beta_1_m_geo = beta_1_m + i_opt_rotm;
+beta_1_t_geo = beta_1_t + i_opt_rott;
 
 % OUTLET GEOMETRICAL ANGLE
-beta_2_h_geo = beta_2_h - dev_opt_roth;
-beta_2_m_geo = beta_2_m - dev_opt_rotm;
-beta_2_t_geo = beta_2_t - dev_opt_rott;
+beta_2_h_geo = beta_2_h + dev_opt_roth;
+beta_2_m_geo = beta_2_m + dev_opt_rotm;
+beta_2_t_geo = beta_2_t + dev_opt_rott;
 
 % STAGGER ANGLE
 gamma_roth = abs(beta_1_h)-abs(teta_hub)/2-(i_opt_roth);
