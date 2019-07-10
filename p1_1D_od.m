@@ -35,7 +35,7 @@
     
     alpha_0_geo = i_IGV_od;
     
-    Y_p_1_tot = y_AM_od(alpha_0_geo, alpha_0_m, alpha_1, sigma_IGV_m, i_IGV_od, rho_1(end), b, c_IGV, V_1, mu);
+    Y_1_p_tot = y_AM_od(alpha_0_geo, alpha_0_m, alpha_1, sigma_IGV_m, i_IGV_od, rho_1(end), b, c_IGV, V_1, mu);
     
     p_T1 = ( p_T0 + Y_1_p_tot * p_1 ) / (Y_1_p_tot+1); 
     

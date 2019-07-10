@@ -79,16 +79,16 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
     
     T_T1_t = T_T0_t;
     
-    delta_od_IGV_t = [2*delta_od_IGV_m delta_od_IGV_m];
+    delta_od_IGV_t = [2*delta_od_IGV_m 0*delta_od_IGV_m];
     
     while abs((delta_od_IGV_t(end)-delta_od_IGV_t(end-1))/delta_od_IGV_t(end-1)) > tol
         delta_od_IGV_t(end-1) = delta_od_IGV_t(end);
         
-        V_1T_t = [V_1T_m*2 V_1T_m];
-        while abs((V_1T_t(end)-V_1T_t(end-1))/V_1T_t(end-1)) > tol
+        V_1T_t = [V_1T_m*2 0.65*V_1T_m];
+    while abs((V_1T_t(end)-V_1T_t(end-1))/V_1T_t(end-1)) > tol
         V_1T_t(end-1) = V_1T_t(end);
         
-        alpha_1_t = delta_od_IGV_t(end) + alpha_1_t_geo_od;
+        alpha_1_t = alpha_1_t_geo_od - delta_od_IGV_t(end);
         V_1A_t = V_1T_t(end) / tand(alpha_1_t);
         V_1_t = sqrt(V_1A_t^2 + V_1T_t(end)^2);
         W_1T_t = V_1T_t(end) - U_t;
@@ -123,7 +123,7 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
     rho_1_t(end+1) = p_1_t / R_star / T_1_t;
     
     end
-        Ba = 1;
+        Ba = 1.7;
         V_1T_t(end+1) = sqrt((2/Ba*(p_1_t-p_1_m)/(D_t-D_m)*2 - (V_1T_m^2 * rho_1_m(end)/(D_m/2)))*D_t/2/rho_1_t(end));
         %V_1T_t(end+1) = V_1T_m * D_m/D_t;
     end
@@ -156,7 +156,7 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
         while abs((V_1T_h(end)-V_1T_h(end-1))/V_1T_h(end-1)) > tol
         V_1T_h(end-1) = V_1T_h(end);
         
-        alpha_1_h = delta_od_IGV_h(end) + alpha_1_h_geo_od;
+        alpha_1_h = alpha_1_h_geo_od - delta_od_IGV_h(end);
         V_1A_h = V_1T_h(end) / tand(alpha_1_h);
         V_1_h = sqrt(V_1A_h^2 + V_1T_h(end)^2);
         W_1T_h = V_1T_h(end) - U_h;
@@ -191,7 +191,7 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
     rho_1_h(end+1) = p_1_h / R_star / T_1_h;
     
     end
-        Ba = 1;
+        Ba = 0.91;
         V_1T_h(end+1) = sqrt((2/Ba* (p_1_h-p_1_m)/(D_h-D_m) *2 - (V_1T_m^2 * rho_1_m(end)/(D_m/2)))*D_h/2/rho_1_h(end));
         %V_1T_h(end+1) = V_1T_m * D_m/D_h;
     end
