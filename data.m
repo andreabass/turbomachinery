@@ -31,5 +31,3 @@ rho_T0_t = p_T0_t / R_star / T_T0_t; % [kg/m3] (eq. 8)
 rho_T0_h = p_T0_h / R_star / T_T0_h; % [kg/m3] (eq. 9)
 rho_T0   = rho_T0_m;                 % (definition)
 
-% Hub diameter
-D_h = D_t * lambda;

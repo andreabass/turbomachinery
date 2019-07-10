@@ -20,4 +20,4 @@
         eta_IGV_h = ( T_0_h - T_1_h ) / ( T_0_h - T_1_h_is );
         
         eta_IGV_av = mean([eta_IGV_h eta_IGV_m eta_IGV_t]);
-        Y_p_IGV_av = mean([Y_1_p_tot_h Y_1_p_tot Y_1_p_tot_t]);
+        Y_p_IGV_av = mean([Y_1_p_tot_h Y_1_p_tot_m Y_1_p_tot_t]);
