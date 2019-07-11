@@ -1,4 +1,4 @@
-nodes = 130;
+nodes = 100;
 rlow  = linspace(D_m/2,D_h/2,nodes/2);
 rhigh = linspace(D_m/2,D_t/2,nodes/2);
 r     = [rlow(end:-1:1) rhigh(2:end) ];
