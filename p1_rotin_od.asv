@@ -130,12 +130,11 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
             
             V_1T_iter = V_1_iter*sind(alpha_1_iter);
         
-        p_1_iter(end+1) = p_1(i-1) + rho_1_iter(end) * V_1T_iter^2 / rhigh(i) *Dr;
-    disp('Pressure')
+        p_1_iter(end) = p_1(i-1) + rho_1_iter(end) * V_1T_iter^2 / rhigh(i) *Dr;
+    
     end
         
         rho_1_iter(end+1) = p_1_iter(end) / R_star / T_1_iter;
-        disp('Density')
     
     end
     
@@ -153,10 +152,9 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
             ics_delta_iter = 2 * Ma_1_iter_od - 1;
             delta_od_IGV_iter(end+1) = delta_0_od_IGV_iter * (1 - 10*ics_delta_iter^3 + 15*ics_delta_iter^4 - 6*ics_delta_iter^5);
         end
-        disp('Delta')
+        
     end
-    
-    disp( num2str(i))
+
     delta_od_IGV(i) = delta_od_IGV_iter(end);
     V_1T(i) =  V_1T_iter(end);
     p_1(i) = p_1_iter(end);
