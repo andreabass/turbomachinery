@@ -91,26 +91,27 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
     for i = 2:length(alpha_1_geo_od)
     
     T_T1(i) = T_T0;
-    
-    delta_od_IGV_iter = [2*delta_od_IGV_m 0*delta_od_IGV_m];
-    
-    while abs((delta_od_IGV_iter(end)-delta_od_IGV_iter(end-1))/delta_od_IGV_iter(end-1)) > tol
-        delta_od_IGV_iter(end-1) = delta_od_IGV_iter(end);
-        
-                %Rho CYCLE
-        rho_1_iter = [2*rho_1_m(end) rho_1_m(end)]; 
-    
-    while abs((rho_1_iter(end)-rho_1_iter(end-1))/rho_1_iter(end-1)) > tol
-    
-        rho_1_iter(end-1) = rho_1_iter(end); 
       
                 %p_1 CYCLE        
         p_1_iter = [p_1(i-1)*2 p_1(i-1)];
     while abs((p_1_iter(end)-p_1_iter(end-1))/p_1_iter(end-1)) > tol
         p_1_iter(end-1) = p_1_iter(end);
         
+                       %Rho CYCLE
+       rho_1_iter = [2*rho_1_m(end) rho_1_m(end)]; 
+    
+    while abs((rho_1_iter(end)-rho_1_iter(end-1))/rho_1_iter(end-1)) > tol
+    
+        rho_1_iter(end-1) = rho_1_iter(end); 
+        
         T_1_iter = p_1_iter(end)/ R_star / rho_1_iter(end);
-        V_1_iter = sqrt( 2*cp*( T_T1(i) - T_1_iter)  );       
+        V_1_iter = sqrt( 2*cp*( T_T1(i) - T_1_iter)  );  
+        
+            
+       delta_od_IGV_iter = [2*delta_od_IGV_m 0*delta_od_IGV_m];
+    while abs((delta_od_IGV_iter(end)-delta_od_IGV_iter(end-1))/delta_od_IGV_iter(end-1)) > tol 
+        delta_od_IGV_iter(end-1) = delta_od_IGV_iter(end);
+        
         alpha_1_iter = alpha_1_geo_od(i) - delta_od_IGV_iter(end);
         V_1A_iter = V_1_iter * cosd(alpha_1_iter);
         V_1T_iter = V_1_iter * sind(alpha_1_iter);
@@ -118,30 +119,6 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
         W_1A_iter = V_1A_iter;
         W_1_iter = sqrt(W_1A_iter^2 + W_1T_iter^2);
         beta_1_iter = atand(W_1T_iter / W_1A_iter);
-        
-        
-        Re_1_iter = V_1_iter * rho_1_iter(end) * c_IGV / mu;
- 
-        Y_1_p_tot_iter = y_AM_od(alpha_1_geo_od(i),alpha_0_t,alpha_1_iter,sigma_IGV_t,alpha_1_iter-alpha_1_t_geo,rho_1_iter(end),b,c_IGV_t,V_1_iter,mu);
-
-    
-    p_T1_iter = ( p_T0_t + Y_1_p_tot_iter * p_1_iter(end) ) / (Y_1_p_tot_iter+1);
-    V_1_iter = sqrt( 2*gamma*R_star*T_1_iter / (gamma-1) * ( (p_T1_iter/p_1_iter(end))^((gamma-1)/gamma) - 1 ) );
-            
-            V_1T_iter = V_1_iter*sind(alpha_1_iter);
-        
-        p_1_iter(end+1) = p_1(i-1) + rho_1_iter(end) * V_1T_iter^2 / rhigh(i) *Dr;
-    disp('Pressure')
-    end
-        
-        rho_1_iter(end+1) = p_1_iter(end) / R_star / T_1_iter;
-        disp('Density')
-    
-    end
-    
-    
-    rho_1_iter = rho_1_iter(end);
-        
         
         delta_0_od_IGV_iter = asind(o_IGV_high(i)/s_IGV_high(i)*(1+(1-o_IGV_high(i)/s_IGV_high(i))*(alpha_1_geo_od(i)/90)^2)) - alpha_1_geo_od(i);
         
@@ -153,17 +130,41 @@ V_1A_m = [2*V_1A(end) V_1A(end)];
             ics_delta_iter = 2 * Ma_1_iter_od - 1;
             delta_od_IGV_iter(end+1) = delta_0_od_IGV_iter * (1 - 10*ics_delta_iter^3 + 15*ics_delta_iter^4 - 6*ics_delta_iter^5);
         end
-        disp('Delta')
+
+    end
+            
+            V_1_iter = sqrt(V_1T_iter^2+V_1A_iter^2 );
+            T_1_iter = T_T1(i) - V_1_iter^2 / 2/ cp;
+            rho_1_iter(end+1) = p_1_iter(end) / R_star / T_1_iter;
+  
+    end
+        
+        
+        Re_1_iter = V_1_iter * rho_1_iter(end) * c_IGV / mu;
+ 
+        Y_1_p_tot_iter = y_AM_od(alpha_1_geo_od(i),alpha_0_t,alpha_1_iter,sigma_IGV_t,alpha_1_iter-alpha_1_t_geo,rho_1_iter(end),b,c_IGV_t,V_1_iter,mu);
+
+    
+    p_T1_iter = ( p_T0_t + Y_1_p_tot_iter * p_1_iter(end) ) / (Y_1_p_tot_iter+1);
+    V_1_iter = sqrt( 2*gamma*R_star*T_1_iter / (gamma-1) * ( (p_T1_iter/p_1_iter(end))^((gamma-1)/gamma) - 1 ) );
+            
+            V_1T_iter = V_1_iter*sind(alpha_1_iter);
+            
+            T_1_iter = T_T1(i) - V_1_iter^2 / 2 / cp;
+        
+            p_1_iter(end+1) = p_1(i-1) + rho_1_iter(end) * V_1T_iter^2 / rhigh(i) *Dr;
+
     end
     
-    disp( num2str(i))
     delta_od_IGV(i) = delta_od_IGV_iter(end);
+    V_1A(i) =  V_1A_iter;
     V_1T(i) =  V_1T_iter(end);
+    V_1(i) =  V_1_iter(end);
     p_1(i) = p_1_iter(end);
     
     end
 
-    V_1A_m(end+1) = (3*rho_0_m * V_0A - rho_1_iter*V_1A_iter - rho_1_h(end)*V_1A_h)/rho_1_m(end);
+    V_1A_m(end+1) = (3*rho_0_m * V_0A - rho_1_iter(end)*V_1A_iter - rho_1_h(end)*V_1A_h)/rho_1_m(end);
     
     end
     

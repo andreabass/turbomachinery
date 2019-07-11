@@ -1,4 +1,4 @@
-nodes = 100;
+nodes = 1000;
 rlow = linspace(D_h/2,D_m/2,nodes/2);
 rhigh = linspace(D_m/2,D_t/2,nodes/2);
 Dr = abs(rlow(2)-rlow(1));
