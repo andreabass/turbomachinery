@@ -86,3 +86,8 @@ alpha_3_t_geo = alpha_3_t + dev_opt_statt;
 gamma_stath = alpha_2_h + teta_hub_stat/2 + i_opt_stath;
 gamma_statm = alpha_2_m + teta_mid_stat/2 + i_opt_statm;
 gamma_statt = alpha_2_t + teta_tip_stat/2 + i_opt_statt;
+
+% ATTACK ANGLE
+attack_S_h_design = abs( abs(alpha_2_h) - abs(gamma_stath) );
+attack_S_m_design = abs( abs(alpha_2_m) - abs(gamma_statm) );
+attack_S_t_design = abs( abs(alpha_2_t) - abs(gamma_statt) );

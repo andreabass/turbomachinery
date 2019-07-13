@@ -47,7 +47,7 @@ teta_low = polyval(c,rlow);
 teta_high = polyval(c,rhigh);
 
 %alpha_2_geo
-c = polyfit([D_h/2 D_m/2 D_t/2],[alpha_2_h_geo alpha_2_m_geo alpha_2_t_geo],length([D_h/2 D_m/2 D_t/2])-1);
+c = polyfit([D_h/2 D_m/2 D_t/2],[alpha_3_h_geo alpha_3_m_geo alpha_3_t_geo],length([D_h/2 D_m/2 D_t/2])-1);
 alpha_2_geo_low = polyval(c,rlow);
 alpha_2_geo_high = polyval(c,rhigh);
 
@@ -55,13 +55,3 @@ alpha_2_geo_high = polyval(c,rhigh);
 c = polyfit([D_h/2 D_m/2 D_t/2],[alpha_3_h_geo alpha_3_m_geo alpha_3_t_geo],length([D_h/2 D_m/2 D_t/2])-1);
 alpha_3_geo_low = polyval(c,rlow);
 alpha_3_geo_high = polyval(c,rhigh);
-
-% dev_opt_stat
-c = polyfit([D_h/2 D_m/2 D_t/2],[dev_opt_stath dev_opt_statm dev_opt_statt],length([D_h/2 D_m/2 D_t/2])-1);
-dev_opt_stat_low = polyval(c,rlow);
-dev_opt_stat_high = polyval(c,rhigh);
-
-% i_opt_stat
-c = polyfit([D_h/2 D_m/2 D_t/2],[i_opt_stath i_opt_statm i_opt_statt],length([D_h/2 D_m/2 D_t/2])-1);
-i_opt_stat_low = polyval(c,rlow);
-i_opt_stat_high = polyval(c,rhigh);
