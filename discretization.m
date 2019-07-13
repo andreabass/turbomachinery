@@ -65,3 +65,18 @@ dev_opt_stat_high = polyval(c,rhigh);
 c = polyfit([D_h/2 D_m/2 D_t/2],[i_opt_stath i_opt_statm i_opt_statt],length([D_h/2 D_m/2 D_t/2])-1);
 i_opt_stat_low = polyval(c,rlow);
 i_opt_stat_high = polyval(c,rhigh);
+
+% gamma_stat
+c = polyfit([D_h/2 D_m/2 D_t/2],[gamma_stath gamma_statm gamma_statt],length([D_h/2 D_m/2 D_t/2])-1);
+gamma_stat_low = polyval(c,rlow);
+gamma_stat_high = polyval(c,rhigh);
+
+% attack_design (stator)
+c = polyfit([D_h/2 D_m/2 D_t/2],[attack_S_h_design attack_S_m_design attack_S_t_design],length([D_h/2 D_m/2 D_t/2])-1);
+attack_S_design_low = polyval(c,rlow);
+attack_S_design_high = polyval(c,rhigh);
+
+% teta (stator)
+c = polyfit([D_h/2 D_m/2 D_t/2],[teta_hub_stat teta_mid_stat teta_tip_stat],length([D_h/2 D_m/2 D_t/2])-1);
+teta_S_low = polyval(c,rlow);
+teta_S_high = polyval(c,rhigh);

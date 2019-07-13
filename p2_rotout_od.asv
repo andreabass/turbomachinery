@@ -380,11 +380,10 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_2     =  [T_2_low(end:-1:1) T_2_high(2:end) ];
     T_TR2   =  [T_TR2_low(end:-1:1) T_TR2_high(2:end) ];
     rho_2   =  [rho_2_low(end:-1:1) rho_2_high(2:end) ];
-    i_1     =  [i_1_low(end:-1:1) i_1_high(2:end)];
 
     
       dA = 2 * pi * (r(1:end-1)+r(2:end))/2 .* Dr;
-      rho_2_av = (rho_2(1:end-1)+rho_2(2:end))/2;
+      rho_2_av = (rho_1(1:end-1)+rho_1(2:end))/2;
       V_2A_av = (V_2A(1:end-1)+V_2A(2:end))/2;
       dm = rho_2_av .* dA .* V_2A_av;
       mnew(k) = sum(dm);

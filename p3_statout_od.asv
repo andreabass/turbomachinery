@@ -121,69 +121,69 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     V_3_iter = sqrt(2*cp*(T_T3_iter-T_3_iter(end)));
     ddelta_di_S_iter = ( 1+(sigma_S_high(i)+0.25*sigma_S_high(i)^4)*(abs(alpha_2_high(i))/53)^2.5 )/exp(3.1*sigma_S_high(i));
     
-        V_3A_iter = [W_2A_high(i-1)*2 W_2A_high(i-1)];
+        V_3A_iter = [V_3A_high(i-1)*2 V_3A_high(i-1)];
     while abs( (V_3A_iter(end) - V_3A_iter(end-1))/V_3A_iter(end-1) ) > tol
         V_3A_iter(end-1) = V_3A_iter(end);
 
-    delta_rot_od_iter = dev_opt_rot_high(i) + ddelta_di_S_iter * (i_1_high(i) - i_opt_rot_high(i) ) + 10*(1-V_3A_iter(end)/W_1A_high(i));
-    beta_2_iter = beta_2_geo_high(i) - delta_rot_od_iter;
-    V_3A_iter(end+1) = W_2_iter * cosd(beta_2_iter);
+    delta_stat_od_iter = dev_opt_stat_high(i) + ddelta_di_S_iter * (i_2_high(i) - i_opt_stat_high(i) ) + 10*(1-V_3A_iter(end)/V_2A_high(i));
+    alpha_3_iter = alpha_3_geo_high(i) - delta_stat_od_iter;
+    V_3A_iter(end+1) = V_3_iter * cosd(alpha_3_iter);
     
     end
-    W_2A_iter = W_2A_iter(end);   
+    V_3A_iter = V_3A_iter(end);   
         
-    V_2A_iter = W_2A_iter(end);
-    W_2T_iter = W_2A_iter * tand(beta_2_iter);
-    V_2T_iter = W_2T_iter + omega * rhigh(i);
-    W_2_iter = sqrt(W_2T_iter^2 + W_2A_iter^2);
-    V_2_iter = sqrt(V_2T_iter^2 + V_2A_iter(end)^2);
-    alpha_2_iter = atand(V_2T_iter/V_2A_iter(end));
+    W_3A_iter = V_3A_iter(end);
+    V_3T_iter = V_3A_iter * tand(alpha_3_iter);
+    W_3T_iter = V_3T_iter - omega * rhigh(i);
+    W_3_iter = sqrt(W_3T_iter^2 + W_3A_iter^2);
+    V_3_iter = sqrt(V_3T_iter^2 + V_3A_iter(end)^2);
+    beta_3_iter = atand(W_3T_iter/W_3A_iter(end));
     
-    Wmax_W1_iter = 1.12 + 0.61 * cosd(beta_1_high(i))^2/sigma_S_high(i) * ( V_1T_high(i) - V_2T_iter ) / V_1A_high(i);
-    Diter = Wmax_W1_iter * W_1_high(i) / W_2_iter;  
+    Vmax_V2_iter = 1.12 + 0.61 * cosd(alpha_2_high(i))^2/sigma_S_high(i) * ( V_2T_high(i) - V_3T_iter ) / V_2A_high(i);
+    Diter = Vmax_V2_iter * V_2_high(i) / V_3_iter;  
     
-    Y_2_p_tot_min_iter = 0.004 * ( 1 + 3.1*(Diter-1)^2 + 0.4*(Diter-1)^8 ) * 2 * sigma_S_high(i) / cosd(beta_2_iter) * (W_2_iter/W_1_high(i))^2;
+    Y_3_p_tot_min_iter = 0.004 * ( 1 + 3.1*(Diter-1)^2 + 0.4*(Diter-1)^8 ) * 2 * sigma_S_high(i) / cosd(alpha_3_iter) * (V_3_iter/V_2_high(i))^2;
     
-    attack_c_iter = [attack_design_high(i)*2 attack_design_high(i)];
-    while abs( (attack_c_iter(end) - attack_c_iter(end-1))/attack_c_iter(end-1) ) > tol
-        attack_c_iter(end-1) = attack_c_iter(end);
+    attack_S_c_iter = [attack_S_design_high(i)*2 attack_S_design_high(i)];
+    while abs( (attack_S_c_iter(end) - attack_S_c_iter(end-1))/attack_S_c_iter(end-1) ) > tol
+        attack_S_c_iter(end-1) = attack_S_c_iter(end);
         
-        beta_c_iter = attack_c_iter(end) + gamma_rot_high(i);
+        alpha_c_iter = attack_S_c_iter(end) + gamma_stat_high(i);
         
-        if abs(beta_c_iter) < 20
+        if abs(alpha_c_iter) < 20
             
-            beta_c_iter = 20;
+            alpha_c_iter = 20;
             
         end
        
-        attack_c_iter(end+1) = attack_design_high(i) - 9 + ( 1 - (30/abs(beta_c_iter))^0.48 )*teta_high(i)/4.176;
+        attack_S_c_iter(end+1) = attack_S_design_high(i) - 9 + ( 1 - (30/abs(alpha_c_iter))^0.48 )*teta_S_high(i)/4.176;
         
     end
-    attack_c_iter = attack_c_iter(end);
+    attack_S_c_iter = attack_S_c_iter(end);
     
-    i_c_iter = i_opt_rot_high(i) - (attack_c_iter - attack_design_high(i));
+    i_c_iter = i_opt_stat_high(i) - (attack_S_c_iter - attack_S_design_high(i));
     
-   attack_s_iter = [attack_design_high(i)*2 attack_design_high(i)];
-    while abs( (attack_s_iter(end) - attack_s_iter(end-1))/attack_s_iter(end-1) ) > tol
-        attack_s_iter(end-1) = attack_s_iter(end);
+   attack_S_s_iter = [attack_S_design_high(i)*2 attack_S_design_high(i)];
+    while abs( (attack_S_s_iter(end) - attack_S_s_iter(end-1))/attack_S_s_iter(end-1) ) > tol
+        attack_S_s_iter(end-1) = attack_S_s_iter(end);
         
-        beta_s_iter = attack_s_iter(end) + gamma_rot_high(i);
-        attack_s_iter(end+1) = attack_design_high(i) + 10.3 + ( 2.92 - (abs(beta_s_iter)/15.6) )*teta_high(i)/8.2;
+        alpha_s_iter = attack_S_s_iter(end) + gamma_stat_high(i);
+        attack_S_s_iter(end+1) = attack_S_design_high(i) + 10.3 + ( 2.92 - (abs(alpha_s_iter)/15.6) )*teta_S_high(i)/8.2;
         
     end
-    attack_s_iter = attack_s_iter(end);
+    attack_S_s_iter = attack_S_s_iter(end);
     
-    i_s_iter = i_opt_rot_high(i) + (attack_s_iter - attack_design_high(i));
+    i_s_iter = i_opt_stat_high(i) + (attack_S_s_iter - attack_S_design_high(i));
     
-    i_miter = i_min(beta_1_high(i),beta_2_iter,th_c,sigma_S_high(i));
+    i_miter = i_min(alpha_2_high(i),alpha_3_iter,th_c,sigma_S_high(i));
     
-    if i_1_high(i) >= i_miter
+    if i_2_high(i) >= i_miter
         
-        xi_iter = (i_1_high(i) - i_miter) / (i_s_iter - i_miter);
+        xi_iter = (i_2_high(i) - i_miter) / (i_s_iter - i_miter);
         
     else
         
-        xi_iter = (i_1_high(i) - i_miter) / (i_miter - i_c_iter);
+        xi_iter = (i_2_high(i) - i_miter) / (i_miter - i_c_iter);
         
     end
     
@@ -284,11 +284,11 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     
     Y_2_p_tot_min_iter = 0.004 * ( 1 + 3.1*(Diter-1)^2 + 0.4*(Diter-1)^8 ) * 2 * sigma_R_low(i) / cosd(beta_2_iter) * (W_2_iter/W_1_low(i))^2;
     
-    attack_c_iter = [attack_design_low(i)*2 attack_design_low(i)];
-    while abs( (attack_c_iter(end) - attack_c_iter(end-1))/attack_c_iter(end-1) ) > tol
-        attack_c_iter(end-1) = attack_c_iter(end);
+    attack_S_c_iter = [attack_design_low(i)*2 attack_design_low(i)];
+    while abs( (attack_S_c_iter(end) - attack_S_c_iter(end-1))/attack_S_c_iter(end-1) ) > tol
+        attack_S_c_iter(end-1) = attack_S_c_iter(end);
         
-        beta_c_iter = attack_c_iter(end) + gamma_rot_low(i);
+        beta_c_iter = attack_S_c_iter(end) + gamma_rot_low(i);
         
         if abs(beta_c_iter) < 20
             
@@ -296,24 +296,24 @@ i_2m = alpha_2_m_geo - alpha_2_m;
             
         end
         
-        attack_c_iter(end+1) = attack_design_low(i) - 9 + ( 1 - (30/abs(beta_c_iter))^0.48 )*teta_low(i)/4.176;
+        attack_S_c_iter(end+1) = attack_design_low(i) - 9 + ( 1 - (30/abs(beta_c_iter))^0.48 )*teta_low(i)/4.176;
         
     end
-    attack_c_iter = attack_c_iter(end);
+    attack_S_c_iter = attack_S_c_iter(end);
     
-    i_c_iter = i_opt_rot_low(i) - (attack_c_iter - attack_design_low(i));
+    i_c_iter = i_opt_rot_low(i) - (attack_S_c_iter - attack_design_low(i));
     
-   attack_s_iter = [attack_design_low(i)*2 attack_design_low(i)];
-    while abs( (attack_s_iter(end) - attack_s_iter(end-1))/attack_s_iter(end-1) ) > tol
-        attack_s_iter(end-1) = attack_s_iter(end);
+   attack_S_s_iter = [attack_design_low(i)*2 attack_design_low(i)];
+    while abs( (attack_S_s_iter(end) - attack_S_s_iter(end-1))/attack_S_s_iter(end-1) ) > tol
+        attack_S_s_iter(end-1) = attack_S_s_iter(end);
         
-        beta_s_iter = attack_s_iter(end) + gamma_rot_low(i);
-        attack_s_iter(end+1) = attack_design_low(i) + 10.3 + ( 2.92 - (abs(beta_s_iter)/15.6) )*teta_low(i)/8.2;
+        beta_s_iter = attack_S_s_iter(end) + gamma_rot_low(i);
+        attack_S_s_iter(end+1) = attack_design_low(i) + 10.3 + ( 2.92 - (abs(beta_s_iter)/15.6) )*teta_low(i)/8.2;
         
     end
-    attack_s_iter = attack_s_iter(end);
+    attack_S_s_iter = attack_S_s_iter(end);
     
-    i_s_iter = i_opt_rot_low(i) + (attack_s_iter - attack_design_low(i));
+    i_s_iter = i_opt_rot_low(i) + (attack_S_s_iter - attack_design_low(i));
     
     i_miter = i_min(beta_1_low(i),beta_2_iter,th_c,sigma_R_low(i));
     
