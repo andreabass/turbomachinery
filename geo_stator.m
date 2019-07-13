@@ -83,6 +83,6 @@ alpha_3_m_geo = alpha_3_m + dev_opt_statm;
 alpha_3_t_geo = alpha_3_t + dev_opt_statt;
 
 % STAGGER ANGLE
-gamma_stath = abs(alpha_2_h)-abs(teta_hub_stat)/2+abs(i_opt_stath);
-gamma_statm = abs(alpha_2_m)-abs(teta_mid_stat)/2+abs(i_opt_statm);
-gamma_statt = abs(alpha_2_t)-abs(teta_tip_stat)/2+abs(i_opt_statt);
+gamma_stath = alpha_2_h + teta_hub_stat/2 + i_opt_stath;
+gamma_statm = alpha_2_m + teta_mid_stat/2 + i_opt_statm;
+gamma_statt = alpha_2_t + teta_tip_stat/2 + i_opt_statt;

@@ -6,17 +6,17 @@ XXend = 6.25;
 YYstart = -6.8;
 YYend = 8.875;
 
-TRASX_S = 0.5;
+TRASX_S = 4.5;
 TRASY_S = -2.3;
 
 %STATOR
-hubsss = plot(-T_coord_ss_sh_trans + TRASX_S,-AX_coord_ss_sh_trans + TRASY_S,'k--','LineWidth',1.5);
+hubsss = plot(T_coord_ss_sh_trans + TRASX_S,-AX_coord_ss_sh_trans + TRASY_S,'k--','LineWidth',1.5);
 hold on
-hubsps = plot(-T_coord_ps_sh_trans + TRASX_S,-AX_coord_ps_sh_trans + TRASY_S,'k--','LineWidth',1.5);
-midsss = plot(-T_coord_ss_sm + TRASX_S,-AX_coord_ss_sm + TRASY_S,'k-.','LineWidth',1.5);
-midsps = plot(-T_coord_ps_sm + TRASX_S,-AX_coord_ps_sm + TRASY_S,'k-.','LineWidth',1.5);
-tipsss = plot(-T_coord_ss_st_trans + TRASX_S,-AX_coord_ss_st_trans + TRASY_S,'k','LineWidth',1.5);
-tipsps = plot(-T_coord_ps_st_trans + TRASX_S,-AX_coord_ps_st_trans + TRASY_S,'k','LineWidth',1.5);
+hubsps = plot(T_coord_ps_sh_trans + TRASX_S,-AX_coord_ps_sh_trans + TRASY_S,'k--','LineWidth',1.5);
+midsss = plot(T_coord_ss_sm + TRASX_S,-AX_coord_ss_sm + TRASY_S,'k-.','LineWidth',1.5);
+midsps = plot(T_coord_ps_sm + TRASX_S,-AX_coord_ps_sm + TRASY_S,'k-.','LineWidth',1.5);
+tipsss = plot(T_coord_ss_st_trans + TRASX_S,-AX_coord_ss_st_trans + TRASY_S,'k','LineWidth',1.5);
+tipsps = plot(T_coord_ps_st_trans + TRASX_S,-AX_coord_ps_st_trans + TRASY_S,'k','LineWidth',1.5);
 
 TRASX_R = 0.5;
 TRASY_R = 2.8;

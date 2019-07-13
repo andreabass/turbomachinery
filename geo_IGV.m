@@ -14,6 +14,7 @@ theta_IGV_mid = alpha_1_m;
 theta_IGV_tip = alpha_1_t;
 
 % STAGGER ANGLE
-gamma_IGVh = abs(alpha_0_h)-abs(theta_IGV_hub)/2;
-gamma_IGVm = abs(alpha_0_m)-abs(theta_IGV_mid)/2;
-gamma_IGVt = abs(alpha_0_t)-abs(theta_IGV_tip)/2;
+gamma_IGVh = alpha_0_h + theta_IGV_hub/2;
+gamma_IGVm = alpha_0_m + theta_IGV_mid/2;
+gamma_IGVt = alpha_0_t + theta_IGV_tip/2;
+

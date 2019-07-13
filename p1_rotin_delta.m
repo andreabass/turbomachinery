@@ -91,6 +91,8 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
     beta_1_high(1)  = beta_1_m;
     p_1_high(1)     = p_1_m;
     T_1_high(1)     = T_1_m;
+    T_T1_high(1)    = T_T1_m;
+    T_TR1_high(1)   = T_1_m + W_1_m^2/2/cp;
     rho_1_high(1)   = rho_1_m(end);
     
     alpha_1_geo_od_high = alpha_1_geo_high + IGV_rotation;
@@ -175,6 +177,8 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
     p_1_high(i)     = p_1_iter(end);
     T_1_high(i)     = T_1_iter(end);
     rho_1_high(i)   = rho_1_iter(end);
+    T_T1_high(i)    =  T_1_high(i) + V_1_high(i).^2/2/cp;
+    T_TR1_high(i)   =  T_1_high(i) + W_1_high(i).^2/2/cp;
     
     end
     
@@ -195,6 +199,8 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
     beta_1_low(1)  = beta_1_m;
     p_1_low(1)     = p_1_m;
     T_1_low(1)     = T_1_m;
+    T_T1_low(1)    = T_T1_m;
+    T_TR1_low(1)   = T_1_m + W_1_m^2/2/cp;
     rho_1_low(1)   = rho_1_m(end);
     
     alpha_1_geo_od_low = alpha_1_geo_low + IGV_rotation;
@@ -280,6 +286,8 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
     p_1_low(i)     = p_1_iter(end);
     T_1_low(i)     = T_1_iter(end);
     rho_1_low(i)   = rho_1_iter(end);
+    T_T1_low(i)    =  T_1_low(i) + V_1_low(i).^2/2/cp;
+    T_TR1_low(i)   =  T_1_low(i) + W_1_low(i).^2/2/cp;
     
     end
     
@@ -293,7 +301,8 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
     beta_1  =  [beta_1_low(end:-1:1) beta_1_high(2:end) ];
     p_1     =  [p_1_low(end:-1:1) p_1_high(2:end) ];
     T_1     =  [T_1_low(end:-1:1) T_1_high(2:end) ];
-    T_T1    =  T_1 + V_1.^2/2/cp;
+    T_T1    =  [T_T1_low(end:-1:1) T_T1_high(2:end) ];
+    T_TR1   =  [T_TR1_low(end:-1:1) T_TR1_high(2:end) ];
     rho_1   =  [rho_1_low(end:-1:1) rho_1_high(2:end) ];
     
       dA = 2 * pi * (r(1:end-1)+r(2:end))/2 .* Dr;
@@ -308,4 +317,5 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
      
     end
     
-    V_1A_m = V_1A_m(end);
+    V_1A_m  = V_1A_m(end);
+    T_TR1_m =  T_1_m + W_1_m^2/2/cp;
