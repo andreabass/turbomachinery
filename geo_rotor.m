@@ -78,7 +78,7 @@ beta_1_m_geo = beta_1_m + i_opt_rotm;
 beta_1_t_geo = beta_1_t + i_opt_rott;
 
 % OUTLET GEOMETRICAL ANGLE
-beta_2_h_geo = beta_2_h + dev_opt_roth;
+beta_2_h_geo = beta_2_h + dev_opt_roth; 
 beta_2_m_geo = beta_2_m + dev_opt_rotm;
 beta_2_t_geo = beta_2_t + dev_opt_rott;
 
@@ -86,3 +86,8 @@ beta_2_t_geo = beta_2_t + dev_opt_rott;
 gamma_roth = abs(beta_1_h)-abs(teta_hub)/2-(i_opt_roth);
 gamma_rotm = abs(beta_1_m)-abs(teta_mid)/2-(i_opt_rotm);
 gamma_rott = abs(beta_1_t)-abs(teta_tip)/2-(i_opt_rott);
+
+% ATTACK ANGLE
+attack_h_design = abs( abs(beta_1_h) - abs(gamma_roth) );
+attack_m_design = abs( abs(beta_1_m) - abs(gamma_rotm) );
+attack_t_design = abs( abs(beta_1_t) - abs(gamma_rott) );

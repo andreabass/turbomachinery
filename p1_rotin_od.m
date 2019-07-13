@@ -232,6 +232,7 @@ IGV_rotation = alpha_1_m - alpha_1_m_geo;
     beta_1  =  [beta_1_low(end:-1:1) beta_1_high(2:end) ];
     p_1     =  [p_1_low(end:-1:1) p_1_high(2:end) ];
     T_1     =  [T_1_low(end:-1:1) T_1_high(2:end) ];
+    T_T1    =  T_1 + V_1.^2/2/cp;
     rho_1   =  [rho_1_low(end:-1:1) rho_1_high(2:end) ];
     
       dA = 2 * pi * (r(1:end-1)+r(2:end))/2 .* Dr;
@@ -245,5 +246,7 @@ IGV_rotation = alpha_1_m - alpha_1_m_geo;
       end
      
     end
+    
+    V_1A_m = V_1A_m(end);
     
     

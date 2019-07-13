@@ -1,3 +1,12 @@
+
+
+    p_3_av = 0.3*p_3_h + 0.4*p_3_m + 0.3*p_3_t;
+    eta_TS = ( cp*T_0_m*( (p_3_av/p_0_m)^((gamma-1)/gamma) - 1 ) - V_0_m^2/2 ) /l_Eu;
+    
+
+
+
+
         disp('_________________________________________________________________________________')
         disp(' ')
         disp('                                   RESULTS')
@@ -6,6 +15,7 @@
 
 disp(' ')
 disp(['Total-to-total stage efficiency         :     ', num2str(eta_TT(end)*100),'%'])
+disp(['Total-to-static stage efficiency        :     ', num2str(eta_TS*100),'%'])
 disp(['Static-to-static row efficiencies       :     ', num2str(eta_IGV_av*100), '%   ', num2str(eta_R_av*100), '%  ', num2str(eta_S_av*100),'%'])
 disp(['Pressure loss coefficients              :     ', num2str(Y_p_IGV_av*100), '%    ', num2str(Y_p_R_av*100), '%   ', num2str(Y_p_S_av*100),'%'])
 disp(' ')

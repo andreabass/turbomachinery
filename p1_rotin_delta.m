@@ -156,7 +156,7 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
             ics_delta_iter = 2 * Ma_1_iter_od - 1;
             delta_od_IGV_iter(end+1) = delta_0_od_IGV_iter * (1 - 10*ics_delta_iter^3 + 15*ics_delta_iter^4 - 6*ics_delta_iter^5);
         else
-            disp('Using 0° as supersonic deviation in high region')
+            disp('Using 0ï¿½ as supersonic deviation in high region')
             delta_od_IGV_iter(end+1) = asind(o_IGV_high(i)/s_IGV_high(i)) - alpha_1_geo_od_high(i);
         end
         
@@ -260,7 +260,7 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
             ics_delta_iter = 2 * Ma_1_iter_od - 1;
             delta_od_IGV_iter(end+1) = delta_0_od_IGV_iter * (1 - 10*ics_delta_iter^3 + 15*ics_delta_iter^4 - 6*ics_delta_iter^5);
         else
-            disp('Using 0° as supersonic deviation')
+            disp('Using 0ï¿½ as supersonic deviation')
             delta_od_IGV_iter(end+1) = asind(o_IGV_low(i)/s_IGV_low(i)) - alpha_1_geo_od_low(i);
         end
         
@@ -293,6 +293,7 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
     beta_1  =  [beta_1_low(end:-1:1) beta_1_high(2:end) ];
     p_1     =  [p_1_low(end:-1:1) p_1_high(2:end) ];
     T_1     =  [T_1_low(end:-1:1) T_1_high(2:end) ];
+    T_T1    =  T_1 + V_1.^2/2/cp;
     rho_1   =  [rho_1_low(end:-1:1) rho_1_high(2:end) ];
     
       dA = 2 * pi * (r(1:end-1)+r(2:end))/2 .* Dr;
@@ -306,3 +307,5 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
       end
      
     end
+    
+    V_1A_m = V_1A_m(end);
