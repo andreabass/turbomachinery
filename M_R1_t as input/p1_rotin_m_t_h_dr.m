@@ -9,17 +9,7 @@
             %
         
         %%%%%% [INITIALIZATION] %%%%%%%
-        
-        % Solution of simplified 1D problem as initial value for V_1T_m
-        % (initialization of 1D problem: Vavra assumption for reaction degree).
-        
-        p1_1D
-        
-        V_1T_m = [2*V_1T(end) V_1T(end)];
-       
-    while abs((V_1T_m(end)-V_1T_m(end-1))/V_1T_m(end-1)) > tol
-       
-    V_1T_m(end-1) = V_1T_m(end);    
+                
         
     %%%% MID %%%%
 
@@ -166,9 +156,15 @@
 
     Y_p_1_in_h = y_AM_inc(alpha_1_h,s_over_c_h);
         
-    rho_1_h = 3 * rho_0(end) * V_0A / V_1A - rho_1_m(end) - rho_1_t(end);
+            % Current density @ midspan as initial value for rho_1_h
+        
+        rho_1_h = [2*rho_1_m(end) rho_1_m(end)]; 
     
-    Re_1_h = rho_1_h * c_IGV * V_1_h / mu;
+    while abs((rho_1_h(end)-rho_1_h(end-1))/rho_1_h(end-1)) > tol
+    
+        rho_1_h(end-1) = rho_1_h(end); 
+        
+    Re_1_h = rho_1_h(end) * c_IGV * V_1_h / mu;
         
     Y_p_1_Re_h = y_AM_Re(Y_p_1_in_h,Re_1_h);
     
@@ -191,24 +187,16 @@
     end
     p_T1_h = p_T1_h(end);
  
-            V_1_h = sqrt( 2 * gamma * p_1_h / rho_1_h / (gamma-1) * ( (p_T1_h/p_1_h)^((gamma-1)/gamma) - 1 ) );
-            
-            V_1T_h = sqrt( V_1_h^2-V_1A^2 );
-    
-            V_1T_m(end+1) = V_1T_h * D_h / D_m;
+    rho_1_h(end+1) = p_1_h / R_star / T_1_h;
     
     end
     
-            story_rho_b   = b;
-        story_rho_0   = rho_0;
-        story_rho_1_m = rho_1_m;
-        story_rho_1_t = rho_1_t; 
-        story_rho_0   = rho_0; 
-        story_V_1T_m  = V_1T_m;
+    bdm = 3 * m / pi  / V_1A / (rho_1_t(end) + rho_1_m(end) + rho_1_h(end));
+        D_m = (+D_t+sqrt(D_t^2-4*bdm))/2;
+        b=D_t-D_m;
+        D_h = D_t-2*b;
+        
+        lambda(end+1) = D_h/D_t;
+    
+   
 
-        b = b(end);
-        rho_0   = rho_0(end);
-        rho_1_m = rho_1_m(end);
-        rho_1_t = rho_1_t(end);
-        rho_0   = rho_0(end);
-        V_1T_m  = V_1T_m(end);
