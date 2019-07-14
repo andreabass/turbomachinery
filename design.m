@@ -10,7 +10,7 @@ options
 % 1
 D_t = 1; %m
 % 2
-lambda = 0.50434;
+lambda = 0.5423;
 % 3
 n = 10000; %rpm
 % 4
@@ -20,11 +20,11 @@ t_over_s_h = 0.02; % Relative trailing edge thickness
 % 6
 th_c = 0.08; % Percentage thickness (same for IGV, rotor and stator blades
 % 7
-% V_3T_m
+V3Tm_V1Tm = 1; % Put 0 for axial velocity at stator outlet
 % 8 
 sigma_R_m_design = 1;
 % 9
-sigma_S_m_design = 1.5;
+sigma_S_m_design = 1.7;
 % 10
 c_R_design = 0.05;
 % 11
