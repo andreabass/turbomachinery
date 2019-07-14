@@ -25,6 +25,7 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     alpha_2_m = atand(V_2T_m/V_2A_m(k));
     T_TR2_m = T_TR1_m;
     T_2_m = T_TR2_m - W_2_m^2 / 2 / cp;
+    T_T2_m = T_2_m + V_2_m^2/2/cp;
     
     Wmax_W1_m = 1.12 + 0.61 * cosd(beta_1_m)^2/sigma_R_m * ( V_1T_m - V_2T_m ) / V_1A_m;
     Dm = Wmax_W1_m * W_1_m / W_2_m;  
@@ -106,6 +107,8 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_2_high(1)     = T_2_m;
     T_TR2_high(1)   = T_TR2_m;
     rho_2_high(1)   = rho_2_m;
+    T_T2_high(1)    = T_T2_m;
+    p_T2_high(1)    = p_T2_m;
 
     i_1_high = beta_1_geo_high - beta_1_high;
     
@@ -208,8 +211,10 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     p_2_iter  = p_2_high(i-1) / ( 1 -  V_2T_iter^2 / rhigh(i) / R_star / T_2_iter(end) * Drhigh );
     rho_2_iter = p_2_iter / R_star / T_2_iter(end);
     W_2_iter = sqrt( 2*gamma*R_star*T_2_iter(end) / (gamma-1) * ( (p_TR2_iter/p_2_iter)^((gamma-1)/gamma) - 1 ) );
+    p_T2_iter = p_2_iter * ( (1+(gamma-1)/2*(rho_2_iter*V_2_iter^2/(gamma*p_2_iter)))^(gamma/(gamma-1)) );
             
             T_2_iter(end+1) = T_TR2_iter - W_2_iter^2/2/cp;
+    T_T2_iter = T_2_iter(end) + V_2_iter^2/2/cp;
        
     end
 
@@ -225,6 +230,8 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_2_high(i)     = T_2_iter(end);
     rho_2_high(i)   = rho_2_iter;
     T_TR2_high(i)   = T_TR2_iter;
+    T_T2_high(i)    = T_T2_iter;
+    p_T2_high(i)    = p_T2_iter;
     
     end
     
@@ -246,6 +253,8 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_2_low(1)       = T_2_m;
     T_TR2_low(1)     = T_TR2_m;
     rho_2_low(1)     = rho_2_m;
+    T_T2_low(1)      = T_T2_m;
+    p_T2_low(1)      = p_T2_m;
 
     i_1_low = beta_1_geo_low - beta_1_low;
     
@@ -348,8 +357,10 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     p_2_iter  = p_2_low(i-1) / ( 1 -  V_2T_iter^2 / rlow(i) / R_star / T_2_iter(end) * Drlow );
     rho_2_iter = p_2_iter / R_star / T_2_iter(end);
     W_2_iter = sqrt( 2*gamma*R_star*T_2_iter(end) / (gamma-1) * ( (p_TR2_iter/p_2_iter)^((gamma-1)/gamma) - 1 ) );
+    p_T2_iter = p_2_iter * ( (1+(gamma-1)/2*(rho_2_iter*V_2_iter^2/(gamma*p_2_iter)))^(gamma/(gamma-1)) );
             
-            T_2_iter(end+1) = T_TR2_iter - W_2_iter^2/2/cp;
+        T_2_iter(end+1) = T_TR2_iter - W_2_iter^2/2/cp;
+    T_T2_iter = T_2_iter(end) + V_2_iter^2/2/cp;
        
     end
 
@@ -365,6 +376,8 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_2_low(i)     = T_2_iter(end);
     rho_2_low(i)   = rho_2_iter;
     T_TR2_low(i)   = T_TR2_iter;
+    T_T2_low(i)    = T_T2_iter;
+    p_T2_low(i)    = p_T2_iter;
     
     end
     
@@ -381,6 +394,8 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_TR2   =  [T_TR2_low(end:-1:1) T_TR2_high(2:end) ];
     rho_2   =  [rho_2_low(end:-1:1) rho_2_high(2:end) ];
     i_1     =  [i_1_low(end:-1:1) i_1_high(2:end)];
+    T_T2    =  [T_T2_low(end:-1:1) T_T2_high(2:end)];
+    p_T2    =  [p_T2_low(end:-1:1) p_T2_high(2:end)];
 
     
       dA = 2 * pi * (r(1:end-1)+r(2:end))/2 .* Dr;
