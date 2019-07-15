@@ -3,11 +3,11 @@ figure
 
 XXstart = -1.5;
 XXend = 6.25;
-YYstart = -8.8;
+YYstart = -9;
 YYend = 8.875;
 
-TRASX_S = 2;
-TRASY_S = -3;
+TRASX_S = 1;
+TRASY_S = -4;
 
 %STATOR
 hubsss = plot(T_coord_ss_sh_trans + TRASX_S,-AX_coord_ss_sh_trans + TRASY_S,'k--','LineWidth',1.5);
@@ -29,7 +29,7 @@ midrps = plot(T_coord_ps_rm - T_coord_AVrt - T_coord_AVst + TRASX_R,           -
 tiprss = plot(T_coord_ss_rt_trans - T_coord_AVrt - T_coord_AVst + TRASX_R,     -AX_coord_ss_rt_trans + TRASY_R,'k','LineWidth',1.5);
 tiprps = plot(T_coord_ps_rt_trans - T_coord_AVrt - T_coord_AVst + TRASX_R,     -AX_coord_ps_rt_trans + TRASY_R,'k','LineWidth',1.5);
 
-TRASX_IGV = 3;
+TRASX_IGV = 1;
 TRASY_IGV = 8;
 
 %IGV

@@ -77,9 +77,13 @@
         
         %Losses correlations
         
-        V_max_over_V_2_m = 1.12 + 0.61 * (sind(alpha_2_m))^2 / sigma_S_m * (V_2T_m - V_3T_m)/V_2A_m;
-        V_max_over_V_2_t = 1.12 + 0.61 * (sind(alpha_2_t))^2 / sigma_S_t * (V_2T_t - V_3T_t)/V_2A_t;
-        V_max_over_V_2_h = 1.12 + 0.61 * (sind(alpha_2_h))^2 / sigma_S_h * (V_2T_h - V_3T_h)/V_2A_h;
+        Km = abs(tand((alpha_2_m)) - V_3A(end)/V_2A_m * tand((alpha_3_m)));
+        Kt = abs(tand((alpha_2_t)) - V_3A(end)/V_2A_t * tand((alpha_3_t)));
+        Kh = abs(tand((alpha_2_h)) - V_3A(end)/V_2A_h * tand((alpha_3_h)));
+        
+        V_max_over_V_2_m = 1.12 + 0.61 * cosd(alpha_2_m)^2/sigma_S_m * Km;
+        V_max_over_V_2_t = 1.12 + 0.61 * cosd(alpha_2_t)^2/sigma_S_t * Kt;
+        V_max_over_V_2_h = 1.12 + 0.61 * cosd(alpha_2_h)^2/sigma_S_h * Kh;
         
         DmS = V_max_over_V_2_m * V_2_m / V_3_m;
         DtS = V_max_over_V_2_t * V_2_t / V_3_t;

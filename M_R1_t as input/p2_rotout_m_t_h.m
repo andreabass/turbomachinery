@@ -79,9 +79,13 @@
         
         %Losses correlations
         
-        Wmax_W1_m = 1.12 + 0.61 * cosd(beta_1_m)^2/sigma_R_m * ( V_1T_m - V_2T_m ) / V_1A_m;
-        Wmax_W1_t = 1.12 + 0.61 * cosd(beta_1_t)^2/sigma_R_t * ( V_1T_t - V_2T_t ) / V_1A_t;
-        Wmax_W1_h = 1.12 + 0.61 * cosd(beta_1_h)^2/sigma_R_h * ( V_1T_h - V_2T_h ) / V_1A_h;
+        Km = abs(tand(beta_1_m) - V_2A(end)/V_1A_m * tand(beta_2_m));
+        Kt = abs(tand(beta_1_t) - V_2A(end)/V_1A_t * tand(beta_2_t));
+        Kh = abs(tand(beta_1_h) - V_2A(end)/V_1A_h * tand(beta_2_h));
+        
+        Wmax_W1_m = 1.12 + 0.61 * cosd(beta_1_m)^2/sigma_R_m * Km;
+        Wmax_W1_t = 1.12 + 0.61 * cosd(beta_1_t)^2/sigma_R_t * Kt;
+        Wmax_W1_h = 1.12 + 0.61 * cosd(beta_1_h)^2/sigma_R_h * Kh;
         
         Dm = Wmax_W1_m * W_1_m / W_2_m;
         Dt = Wmax_W1_t * W_1_t / W_2_t;

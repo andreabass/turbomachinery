@@ -9,3 +9,4 @@ p1_1D_od % Initialization (1D problem)
 discretization
 p1_rotin_delta
 p2_rotout_od
+p3_statout_od

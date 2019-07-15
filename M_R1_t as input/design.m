@@ -7,30 +7,33 @@ options
 
 %% INPUT VALUES
 
-% 1
-D_t = 1; %m
-% 2
-lambda = 0.51;
-% 3
-n = 3800; %rpm
-% 4
-c_IGV = 0.04;
-% 5
-t_over_s_h = 0.02; % Relative trailing edge thickness
-% 6
-th_c = 0.08; % Percentage thickness (same for IGV, rotor and stator blades)
-% 7
-V2Tm_V1Tm = 0.8; % Put 0 for axial velocity at stator outlet
-% 8 
-sigma_R_m_design = 1;
-% 9
+% HUB/TIP RATIO
+lambda = 0.62;
+
+% ROTATIONAL SPEED
+n = 5300; %rpm
+
+% ROTOR INLET RELATIVE MACH NUMBER @ TIP
+M_R1_t = 0.99;
+
+% STATOR FLOW DEFLECTION
+V2Tm_V1Tm = 0.5; % Put 0 for axial velocity at stator outlet
+
+% SOLIDITIES 
+sigma_R_m_design = 1.3;
 sigma_S_m_design = 1;
-% 10
-c_R_design = 0.05;
-% 11
+
+% CHORDS
+c_IGV = 0.04;
+c_R_design = 0.06;
 c_S_design = 0.05;
-% 12
-M_R1_t = 0.87;
+
+% EXTERNAL DIAMETER
+D_t = 1; %m
+
+% OTHER GEOMETRICAL QUANTITIES
+t_over_s_h = 0.02;  % Relative trailing edge thickness
+th_c = 0.08;        % Percentage thickness (same for IGV, rotor and stator blades)
 
 %% PROBLEM DATA
 data
