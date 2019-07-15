@@ -13,7 +13,7 @@
         % Solution of simplified 1D problem as initial value for V_1T_m
         % (initialization of 1D problem: Vavra assumption for reaction degree).
          
-        V_1A = [V_0A*2 V_0A*0.5];
+        V_1A = [V_0A*2 V_0A];
        
     while abs((V_1A(end)-V_1A(end-1))/V_1A(end-1)) > tol    
             V_1A(end-1) = V_1A(end); 
@@ -34,24 +34,24 @@
     end
     T_1_t = T_1_t(end);
     
-       alpha_1_t = tand(V_1T_t / V_1A(end));
-       beta_1_t = tand(W_1T_t/W_1A_t);
+       alpha_1_t = atand(V_1T_t / V_1A(end));
+       beta_1_t = atand(W_1T_t/W_1A_t);
       
        V_1T_h = V_1T_t * D_t / D_h;
        V_1_h = sqrt(V_1T_h^2 + V_1A(end)^2);
        W_1T_h = V_1T_h - omega*D_h/2;
        W_1A_h = V_1A(end);
        W_1_h = sqrt(W_1T_h^2 + W_1A_h^2);
-       alpha_1_h = tand(V_1T_h/V_1A(end));
-       beta_1_h = tand(W_1T_h/W_1A_h); 
+       alpha_1_h = atand(V_1T_h/V_1A(end));
+       beta_1_h = atand(W_1T_h/W_1A_h); 
        
        V_1T_m = V_1T_t * D_t / D_m;
        V_1_m = sqrt(V_1T_m^2 + V_1A(end)^2);
        W_1T_m = V_1T_m - omega*D_m/2;
        W_1A_m = V_1A(end);
        W_1_m = sqrt(W_1T_m^2 + W_1A_m^2);
-       alpha_1_m = tand(V_1T_m/V_1A(end)); 
-       beta_1_m = tand(W_1T_m/W_1A_m); 
+       alpha_1_m = atand(V_1T_m/V_1A(end)); 
+       beta_1_m = atand(W_1T_m/W_1A_m); 
 
  
              

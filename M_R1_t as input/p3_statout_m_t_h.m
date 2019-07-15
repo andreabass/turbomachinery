@@ -11,7 +11,7 @@
               
         % Velocity triangle @ stator outlet
         
-        V_3T_m = V3Tm_V1Tm * V_1T_m;
+        V_3T_m = V2Tm_V1Tm * V_2T_m;
         
         V_3T_t = V_3T_m * D_m / D_t;
         V_3T_h = V_3T_m * D_m / D_h(end);

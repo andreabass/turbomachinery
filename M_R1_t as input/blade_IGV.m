@@ -78,3 +78,15 @@ AX_coord_ss_IGVt = xss_IGVt*cosd(gamma_IGVt)-yss_IGVt*sind(gamma_IGVt);
 
 T_coord_ps_IGVt = -(xps_IGVt*sind(gamma_IGVt)+yps_IGVt*cosd(gamma_IGVt));
 AX_coord_ps_IGVt = xps_IGVt*cosd(gamma_IGVt)-yps_IGVt*sind(gamma_IGVt); 
+
+
+%% MIRRORING
+
+T_coord_ss_IGVt = -T_coord_ss_IGVt;
+T_coord_ps_IGVt = -T_coord_ps_IGVt;
+
+T_coord_ss_IGVh = -T_coord_ss_IGVh;
+T_coord_ps_IGVh = -T_coord_ps_IGVh;
+
+T_coord_ss_IGVm = -T_coord_ss_IGVm;
+T_coord_ps_IGVm = -T_coord_ps_IGVm;

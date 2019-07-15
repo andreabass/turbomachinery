@@ -1,3 +1,8 @@
+%% NACA 65 SERIES BLADE DATA
+x_perc=[0 1.25 2.5 5 7.5 10 15 20 30 40 50 60 70 80 90 95 100];% chord percentage x/c
+y_t_perc=[0 1.124 1.571 2.222 2.709 3.111 3.746 4.218 4.824 5.057 4.87 4.151 3.038 1.847 0.749 0.354 0.15];% half thickness t/c
+y_c_perc=[0 0.535 0.93 1.58 2.12 2.585 3.365 3.98 4.86 5.355 5.515 5.355 4.86 3.98 2.585 1.58 0];% camber line y/c
+dy_dx_perc=[Inf 0.3477 0.2915 0.2343 0.1999 0.1749 0.1381 0.1103 0.0675 0.0323 0 0.0323 0.0675 0.1103 0.1749 0.2343 -Inf];% derivative
 
 % THICKNESS PROFILE
 x_s = x_perc*c_S_m;
@@ -106,3 +111,15 @@ AX_coord_ss_st_trans = AX_coord_ss_st+DeltaAX_AVst;
 
 T_coord_ps_st_trans = T_coord_ps_st+DeltaT_AVst;
 AX_coord_ps_st_trans = AX_coord_ps_st+DeltaAX_AVst;
+
+%% MIRRORING
+
+T_coord_ss_st_trans = -T_coord_ss_st_trans;
+T_coord_ps_st_trans = -T_coord_ps_st_trans;
+
+T_coord_ss_sh_trans = -T_coord_ss_sh_trans;
+T_coord_ps_sh_trans = -T_coord_ps_sh_trans;
+
+T_coord_ss_sm = -T_coord_ss_sm;
+T_coord_ps_sm = -T_coord_ps_sm;
+

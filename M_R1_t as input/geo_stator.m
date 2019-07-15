@@ -73,19 +73,19 @@ dev_opt_statm = dev_opt_statm + 10*(1-V_3A(end)/V_2A(end));
 dev_opt_stath = dev_opt_stath + 10*(1-V_3A(end)/V_2A(end));
 
 % INLET GEOMETRICAL ANGLE
-alpha_2_h_geo = alpha_2_h + i_opt_stath;
-alpha_2_m_geo = alpha_2_m + i_opt_statm;
-alpha_2_t_geo = alpha_2_t + i_opt_statt;
+alpha_2_h_geo = alpha_2_h - i_opt_stath;
+alpha_2_m_geo = alpha_2_m - i_opt_statm;
+alpha_2_t_geo = alpha_2_t - i_opt_statt;
 
 % OUTLET GEOMETRICAL ANGLE
-alpha_3_h_geo = alpha_3_h + dev_opt_stath;
-alpha_3_m_geo = alpha_3_m + dev_opt_statm;
-alpha_3_t_geo = alpha_3_t + dev_opt_statt;
+alpha_3_h_geo = alpha_3_h - dev_opt_stath;
+alpha_3_m_geo = alpha_3_m - dev_opt_statm;
+alpha_3_t_geo = alpha_3_t - dev_opt_statt;
 
 % STAGGER ANGLE
-gamma_stath = alpha_2_h + teta_hub_stat/2 + i_opt_stath;
-gamma_statm = alpha_2_m + teta_mid_stat/2 + i_opt_statm;
-gamma_statt = alpha_2_t + teta_tip_stat/2 + i_opt_statt;
+gamma_stath =  (alpha_3_h_geo + teta_hub_stat/2);
+gamma_statm =  (alpha_3_m_geo + teta_mid_stat/2);
+gamma_statt =  (alpha_3_t_geo + teta_tip_stat/2);
 
 % ATTACK ANGLE
 attack_S_h_design = abs( abs(alpha_2_h) - abs(gamma_stath) );

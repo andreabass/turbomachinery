@@ -10,9 +10,9 @@ options
 % 1
 D_t = 1; %m
 % 2
-lambda = 0.465;
+lambda = 0.51;
 % 3
-n = 7980; %rpm
+n = 3800; %rpm
 % 4
 c_IGV = 0.04;
 % 5
@@ -20,23 +20,23 @@ t_over_s_h = 0.02; % Relative trailing edge thickness
 % 6
 th_c = 0.08; % Percentage thickness (same for IGV, rotor and stator blades)
 % 7
-V3Tm_V1Tm = 1; % Put 0 for axial velocity at stator outlet
+V2Tm_V1Tm = 0.8; % Put 0 for axial velocity at stator outlet
 % 8 
 sigma_R_m_design = 1;
 % 9
-sigma_S_m_design = 1.7;
+sigma_S_m_design = 1;
 % 10
 c_R_design = 0.05;
 % 11
 c_S_design = 0.05;
 % 12
-M_R1_t = 1.065;
+M_R1_t = 0.87;
 
 %% PROBLEM DATA
 data
 
 %% DESIGN PROBLEM (PERFORMANCES)
-eta_TT = 0.87049;
+eta_TT = 0.95;
 eta_TT = [2*eta_TT eta_TT];
 
 while abs((eta_TT(end)-eta_TT(end-1))/eta_TT(end-1))>tol
