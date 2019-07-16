@@ -19,10 +19,6 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     delta_stat_od_m = dev_opt_statm + ddelta_di_S_m * (i_2m - i_opt_statm ) + 10*(1-V_3A_m(k)/V_2A_m);
     alpha_3_m = alpha_3_m_geo - delta_stat_od_m;
     V_3T_m = V_3A_m(k) * tand(alpha_3_m);
-    W_3T_m = V_3T_m - U_m;
-    W_3_m = sqrt(W_3T_m^2 + W_3A_m^2);
-    V_3_m = sqrt(V_3T_m^2 + V_3A_m(k)^2);
-    beta_3_m = atand(W_3T_m/W_3A_m);
     T_T3_m = T_T2_m;
     T_3_m = T_T2_m - V_3_m^2 / 2 / cp;
     
@@ -96,10 +92,6 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     V_3T_high(1)    =  V_3T_m(end);
     V_3_high(1)     =  V_3_m;
     alpha_3_high(1) = alpha_3_m;
-    W_3A_high(1)    =  W_3A_m;
-    W_3T_high(1)    =  W_3T_m;
-    W_3_high(1)     =  W_3_m;
-    beta_3_high(1)  = beta_3_m;
     p_3_high(1)     = p_3_m;
     T_3_high(1)     = T_3_m;
     T_T3_high(1)   = T_T3_m;
@@ -201,7 +193,7 @@ i_2m = alpha_2_m_geo - alpha_2_m;
         
     end
     
-    p_T3_iter = p_T2_high(i) - Y_2_p_tot_iter * (p_T2_high(i) - p_2_high(i));
+    p_T3_iter = p_T2_high(i) - Y_3_p_tot_iter * (p_T2_high(i) - p_2_high(i));
     p_3_iter  = p_3_high(i-1) / ( 1 -  V_3T_iter^2 / rhigh(i) / R_star / T_3_iter(end) * Drhigh );
     rho_3_iter = p_3_iter / R_star / T_3_iter(end);
     V_3_iter = sqrt( 2*gamma*R_star*T_3_iter(end) / (gamma-1) * ( (p_T3_iter/p_3_iter)^((gamma-1)/gamma) - 1 ) );
@@ -214,10 +206,6 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     V_3T_high(i)    =  V_3T_iter;
     V_3_high(i)     =  V_3_iter;
     alpha_3_high(i) = alpha_3_iter;
-    W_3A_high(i)    =  W_3A_iter;
-    W_3T_high(i)    =  W_3T_iter;
-    W_3_high(i)     =  W_3_iter;
-    beta_3_high(i)  = beta_3_iter;
     p_3_high(i)     = p_3_iter;
     T_3_high(i)     = T_3_iter(end);
     rho_3_high(i)   = rho_3_iter;
@@ -235,10 +223,6 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     V_3T_low(1)    =  V_3T_m(end);
     V_3_low(1)     =  V_3_m;
     alpha_3_low(1) = alpha_3_m;
-    W_3A_low(1)    =  W_3A_m;
-    W_3T_low(1)    =  W_3T_m;
-    W_3_low(1)     =  W_3_m;
-    beta_3_low(1)  = beta_3_m;
     p_3_low(1)     = p_3_m;
     T_3_low(1)     = T_3_m;
     T_T3_low(1)   = T_T3_m;
@@ -271,12 +255,8 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     end
     V_3A_iter = V_3A_iter(end);   
         
-    W_3A_iter = V_3A_iter(end);
     V_3T_iter = V_3A_iter * tand(alpha_3_iter);
-    W_3T_iter = V_3T_iter - omega * rlow(i);
-    W_3_iter = sqrt(W_3T_iter^2 + W_3A_iter^2);
     V_3_iter = sqrt(V_3T_iter^2 + V_3A_iter(end)^2);
-    beta_3_iter = atand(W_3T_iter/W_3A_iter(end));
     
     Vmax_V2_iter = 1.12 + 0.61 * cosd(alpha_2_low(i))^2/sigma_S_low(i) * ( V_2T_low(i) - V_3T_iter ) / V_2A_low(i);
     Diter = Vmax_V2_iter * V_2_low(i) / V_3_iter;  
@@ -340,7 +320,7 @@ i_2m = alpha_2_m_geo - alpha_2_m;
         
     end
     
-    p_T3_iter = p_T2_low(i) - Y_2_p_tot_iter * (p_T2_low(i) - p_2_low(i));
+    p_T3_iter = p_T2_low(i) - Y_3_p_tot_iter * (p_T2_low(i) - p_2_low(i));
     p_3_iter  = p_3_low(i-1) / ( 1 -  V_3T_iter^2 / rlow(i) / R_star / T_3_iter(end) * Drlow );
     rho_3_iter = p_3_iter / R_star / T_3_iter(end);
     V_3_iter = sqrt( 2*gamma*R_star*T_3_iter(end) / (gamma-1) * ( (p_T3_iter/p_3_iter)^((gamma-1)/gamma) - 1 ) );
@@ -353,10 +333,6 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     V_3T_low(i)    =  V_3T_iter;
     V_3_low(i)     =  V_3_iter;
     alpha_3_low(i) = alpha_3_iter;
-    W_3A_low(i)    =  W_3A_iter;
-    W_3T_low(i)    =  W_3T_iter;
-    W_3_low(i)     =  W_3_iter;
-    beta_3_low(i)  = beta_3_iter;
     p_3_low(i)     = p_3_iter;
     T_3_low(i)     = T_3_iter(end);
     rho_3_low(i)   = rho_3_iter;
@@ -368,10 +344,6 @@ i_2m = alpha_2_m_geo - alpha_2_m;
     V_3T    =  [V_3T_low(end:-1:1) V_3T_high(2:end) ];
     V_3     =  [V_3_low(end:-1:1) V_3_high(2:end) ];
     alpha_3 =  [alpha_3_low(end:-1:1) alpha_3_high(2:end) ];
-    W_3A    =  [W_3A_low(end:-1:1) W_3A_high(2:end) ];
-    W_3T    =  [W_3T_low(end:-1:1) W_3T_high(2:end) ];
-    W_3     =  [W_3_low(end:-1:1) W_3_high(2:end) ];
-    beta_3  =  [beta_3_low(end:-1:1) beta_3_high(2:end) ];
     p_3     =  [p_3_low(end:-1:1) p_3_high(2:end) ];
     T_3     =  [T_3_low(end:-1:1) T_3_high(2:end) ];
     T_T3   =  [T_T3_low(end:-1:1) T_T3_high(2:end) ];
