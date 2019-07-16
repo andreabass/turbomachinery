@@ -156,7 +156,7 @@
            if i==1 && HOW_OPT == 1
                
            Db_Psi = ppval(Dbeta_Psi_curve, abs(beta_2_m));
-           Psi_opt = Db_Psi/(beta_2_m-beta_1_m);        
+           Psi_opt = abs(beta_2_m-beta_1_m)/Db_Psi;        
            if Psi_opt<1.329 && Psi_opt>0.749
            x=0.4:0.001:1.6;
            s_over_c_R = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));
