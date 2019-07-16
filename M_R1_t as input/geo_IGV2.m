@@ -105,6 +105,6 @@ alpha_1_m_geo = alpha_1_m + dev_opt_IGVm;
 alpha_1_t_geo = alpha_1_t + dev_opt_IGVt;
 
 % STAGGER ANGLE
-gamma_IGVh = abs(alpha_0_h)-abs(teta_hub_IGV)/2;
-gamma_IGVm = abs(alpha_0_m)-abs(teta_mid_IGV)/2;
-gamma_IGVt = abs(alpha_0_t)-abs(teta_tip_IGV)/2;
+gamma_IGVh = alpha_1_h_geo-teta_hub_IGV/2;
+gamma_IGVm = alpha_1_m_geo-teta_mid_IGV/2;
+gamma_IGVt = alpha_1_t_geo-teta_tip_IGV/2;

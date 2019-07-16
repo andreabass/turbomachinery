@@ -33,12 +33,12 @@ TRASX_IGV = 1;
 TRASY_IGV = 8;
 
 %IGV
-hubigvss = plot(T_coord_ss_IGVh + TRASX_IGV, -AX_coord_ss_IGVh + TRASY_IGV,'k--','LineWidth',1.5);
-hubigvps = plot(T_coord_ps_IGVh + TRASX_IGV, -AX_coord_ps_IGVh + TRASY_IGV,'k--','LineWidth',1.5);
-midigvss = plot(T_coord_ss_IGVm + TRASX_IGV, -AX_coord_ss_IGVm + TRASY_IGV,'k-.','LineWidth',1.5);
-midigvps = plot(T_coord_ps_IGVm + TRASX_IGV, -AX_coord_ps_IGVm + TRASY_IGV,'k-.','LineWidth',1.5);
-tipigvss = plot(T_coord_ss_IGVt + TRASX_IGV, -AX_coord_ss_IGVt + TRASY_IGV,'k','LineWidth',1.5);
-tipigvps = plot(T_coord_ps_IGVt + TRASX_IGV, -AX_coord_ps_IGVt + TRASY_IGV,'k','LineWidth',1.5);
+hubigvss = plot(T_coord_ss_IGVh + TRASX_IGV, AX_coord_ss_IGVh + TRASY_IGV,'k--','LineWidth',1.5);
+hubigvps = plot(T_coord_ps_IGVh + TRASX_IGV, AX_coord_ps_IGVh + TRASY_IGV,'k--','LineWidth',1.5);
+midigvss = plot(T_coord_ss_IGVm + TRASX_IGV, AX_coord_ss_IGVm + TRASY_IGV,'k-.','LineWidth',1.5);
+midigvps = plot(T_coord_ps_IGVm + TRASX_IGV, AX_coord_ps_IGVm + TRASY_IGV,'k-.','LineWidth',1.5);
+tipigvss = plot(T_coord_ss_IGVt + TRASX_IGV, AX_coord_ss_IGVt + TRASY_IGV,'k','LineWidth',1.5);
+tipigvps = plot(T_coord_ps_IGVt + TRASX_IGV, AX_coord_ps_IGVt + TRASY_IGV,'k','LineWidth',1.5);
 
 title('BLADE PROFILES')
 legend([hubsss midsss tipsss],{'HUB','MID','TIP'})

@@ -83,11 +83,11 @@ beta_2_m_geo = beta_2_m + dev_opt_rotm;
 beta_2_t_geo = beta_2_t + dev_opt_rott;
 
 % STAGGER ANGLE
-gamma_roth = - beta_2_h_geo + teta_hub/2;
-gamma_rotm = - beta_2_m_geo + teta_mid/2;
-gamma_rott = - beta_2_t_geo + teta_tip/2;
+gamma_roth =  beta_2_h_geo - teta_hub/2;
+gamma_rotm =  beta_2_m_geo - teta_mid/2;
+gamma_rott =  beta_2_t_geo - teta_tip/2;
 
 % ATTACK ANGLE
-attack_h_design = abs( abs(beta_1_h) - abs(gamma_roth) );
-attack_m_design = abs( abs(beta_1_m) - abs(gamma_rotm) );
-attack_t_design = abs( abs(beta_1_t) - abs(gamma_rott) );
+attack_h_design = gamma_roth - beta_1_h;
+attack_m_design = gamma_rotm - beta_1_m;
+attack_t_design = gamma_rott - beta_1_t;

@@ -21,7 +21,7 @@ V2Tm_V1Tm = 0.5; % Put 0 for axial velocity at stator outlet
 
 % SOLIDITIES 
 sigma_R_m_design = 1.3;
-sigma_S_m_design = 1;
+sigma_S_m_design = 1.3;
 
 % CHORDS
 c_IGV = 0.04;
@@ -110,6 +110,45 @@ frontview
 
 
 close all
+
+%% TRIANGLES
+
+% MACHINE
+tvd = figure;
+subplot(2,2,1)
+velt(V_0,0,0)
+title('SECTION 0')
+subplot(2,2,2)
+velt(V_1_h,W_1_h,U_h,'k--')
+velt(V_1_m,W_1_m,U_m,'k-.')
+velt(V_1_t,W_1_t,U_t)
+title('SECTION 1')
+subplot(2,2,3)
+velt(V_2_h,W_2_h,U_h,'k--')
+velt(V_2_m,W_2_m,U_m,'k-.')
+velt(V_2_t,W_2_t,U_t)
+title('SECTION 2')
+subplot(2,2,4)
+velt(V_3A(end),V_3T_h,0,'k--')
+velt(V_3A(end),V_3T_m,0,'k-.')
+velt(V_3A(end),V_3T_t,0)
+title('SECTION 3')
+
+% ROTOR
+tvdrot = figure;
+subplot(3,1,3)
+velt(V_1_h,W_1_h,U_h)
+velt(V_2_h,W_2_h,U_h,'k--')
+title('ROTOR HUB')
+subplot(3,1,2)
+velt(V_1_m,W_1_m,U_m)
+velt(V_2_m,W_2_m,U_m,'k--')
+title('ROTOR MID')
+subplot(3,1,1)
+velt(V_1_t,W_1_t,U_t)
+velt(V_2_t,W_2_t,U_t,'k--')
+title('ROTOR TIP')
+
 
 
 

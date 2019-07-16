@@ -7,7 +7,7 @@ V_2A_m = linspace(V_1A_high(1)*0.8,V_1A_high(1)*1.2,1000);
 % Incidence calculation
 
 beta_1_geo  =  [beta_1_geo_low(end:-1:1) beta_1_geo_high(2:end) ];
-i_1m = beta_1_m_geo - beta_1_m_od;
+i_1m = beta_1_m_od - beta_1_m_geo;
        
     for k = 1:length(V_2A_m)
     
@@ -27,7 +27,9 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_2_m = T_TR2_m - W_2_m^2 / 2 / cp;
     T_T2_m = T_2_m + V_2_m^2/2/cp;
     
-    Wmax_W1_m = 1.12 + 0.61 * cosd(beta_1_m)^2/sigma_R_m * ( V_1T_m - V_2T_m ) / V_1A_m;
+    Km = abs(tand(beta_1_m) - V_2A(end)/V_1A_m * tand(beta_2_m));
+    
+    Wmax_W1_m = 1.12 + 0.61 * cosd(beta_1_m)^2/sigma_R_m * Km;
     Dm = Wmax_W1_m * W_1_m / W_2_m;  
     
     Y_2_p_tot_m_min = 0.004 * ( 1 + 3.1*(Dm-1)^2 + 0.4*(Dm-1)^8 ) * 2 * sigma_R_m / cosd(beta_2_m) * (W_2_m/W_1_m)^2;
@@ -36,19 +38,19 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     while abs( (attack_c_m(end) - attack_c_m(end-1))/attack_c_m(end-1) ) > tol
         attack_c_m(end-1) = attack_c_m(end);
         
-        beta_c_m = attack_c_m(end) + gamma_rotm;
+        beta_c_m = -attack_c_m(end) + gamma_rotm;
         attack_c_m(end+1) = attack_m_design - 9 + ( 1 - (30/abs(beta_c_m))^0.48 )*teta_mid/4.176;
         
     end
     attack_c_m = attack_c_m(end);
     
-    i_c_m = i_opt_rotm - (attack_c_m - attack_m_design);
+    i_c_m = i_opt_rotm + (attack_c_m - attack_m_design);
     
    attack_s_m = [attack_m_design*2 attack_m_design];
     while abs( (attack_s_m(end) - attack_s_m(end-1))/attack_s_m(end-1) ) > tol
         attack_s_m(end-1) = attack_s_m(end);
         
-        beta_s_m = attack_s_m(end) + gamma_rotm;
+        beta_s_m = -attack_s_m(end) + gamma_rotm;
         attack_s_m(end+1) = attack_m_design + 10.3 + ( 2.92 - (abs(beta_s_m)/15.6) )*teta_mid/8.2;
         
     end
@@ -107,10 +109,12 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_2_high(1)     = T_2_m;
     T_TR2_high(1)   = T_TR2_m;
     rho_2_high(1)   = rho_2_m;
-    T_T2_high(1)    = T_T2_m;
     p_T2_high(1)    = p_T2_m;
+    p_TR1_high(1)   = p_TR1_m;
+    p_TR2_high(1)   = p_TR2_m;
+    D_high(1)       = Dm;
 
-    i_1_high = beta_1_geo_high - beta_1_high;
+    i_1_high = beta_1_high - beta_1_geo_high;
     
     s_R_high = pi * 2 * rhigh / N_R;
     
@@ -144,7 +148,9 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     V_2_iter = sqrt(V_2T_iter^2 + V_2A_iter(end)^2);
     alpha_2_iter = atand(V_2T_iter/V_2A_iter(end));
     
-    Wmax_W1_iter = 1.12 + 0.61 * cosd(beta_1_high(i))^2/sigma_R_high(i) * ( V_1T_high(i) - V_2T_iter ) / V_1A_high(i);
+    Kiter = abs(tand(beta_1_high(i)) - V_2A_iter/V_1A_high(i) * tand(beta_2_iter));
+    
+    Wmax_W1_iter = 1.12 + 0.61 * cosd(beta_1_high(i))^2/sigma_R_high(i) * Kiter;
     Diter = Wmax_W1_iter * W_1_high(i) / W_2_iter;  
     
     Y_2_p_tot_min_iter = 0.004 * ( 1 + 3.1*(Diter-1)^2 + 0.4*(Diter-1)^8 ) * 2 * sigma_R_high(i) / cosd(beta_2_iter) * (W_2_iter/W_1_high(i))^2;
@@ -153,11 +159,11 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     while abs( (attack_c_iter(end) - attack_c_iter(end-1))/attack_c_iter(end-1) ) > tol
         attack_c_iter(end-1) = attack_c_iter(end);
         
-        beta_c_iter = attack_c_iter(end) + gamma_rot_high(i);
+        beta_c_iter = -attack_c_iter(end) + gamma_rot_high(i);
         
-        if abs(beta_c_iter) < 20
-            
-            beta_c_iter = 20;
+        if abs(beta_c_iter) < 30
+
+            beta_c_iter = 30;
             
         end
        
@@ -166,13 +172,13 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     end
     attack_c_iter = attack_c_iter(end);
     
-    i_c_iter = i_opt_rot_high(i) - (attack_c_iter - attack_design_high(i));
+    i_c_iter = i_opt_rot_high(i) + (attack_c_iter - attack_design_high(i));
     
    attack_s_iter = [attack_design_high(i)*2 attack_design_high(i)];
     while abs( (attack_s_iter(end) - attack_s_iter(end-1))/attack_s_iter(end-1) ) > tol
         attack_s_iter(end-1) = attack_s_iter(end);
         
-        beta_s_iter = attack_s_iter(end) + gamma_rot_high(i);
+        beta_s_iter = -attack_s_iter(end) + gamma_rot_high(i);
         attack_s_iter(end+1) = attack_design_high(i) + 10.3 + ( 2.92 - (abs(beta_s_iter)/15.6) )*teta_high(i)/8.2;
         
     end
@@ -214,7 +220,6 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     p_T2_iter = p_2_iter * ( (1+(gamma-1)/2*(rho_2_iter*V_2_iter^2/(gamma*p_2_iter)))^(gamma/(gamma-1)) );
             
             T_2_iter(end+1) = T_TR2_iter - W_2_iter^2/2/cp;
-    T_T2_iter = T_2_iter(end) + V_2_iter^2/2/cp;
        
     end
 
@@ -229,9 +234,11 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     p_2_high(i)     = p_2_iter;
     T_2_high(i)     = T_2_iter(end);
     rho_2_high(i)   = rho_2_iter;
-    T_TR2_high(i)   = T_TR2_iter;
-    T_T2_high(i)    = T_T2_iter;
+    T_TR2_high(i)   = T_TR2_iter;    
     p_T2_high(i)    = p_T2_iter;
+    p_TR1_high(i)    = p_TR1_iter;
+    p_TR2_high(i)    = p_TR2_iter;
+    D_high(i)       = Diter;
     
     end
     
@@ -253,10 +260,18 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     T_2_low(1)       = T_2_m;
     T_TR2_low(1)     = T_TR2_m;
     rho_2_low(1)     = rho_2_m;
-    T_T2_low(1)      = T_T2_m;
     p_T2_low(1)      = p_T2_m;
+    p_TR1_low(1)    = p_TR1_m;
+    p_TR2_low(1)    = p_TR2_m;
+    K_low(1)        = Km;
+    D_low(1)       = Dm;
+    
+    
+    i_c_iter_low(1) = i_c_m;
+    i_miter_low(1) = i_mm;
+    beta_c_low(1) = beta_c_m;
 
-    i_1_low = beta_1_geo_low - beta_1_low;
+    i_1_low =  beta_1_low - beta_1_geo_low;
     
     s_R_low = pi * 2 * rlow / N_R;
     
@@ -289,8 +304,11 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     W_2_iter = sqrt(W_2T_iter^2 + W_2A_iter^2);
     V_2_iter = sqrt(V_2T_iter^2 + V_2A_iter(end)^2);
     alpha_2_iter = atand(V_2T_iter/V_2A_iter(end));
+
+    Kiter = abs(tand(beta_1_low(i)) - V_2A_iter/V_1A_low(i) * tand(beta_2_iter));
     
-    Wmax_W1_iter = 1.12 + 0.61 * cosd(beta_1_low(i))^2/sigma_R_low(i) * ( V_1T_low(i) - V_2T_iter ) / V_1A_low(i);
+    Wmax_W1_iter = 1.12 + 0.61 * cosd(beta_1_low(i))^2/sigma_R_low(i) * Kiter;
+    
     Diter = Wmax_W1_iter * W_1_low(i) / W_2_iter;  
     
     Y_2_p_tot_min_iter = 0.004 * ( 1 + 3.1*(Diter-1)^2 + 0.4*(Diter-1)^8 ) * 2 * sigma_R_low(i) / cosd(beta_2_iter) * (W_2_iter/W_1_low(i))^2;
@@ -299,7 +317,7 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     while abs( (attack_c_iter(end) - attack_c_iter(end-1))/attack_c_iter(end-1) ) > tol
         attack_c_iter(end-1) = attack_c_iter(end);
         
-        beta_c_iter = attack_c_iter(end) + gamma_rot_low(i);
+        beta_c_iter = -attack_c_iter(end) + gamma_rot_low(i);
         
         if abs(beta_c_iter) < 20
             
@@ -312,13 +330,13 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     end
     attack_c_iter = attack_c_iter(end);
     
-    i_c_iter = i_opt_rot_low(i) - (attack_c_iter - attack_design_low(i));
+    i_c_iter = i_opt_rot_low(i) + (attack_c_iter - attack_design_low(i));
     
    attack_s_iter = [attack_design_low(i)*2 attack_design_low(i)];
     while abs( (attack_s_iter(end) - attack_s_iter(end-1))/attack_s_iter(end-1) ) > tol
         attack_s_iter(end-1) = attack_s_iter(end);
         
-        beta_s_iter = attack_s_iter(end) + gamma_rot_low(i);
+        beta_s_iter = -attack_s_iter(end) + gamma_rot_low(i);
         attack_s_iter(end+1) = attack_design_low(i) + 10.3 + ( 2.92 - (abs(beta_s_iter)/15.6) )*teta_low(i)/8.2;
         
     end
@@ -360,7 +378,6 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     p_T2_iter = p_2_iter * ( (1+(gamma-1)/2*(rho_2_iter*V_2_iter^2/(gamma*p_2_iter)))^(gamma/(gamma-1)) );
             
         T_2_iter(end+1) = T_TR2_iter - W_2_iter^2/2/cp;
-    T_T2_iter = T_2_iter(end) + V_2_iter^2/2/cp;
        
     end
 
@@ -375,11 +392,21 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     p_2_low(i)     = p_2_iter;
     T_2_low(i)     = T_2_iter(end);
     rho_2_low(i)   = rho_2_iter;
-    T_TR2_low(i)   = T_TR2_iter;
-    T_T2_low(i)    = T_T2_iter;
+    T_TR2_low(i)   = T_TR2_iter;    
     p_T2_low(i)    = p_T2_iter;
+    p_TR1_low(i)    = p_TR1_iter;
+    p_TR2_low(i)    = p_TR2_iter;
+    K_low(i)        = Kiter;
+        D_low(i)       = Diter;
+    
+    i_c_iter_low(i) = i_c_iter;
+    i_miter_low(i) = i_miter;
+    beta_c_low(i) = beta_c_iter;
     
     end
+    
+    T_T2_high    = T_2_high + V_2_high.^2/2/cp;
+    T_T2_low    = T_2_low + V_2_low.^2/2/cp;
     
     V_2A    =  [V_2A_low(end:-1:1) V_2A_high(2:end) ];
     V_2T    =  [V_2T_low(end:-1:1) V_2T_high(2:end) ];
@@ -396,6 +423,9 @@ i_1m = beta_1_m_geo - beta_1_m_od;
     i_1     =  [i_1_low(end:-1:1) i_1_high(2:end)];
     T_T2    =  [T_T2_low(end:-1:1) T_T2_high(2:end)];
     p_T2    =  [p_T2_low(end:-1:1) p_T2_high(2:end)];
+    p_TR2   =  [p_TR2_low(end:-1:1) p_TR2_high(2:end)];
+    p_TR1   =  [p_TR1_low(end:-1:1) p_TR1_high(2:end)];
+    D       =  [D_low(end:-1:1) D_high(2:end)];
 
     
       dA = 2 * pi * (r(1:end-1)+r(2:end))/2 .* Dr;

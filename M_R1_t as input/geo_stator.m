@@ -59,9 +59,9 @@ teta_mid_stat = (Dalpha_23_m- i_0_statm + dev_0_statm)/(1-m_m+n_LIEm);
 teta_hub_stat = (Dalpha_23_h- i_0_stath + dev_0_stath)/(1-m_h+n_LIEh);
 
 % INCIDENCE ANGLE
-i_opt_statt = Ksh*Kth*i0_10tip+n_LIEt*teta_tip_stat;
-i_opt_statm = Ksh*Kth*i0_10mid+n_LIEm*teta_mid_stat;
-i_opt_stath = Ksh*Kth*i0_10hub+n_LIEh*teta_hub_stat;
+i_opt_statt = Ksh*Kth*i0_10tip + n_LIEt*teta_tip_stat;
+i_opt_statm = Ksh*Kth*i0_10mid + n_LIEm*teta_mid_stat;
+i_opt_stath = Ksh*Kth*i0_10hub + n_LIEh*teta_hub_stat;
 
 % DEVIATION ANGLE
 dev_opt_statt = Ksh*Kth_dev*dev0_10t+m_t*teta_tip_stat;
@@ -88,6 +88,6 @@ gamma_statm =  (alpha_3_m_geo + teta_mid_stat/2);
 gamma_statt =  (alpha_3_t_geo + teta_tip_stat/2);
 
 % ATTACK ANGLE
-attack_S_h_design = abs( abs(alpha_2_h) - abs(gamma_stath) );
-attack_S_m_design = abs( abs(alpha_2_m) - abs(gamma_statm) );
-attack_S_t_design = abs( abs(alpha_2_t) - abs(gamma_statt) );
+attack_S_h_design = alpha_2_h - gamma_stath;
+attack_S_m_design = alpha_2_m - gamma_statm;
+attack_S_t_design = alpha_2_t - gamma_statt;

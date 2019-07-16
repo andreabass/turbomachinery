@@ -27,11 +27,11 @@ xps_IGVh = x_IGV+y_t_IGV.*sind(eps_IGVh);
 yps_IGVh = y_IGVh-y_t_IGV.*cosd(eps_IGVh);
 
 % COORDINATE ROTATION (X-Y -> T-A)
-T_coord_ss_IGVh = -(xss_IGVh*sind(gamma_IGVh)+yss_IGVh*cosd(gamma_IGVh));
-AX_coord_ss_IGVh = xss_IGVh*cosd(gamma_IGVh)-yss_IGVh*sind(gamma_IGVh);
+T_coord_ss_IGVh = -(xss_IGVh*sind(-gamma_IGVh)+yss_IGVh*cosd(-gamma_IGVh));
+AX_coord_ss_IGVh = (-xss_IGVh*cosd(-gamma_IGVh)+yss_IGVh*sind(-gamma_IGVh));
 
-T_coord_ps_IGVh = -(xps_IGVh*sind(gamma_IGVh)+yps_IGVh*cosd(gamma_IGVh));
-AX_coord_ps_IGVh = xps_IGVh*cosd(gamma_IGVh)-yps_IGVh*sind(gamma_IGVh);
+T_coord_ps_IGVh = -(xps_IGVh*sind(-gamma_IGVh)+yps_IGVh*cosd(-gamma_IGVh));
+AX_coord_ps_IGVh = (-xps_IGVh*cosd(-gamma_IGVh)+yps_IGVh*sind(-gamma_IGVh));
 
 %% MID 
 
@@ -50,11 +50,11 @@ xps_IGVm = x_IGV+y_t_IGV.*sind(eps_IGVm);
 yps_IGVm = y_IGVm-y_t_IGV.*cosd(eps_IGVm);
 
 % COORDINATE ROTATION (X-Y -> T-A)
-T_coord_ss_IGVm = -(xss_IGVm*sind(gamma_IGVm)+yss_IGVm*cosd(gamma_IGVm));
-AX_coord_ss_IGVm = xss_IGVm*cosd(gamma_IGVm)-yss_IGVm*sind(gamma_IGVm);
+T_coord_ss_IGVm = -(xss_IGVm*sind(-gamma_IGVm)+yss_IGVm*cosd(-gamma_IGVm));
+AX_coord_ss_IGVm = (-xss_IGVm*cosd(-gamma_IGVm)+yss_IGVm*sind(-gamma_IGVm));
 
-T_coord_ps_IGVm = -(xps_IGVm*sind(gamma_IGVm)+yps_IGVm*cosd(gamma_IGVm));
-AX_coord_ps_IGVm = xps_IGVm*cosd(gamma_IGVm)-yps_IGVm*sind(gamma_IGVm);
+T_coord_ps_IGVm = -(xps_IGVm*sind(-gamma_IGVm)+yps_IGVm*cosd(-gamma_IGVm));
+AX_coord_ps_IGVm = (-xps_IGVm*cosd(-gamma_IGVm)+yps_IGVm*sind(-gamma_IGVm));
 
 %% TIP 
 
@@ -73,20 +73,8 @@ xps_IGVt = x_IGV+y_t_IGV.*sind(eps_IGVt);
 yps_IGVt = y_IGVt-y_t_IGV.*cosd(eps_IGVt);
 
 % COORDINATE ROTATION (X-Y -> T-A)
-T_coord_ss_IGVt = -(xss_IGVt*sind(gamma_IGVt)+yss_IGVt*cosd(gamma_IGVt));
-AX_coord_ss_IGVt = xss_IGVt*cosd(gamma_IGVt)-yss_IGVt*sind(gamma_IGVt);
+T_coord_ss_IGVt = -(xss_IGVt*sind(-gamma_IGVt)+yss_IGVt*cosd(-gamma_IGVt));
+AX_coord_ss_IGVt = (-xss_IGVt*cosd(-gamma_IGVt)+yss_IGVt*sind(-gamma_IGVt));
 
-T_coord_ps_IGVt = -(xps_IGVt*sind(gamma_IGVt)+yps_IGVt*cosd(gamma_IGVt));
-AX_coord_ps_IGVt = xps_IGVt*cosd(gamma_IGVt)-yps_IGVt*sind(gamma_IGVt); 
-
-
-%% MIRRORING
-
-% T_coord_ss_IGVt = -T_coord_ss_IGVt;
-% T_coord_ps_IGVt = -T_coord_ps_IGVt;
-% 
-% T_coord_ss_IGVh = -T_coord_ss_IGVh;
-% T_coord_ps_IGVh = -T_coord_ps_IGVh;
-% 
-% T_coord_ss_IGVm = -T_coord_ss_IGVm;
-% T_coord_ps_IGVm = -T_coord_ps_IGVm;
+T_coord_ps_IGVt = -(xps_IGVt*sind(-gamma_IGVt)+yps_IGVt*cosd(-gamma_IGVt));
+AX_coord_ps_IGVt = (-xps_IGVt*cosd(-gamma_IGVt)+yps_IGVt*sind(-gamma_IGVt)); 
