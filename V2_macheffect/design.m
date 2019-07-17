@@ -109,8 +109,6 @@ bladeplot
 frontview
 
 
-close all
-
 %% TRIANGLES
 
 % MACHINE
