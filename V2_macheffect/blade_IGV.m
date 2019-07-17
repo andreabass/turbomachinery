@@ -15,7 +15,7 @@ y_t_IGV = c_IGV*y_t_perc*0.8;
 % CAMBER LINE PROFILE
 cl_IGVh=teta_hub_IGV/25;
 y_IGVh = c_IGV*y_c_perc*cl_IGVh;
-dy_dx_IGVh = dy_dx_perc*cl_IGVh;
+dy_dx_IGVh = dy_dx_perc*c_IGV;
 eps_IGVh = atand(dy_dx_IGVh);
 
 % SUCTION SIDE PROFILE (X-Y)
@@ -38,7 +38,7 @@ AX_coord_ps_IGVh = (-xps_IGVh*cosd(-gamma_IGVh)+yps_IGVh*sind(-gamma_IGVh));
 % CAMBER LINE PROFILE
 cl_IGVm=teta_mid_IGV/25;
 y_IGVm = c_IGV*y_c_perc*cl_IGVm;
-dy_dx_IGVm = dy_dx_perc*cl_IGVm;
+dy_dx_IGVm = dy_dx_perc*c_IGV;
 
 % SUCTION SIDE PROFILE (X-Y)
 eps_IGVm = atand(dy_dx_IGVm);
@@ -61,7 +61,7 @@ AX_coord_ps_IGVm = (-xps_IGVm*cosd(-gamma_IGVm)+yps_IGVm*sind(-gamma_IGVm));
 % CAMBER LINE PROFILE
 cl_IGVt=teta_tip_IGV/25;
 y_IGVt = c_IGV*y_c_perc*cl_IGVt;
-dy_dx_IGVt = dy_dx_perc*cl_IGVt;
+dy_dx_IGVt = dy_dx_perc*c_IGV;
 eps_IGVt = atand(dy_dx_IGVt);
 
 % SUCTION SIDE PROFILE (X-Y)
