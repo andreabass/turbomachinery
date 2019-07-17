@@ -9,37 +9,38 @@
 x_perc=[0 1.25 2.5 5 7.5 10 15 20 30 40 50 60 70 80 90 95 100];% chord percentage x/c
 y_t_perc=[0 0.217 0.334 0.534 0.778 0.985 1.369 1.711 2.275 2.678 2.9195 3 2.819 2.274 1.364 0.771 0.1];% half thickness t/c
 
-epsi_h = 0.5 * tand((beta_2_h_geo-beta_1_h_geo)/4);
+epsi_h = 0.5 * tand(((beta_2_h_geo-beta_1_h_geo))/4);
 R_perc_h = epsi_h/2 + 1/(8*epsi_h);
 y_c_perc_h = epsi_h - R_perc_h + ( R_perc_h^2 - (x_perc./100 - 0.5).^2).^0.5;
 dy_dx_perc_h = - (x_perc./100 - c_R_m/2).*(R_perc_h^2 - (x_perc./100 - 1/2).^2).^(-0.5);
 
-epsi_m = 0.5 * tand((beta_2_m_geo-beta_1_m_geo)/4);
+epsi_m = 0.5 * tand(((beta_2_m_geo-beta_1_m_geo))/4);
 R_perc_m = epsi_m/2 + 1/(8*epsi_m);
 y_c_perc_m = epsi_m - R_perc_m + ( R_perc_m^2 - (x_perc./100 - 0.5).^2).^0.5;
 dy_dx_perc_m = - (x_perc./100 - c_R_m/2).*(R_perc_m^2 - (x_perc./100 - 1/2).^2).^(-0.5);
 
-epsi_t = 0.5 * tand((beta_2_t_geo-beta_1_t_geo)/4);
+epsi_t = 0.5 * tand(((beta_2_t_geo-beta_1_t_geo))/4);
 R_perc_t = epsi_t/2 + 1/(8*epsi_t);
 y_c_perc_t = epsi_t - R_perc_t + ( R_perc_t^2 - (x_perc./100 - 0.5).^2).^0.5;
 dy_dx_perc_t = - (x_perc./100 - c_R_m/2).*(R_perc_t^2 - (x_perc./100 - 1/2).^2).^(-0.5);
 
 
 % THICKNESS PROFILE
-x_r = x_perc./100*c_R_m;
+x_r = x_perc*c_R_m;
 y_t_r = c_R_m*y_t_perc*0.8;
 
 
 % MID-CHORD POINT
-x_rAV = 0.5*c_R_m;
-y_rAV = 0;
-
+x_rAV = 50*c_R_m;
+% cl_rm=4*pi*epsi_m/log(2);
+% y_rAV = c_R_m*y_c_perc_m(15)*100*cl_rm;
+y_rAV =0;
 %% HUB 
 
 % CAMBER LINE PROFILE
 cl_rh= 4*pi*epsi_h/log(2);
-y_rh = c_R_m*y_c_perc_h*cl_rh;
-dy_dx_rh = dy_dx_perc_h*cl_rh;
+y_rh = c_R_m*y_c_perc_h*100;
+dy_dx_rh = dy_dx_perc_h*c_R_m;
 eps_rh = atand(dy_dx_rh);
 
 % SUCTION SIDE PROFILE (X-Y)
@@ -65,7 +66,7 @@ AX_coord_AVrh = x_rAV*cosd(-gamma_roth)-y_rAV*sind(-gamma_roth);
 
 % CAMBER LINE PROFILE
 cl_rm=4*pi*epsi_m/log(2);
-y_rm = c_R_m*y_c_perc_m*cl_rm;
+y_rm = c_R_m*y_c_perc_m*100;
 dy_dx_rm = dy_dx_perc_m*cl_rm;
 eps_rm = atand(dy_dx_rm);
 
@@ -91,7 +92,7 @@ AX_coord_AVrm = x_rAV*cosd(-gamma_rotm)-y_rAV*sind(-gamma_rotm);
 
 % CAMBER LINE PROFILE
 cl_rt=4*pi*epsi_t/log(2);
-y_rt = c_R_m*y_c_perc_t*cl_rt;
+y_rt = c_R_m*y_c_perc_t*100;
 dy_dx_rt = dy_dx_perc_t*cl_rt;
 eps_rt = atand(dy_dx_rt);
 
