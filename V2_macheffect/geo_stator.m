@@ -4,7 +4,7 @@ Dalpha_23_m = abs(alpha_2_m-alpha_3_m);
 Dalpha_23_h = abs(alpha_2_h-alpha_3_h);
 
 % Incidence: i_opt_stat = Ksh*Kth*i0_10+n_LIE*teta
-Ksh = 1; % for NACA-65
+Ksh_i = 0.7; % for DCA
 
 q = 0.28/(0.1+(th_c)^0.3);
 Kth = (10*th_c)^q;
@@ -21,11 +21,13 @@ n_LIEt = 0.025*sigma_S_t-0.06-(abs(alpha_2_t)/90)^(1+1.2*sigma_S_t)/(1.5+0.43*si
 n_LIEm = 0.025*sigma_S_m-0.06-(abs(alpha_2_m)/90)^(1+1.2*sigma_S_m)/(1.5+0.43*sigma_S_m);
 n_LIEh = 0.025*sigma_S_h-0.06-(abs(alpha_2_h)/90)^(1+1.2*sigma_S_h)/(1.5+0.43*sigma_S_h);
 
-i_0_statt = Ksh*Kth*i0_10tip;
-i_0_statm = Ksh*Kth*i0_10mid;
-i_0_stath = Ksh*Kth*i0_10hub;
+i_0_statt = Ksh_i*Kth*i0_10tip;
+i_0_statm = Ksh_i*Kth*i0_10mid;
+i_0_stath = Ksh_i*Kth*i0_10hub;
 
 % Deviation: dev_opt_stat = Ksh*Kth*dev0_10+m_LIE*teta
+
+Ksh_d = 0.75;
 
 x_LIEt = abs(alpha_2_t)/100;
 x_LIEm = abs(alpha_2_m)/100;
@@ -49,9 +51,9 @@ dev0_10t = 0.01*sigma_S_t*abs(alpha_2_t)+(0.74*sigma_S_t^1.9+3*sigma_S_t)*(abs(a
 dev0_10m = 0.01*sigma_S_m*abs(alpha_2_m)+(0.74*sigma_S_m^1.9+3*sigma_S_m)*(abs(alpha_2_m)/90)^(1.67+1.09*sigma_S_m);
 dev0_10h = 0.01*sigma_S_h*abs(alpha_2_h)+(0.74*sigma_S_h^1.9+3*sigma_S_h)*(abs(alpha_2_h)/90)^(1.67+1.09*sigma_S_h);
 
-dev_0_statt = Ksh*Kth_dev*dev0_10t;
-dev_0_statm = Ksh*Kth_dev*dev0_10m;
-dev_0_stath = Ksh*Kth_dev*dev0_10h;
+dev_0_statt = Ksh_d*Kth_dev*dev0_10t;
+dev_0_statm = Ksh_d*Kth_dev*dev0_10m;
+dev_0_stath = Ksh_d*Kth_dev*dev0_10h;
 
 % CAMBER ANGLE
 teta_tip_stat = (Dalpha_23_t- i_0_statt + dev_0_statt)/(1-m_t+n_LIEt);
@@ -59,14 +61,14 @@ teta_mid_stat = (Dalpha_23_m- i_0_statm + dev_0_statm)/(1-m_m+n_LIEm);
 teta_hub_stat = (Dalpha_23_h- i_0_stath + dev_0_stath)/(1-m_h+n_LIEh);
 
 % INCIDENCE ANGLE
-i_opt_statt = Ksh*Kth*i0_10tip + n_LIEt*teta_tip_stat;
-i_opt_statm = Ksh*Kth*i0_10mid + n_LIEm*teta_mid_stat;
-i_opt_stath = Ksh*Kth*i0_10hub + n_LIEh*teta_hub_stat;
+i_opt_statt = Ksh_i*Kth*i0_10tip + n_LIEt*teta_tip_stat;
+i_opt_statm = Ksh_i*Kth*i0_10mid + n_LIEm*teta_mid_stat;
+i_opt_stath = Ksh_i*Kth*i0_10hub + n_LIEh*teta_hub_stat;
 
 % DEVIATION ANGLE
-dev_opt_statt = Ksh*Kth_dev*dev0_10t+m_t*teta_tip_stat;
-dev_opt_statm = Ksh*Kth_dev*dev0_10m+m_m*teta_mid_stat;
-dev_opt_stath = Ksh*Kth_dev*dev0_10h+m_h*teta_hub_stat;
+dev_opt_statt = Ksh_d*Kth_dev*dev0_10t+m_t*teta_tip_stat;
+dev_opt_statm = Ksh_d*Kth_dev*dev0_10m+m_m*teta_mid_stat;
+dev_opt_stath = Ksh_d*Kth_dev*dev0_10h+m_h*teta_hub_stat;
 
 dev_opt_statt = dev_opt_statt + 10*(1-V_3A(end)/V_2A(end));
 dev_opt_statm = dev_opt_statm + 10*(1-V_3A(end)/V_2A(end));

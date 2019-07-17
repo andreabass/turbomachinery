@@ -26,3 +26,15 @@ subplot(3,1,1)
 velt(V_1(end),W_1(end),omega*r(end),'r')
 velt(V_2(end),W_2(end),omega*r(end),'r--')
 
+% STATOR
+figure(tvdstat);
+subplot(3,1,3)
+velt(V_3A(1),V_3T(1),0,'r')
+title('STATOR HUB')
+subplot(3,1,2)
+velt(V_3A_m,V_3T_m,0,'r')
+title('STATOR MID')
+subplot(3,1,1)
+velt(V_3A(end),V_3T(end),0,'r')
+title('STATOR TIP')
+

@@ -8,6 +8,10 @@ V_2A_m = linspace(V_1A_high(1)*0.8,V_1A_high(1)*1.2,1000);
 
 beta_1_geo  =  [beta_1_geo_low(end:-1:1) beta_1_geo_high(2:end) ];
 i_1m = beta_1_m_od - beta_1_m_geo;
+
+% Mach number @ inlet
+
+M_R1_m = W_1_m / sqrt(gamma*R_star*T_1_m);
        
     for k = 1:length(V_2A_m)
     
@@ -44,7 +48,9 @@ i_1m = beta_1_m_od - beta_1_m_geo;
     end
     attack_c_m = attack_c_m(end);
     
-    i_c_m = i_opt_rotm + (attack_c_m - attack_m_design);
+    R_cm = attack_m_design - attack_c_m;
+    
+    i_c_m = i_opt_rotm - R_cm / (1+0.5*M_R1_m^3);
     
    attack_s_m = [attack_m_design*2 attack_m_design];
     while abs( (attack_s_m(end) - attack_s_m(end-1))/attack_s_m(end-1) ) > tol
@@ -56,9 +62,32 @@ i_1m = beta_1_m_od - beta_1_m_geo;
     end
     attack_s_m = attack_s_m(end);
     
-    i_s_m = i_opt_rotm + (attack_s_m - attack_m_design);
+    R_sm = - attack_m_design + attack_s_m;
     
-    i_mm = i_min(beta_1_m,beta_2_m,th_c,sigma_R_m);
+    i_s_m = i_opt_rotm + R_sm/(1+0.5*(Ksh_i*M_R1_m)^3);
+    
+    % i_mm = i_min(beta_1_m,beta_2_m,th_c,sigma_R_m);
+    
+    i_mm = i_c_m + (i_s_m - i_c_m)*R_cm/(R_cm + R_sm);
+    
+    % Y_2_p_tot_m_min = Y_2_p_tot_m_min * (1+(i_mm-i_opt_rotm)^2/R_sm);
+    
+    %%% Critical Mach calculation
+    
+        T_TR1_m = T_1_m + W_1_m^2/2/cp;
+        
+        T_cr_1_m = T_TR1_m * 2 / (gamma+1);
+        
+        W_cr_1_m   = 1 * sqrt(gamma*R_star*T_cr_1_m);
+        
+        M_R1_m     = W_1_m / sqrt(gamma*R_star*T_1_m);
+        
+        M_cr_1_m   = M_R1_m * W_cr_1_m / ( W_1_m * Wmax_W1_m );
+        
+                if M_R1_m > M_cr_1_m
+        Y_2_p_tot_m_min = Y_2_p_tot_m_min + Ksh_i * ((M_R1_m/M_cr_1_m-1)*W_cr_1_m/W_1_m)^2;
+                end
+    
     
     if i_1m >= i_mm
         
@@ -83,6 +112,7 @@ i_1m = beta_1_m_od - beta_1_m_geo;
         Y_2_p_tot_m = Y_2_p_tot_m_min * (2+2*(xi_m-1));
         
     end
+    
     
     p_TR1_m = p_1_m * ( (1+(gamma-1)/2*(W_1_m^2/(gamma*R_star*T_1_m)))^(gamma/(gamma-1)) );
     p_TR2_m = p_TR1_m - Y_2_p_tot_m * (p_TR1_m - p_1_m);
@@ -172,7 +202,11 @@ i_1m = beta_1_m_od - beta_1_m_geo;
     end
     attack_c_iter = attack_c_iter(end);
     
-    i_c_iter = i_opt_rot_high(i) + (attack_c_iter - attack_design_high(i));
+    R_c_iter = attack_design_high(i) - attack_c_iter;
+    
+    i_c_iter = i_opt_rot_high(i) - R_c_iter / (1+0.5*M_R1_high(i)^3);
+    
+    % i_c_iter = i_opt_rot_high(i) + (attack_c_iter - attack_design_high(i));
     
    attack_s_iter = [attack_design_high(i)*2 attack_design_high(i)];
     while abs( (attack_s_iter(end) - attack_s_iter(end-1))/attack_s_iter(end-1) ) > tol
@@ -184,9 +218,27 @@ i_1m = beta_1_m_od - beta_1_m_geo;
     end
     attack_s_iter = attack_s_iter(end);
     
-    i_s_iter = i_opt_rot_high(i) + (attack_s_iter - attack_design_high(i));
+    R_s_iter = - attack_design_high(i) + attack_s_iter;
     
-    i_miter = i_min(beta_1_high(i),beta_2_iter,th_c,sigma_R_high(i));
+    i_s_iter = i_opt_rot_high(i) + R_s_iter/(1+0.5*(Ksh_i*M_R1_high(i))^3);
+    
+    % i_s_iter = i_opt_rot_high(i) + (attack_s_iter - attack_design_high(i));
+    
+    % i_miter = i_min(beta_1_high(i),beta_2_iter,th_c,sigma_R_high(i));
+    
+    i_miter = i_c_iter + (i_s_iter - i_c_iter)*R_c_iter/(R_c_iter + R_s_iter);
+    
+    %%% Critical Mach calculation
+        
+        T_cr_1_iter = T_TR1_high(i) * 2 / (gamma+1);
+        
+        W_cr_1_iter   = 1 * sqrt(gamma*R_star*T_cr_1_iter);
+      
+        M_cr_1_iter   = M_R1_high(i) * W_cr_1_iter / ( W_1_high(i) * Wmax_W1_iter );
+        
+                if M_R1_high(i) > M_cr_1_iter
+        Y_2_p_tot_min_iter = Y_2_p_tot_min_iter + Ksh_i * ((M_R1_high(i)/M_cr_1_iter-1)*W_cr_1_m/W_1_high(i))^2;
+                end
     
     if i_1_high(i) >= i_miter
         
@@ -330,7 +382,11 @@ i_1m = beta_1_m_od - beta_1_m_geo;
     end
     attack_c_iter = attack_c_iter(end);
     
-    i_c_iter = i_opt_rot_low(i) + (attack_c_iter - attack_design_low(i));
+    R_c_iter = attack_design_low(i) - attack_c_iter;
+    
+    i_c_iter = i_opt_rot_low(i) - R_c_iter / (1+0.5*M_R1_low(i)^3);
+    
+    % i_c_iter = i_opt_rot_low(i) + (attack_c_iter - attack_design_low(i));
     
    attack_s_iter = [attack_design_low(i)*2 attack_design_low(i)];
     while abs( (attack_s_iter(end) - attack_s_iter(end-1))/attack_s_iter(end-1) ) > tol
@@ -344,8 +400,26 @@ i_1m = beta_1_m_od - beta_1_m_geo;
     
     i_s_iter = i_opt_rot_low(i) + (attack_s_iter - attack_design_low(i));
     
-    i_miter = i_min(beta_1_low(i),beta_2_iter,th_c,sigma_R_low(i));
+    R_s_iter = - attack_design_low(i) + attack_s_iter;
     
+    i_s_iter = i_opt_rot_low(i) + R_s_iter/(1+0.5*(Ksh_i*M_R1_low(i))^3);
+    
+    i_miter = i_c_iter + (i_s_iter - i_c_iter)*R_c_iter/(R_c_iter + R_s_iter);
+    
+    % i_miter = i_min(beta_1_low(i),beta_2_iter,th_c,sigma_R_low(i));
+    
+ %%% Critical Mach calculation
+        
+        T_cr_1_iter = T_TR1_low(i) * 2 / (gamma+1);
+        
+        W_cr_1_iter   = 1 * sqrt(gamma*R_star*T_cr_1_iter);
+      
+        M_cr_1_iter   = M_R1_low(i) * W_cr_1_iter / ( W_1_low(i) * Wmax_W1_iter );
+        
+                if M_R1_low(i) > M_cr_1_iter
+        Y_2_p_tot_min_iter = Y_2_p_tot_min_iter + Ksh_i * ((M_R1_low(i)/M_cr_1_iter-1)*W_cr_1_m/W_1_low(i))^2;
+                end
+
     if i_1_low(i) >= i_miter
         
         xi_iter = (i_1_low(i) - i_miter) / (i_s_iter - i_miter);
@@ -397,7 +471,7 @@ i_1m = beta_1_m_od - beta_1_m_geo;
     p_TR1_low(i)    = p_TR1_iter;
     p_TR2_low(i)    = p_TR2_iter;
     K_low(i)        = Kiter;
-        D_low(i)       = Diter;
+    D_low(i)       = Diter;
     
     i_c_iter_low(i) = i_c_iter;
     i_miter_low(i) = i_miter;
@@ -440,5 +514,11 @@ i_1m = beta_1_m_od - beta_1_m_geo;
       end
    
     end
+    
+    M_2_high = V_2_high ./ sqrt(gamma*R_star.*T_2_high);
+    M_2_low = V_2_low ./ sqrt(gamma*R_star.*T_2_low);
+    M_2     =  [M_2_low(end:-1:1) M_2_high(2:end) ];
+    M_2_m   = V_2_m / sqrt(gamma*R_star*T_2_m);
+    
     
     

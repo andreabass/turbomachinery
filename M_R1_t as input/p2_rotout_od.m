@@ -2,7 +2,7 @@
 
 % Axial velocity @ rotor outlet (midspan) initialized to the inlet value
 
-V_2A_m = linspace(V_1A_high(1)*0.8,V_1A_high(1)*1.2,1000);
+V_2A_m = linspace(V_1A_high(1)*0.7,V_1A_high(1)*1.1,1000);
 
 % Incidence calculation
 

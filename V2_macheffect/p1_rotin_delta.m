@@ -319,3 +319,14 @@ V_1A_m = linspace(V_1A(end),V_1A(end)*1.1,1000);
     
     V_1A_m  = V_1A_m(end);
     T_TR1_m =  T_1_m + W_1_m^2/2/cp;
+    
+    
+    V_1A_m = V_1A_m(end);
+    M_R1_high = W_1_high ./ sqrt(gamma*R_star.*T_1_high);
+    M_R1_low = W_1_low ./ sqrt(gamma*R_star.*T_1_low);
+    M_R1   =  [M_R1_low(end:-1:1) M_R1_high(2:end) ];
+    M_R1_m = M_R1_low(1);
+    M_1_high = V_1_high ./ sqrt(gamma*R_star.*T_1_high);
+    M_1_low = V_1_low ./ sqrt(gamma*R_star.*T_1_low);
+    M_1   =  [M_1_low(end:-1:1) M_1_high(2:end) ];
+    M_1_m = M_1_low(1);

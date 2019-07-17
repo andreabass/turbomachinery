@@ -247,6 +247,4 @@ IGV_rotation = alpha_1_m - alpha_1_m_geo;
      
     end
     
-    V_1A_m = V_1A_m(end);
-    
     

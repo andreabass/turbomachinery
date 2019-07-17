@@ -11,7 +11,7 @@ options
 lambda = 0.62;
 
 % ROTATIONAL SPEED
-n = 5300; %rpm
+n = 5250; %rpm
 
 % ROTOR INLET RELATIVE MACH NUMBER @ TIP
 M_R1_t = 0.99;
@@ -100,8 +100,8 @@ results
 %% DESIGN PROBLEM (GEOMETRY)
 
 geo_IGV2
-geo_rotor
-geo_stator
+% geo_rotor
+% geo_stator
 blade_IGV
 blade_rotor
 blade_stator
@@ -148,6 +148,18 @@ subplot(3,1,1)
 velt(V_1_t,W_1_t,U_t)
 velt(V_2_t,W_2_t,U_t,'k--')
 title('ROTOR TIP')
+
+% STATOR
+tvdstat = figure;
+subplot(3,1,3)
+velt(V_3A_h(end),V_3T_h,0)
+title('STATOR HUB')
+subplot(3,1,2)
+velt(V_3A_t(end),V_3T_m,0)
+title('STATOR MID')
+subplot(3,1,1)
+velt(V_3A_t(end),V_3T_t,0)
+title('STATOR TIP')
 
 
 

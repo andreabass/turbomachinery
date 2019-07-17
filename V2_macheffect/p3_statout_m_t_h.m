@@ -42,6 +42,10 @@
         V_3A_t = V_3A;
         V_3A_h = V_3A;
         
+        M_2_m = V_2_m / sqrt(gamma*R_star*T_2_m);
+        M_2_h = V_2_h / sqrt(gamma*R_star*T_2_h);
+        M_2_t = V_2_t / sqrt(gamma*R_star*T_2_t);
+        
         %   HOWELL CORRELATION %
         %These assumptions are used to obtain the two correction
         %coefficients of Howell correlation (Psi, Phi) equal to one. In
@@ -75,23 +79,166 @@
         s_S_h = pi * D_h(end) / N_S;
         sigma_S_h = c_S_h / s_S_h;
         
+        geo_stator
+        
+        % Stall angles (MID)
+        
+    attack_S_c_m = [attack_S_m_design*2 attack_S_m_design];
+    while abs( (attack_S_c_m(end) - attack_S_c_m(end-1))/attack_S_c_m(end-1) ) > tol
+        attack_S_c_m(end-1) = attack_S_c_m(end);
+        
+        alpha_c_m = -attack_S_c_m(end) + gamma_statm;
+        
+        if abs(alpha_c_m)<20
+            alpha_c_m = 20;
+        end
+        
+        attack_S_c_m(end+1) = attack_S_m_design - 9 + ( 1 - (30/abs(alpha_c_m))^0.48 )*teta_mid_stat/4.176;
+        
+    end
+    attack_S_c_m = attack_S_c_m(end);
+    
+    R_S_cm = attack_S_m_design - attack_S_c_m;
+    
+    i_S_c_m = i_opt_statm - R_S_cm / (1+0.5*M_2_m^3);
+    
+   attack_S_s_m = [attack_S_m_design*2 attack_S_m_design];
+    while abs( (attack_S_s_m(end) - attack_S_s_m(end-1))/attack_S_s_m(end-1) ) > tol
+        attack_S_s_m(end-1) = attack_S_s_m(end);
+        
+        alpha_s_m = -attack_S_s_m(end) + gamma_statm;
+        attack_S_s_m(end+1) = attack_S_m_design + 10.3 + ( 2.92 - (abs(alpha_s_m)/15.6) )*teta_mid_stat/8.2;
+        
+    end
+    attack_S_s_m = attack_S_s_m(end);
+    
+    R_S_sm = - attack_S_m_design + attack_S_s_m;
+    
+    i_S_s_m = i_opt_statm + R_S_sm / (1+0.5*(Ksh_i*M_2_m)^3);
+    
+    i_S_mm  = i_S_c_m + (i_S_s_m - i_S_c_m)*R_S_cm/(R_S_cm+R_S_sm);
+    
+        % Stall angles (HUB)
+        
+    attack_S_c_h = [attack_S_h_design*2 attack_S_h_design];
+    while abs( (attack_S_c_h(end) - attack_S_c_h(end-1))/attack_S_c_h(end-1) ) > tol
+        attack_S_c_h(end-1) = attack_S_c_h(end);
+
+        beta_S_c_h = -attack_S_c_h(end) + gamma_stath;
+        
+                if abs(beta_S_c_h)<20
+            beta_S_c_h = 20;
+                end
+        
+        attack_S_c_h(end+1) = attack_S_h_design - 9 + ( 1 - (30/abs(beta_S_c_h))^0.48 )*teta_hub_stat/4.176;
+        
+    end
+    attack_S_c_h = attack_S_c_h(end);
+    
+    R_S_ch = attack_S_h_design - attack_S_c_h;
+    
+    i_S_c_h = i_opt_stath - R_S_ch / (1+0.5*M_2_h^3);
+    
+   attack_S_s_h = [attack_S_h_design*2 attack_S_h_design];
+    while abs( (attack_S_s_h(end) - attack_S_s_h(end-1))/attack_S_s_h(end-1) ) > tol
+        attack_S_s_h(end-1) = attack_S_s_h(end);
+        
+        alpha_s_h = -attack_S_s_h(end) + gamma_stath;
+        attack_S_s_h(end+1) = attack_S_h_design + 10.3 + ( 2.92 - (abs(alpha_s_h)/15.6) )*teta_hub_stat/8.2;
+        
+    end
+    attack_S_s_h = attack_S_s_h(end);
+    
+    R_S_sh = - attack_S_h_design + attack_S_s_h;
+    
+    i_S_s_h = i_opt_stath + R_S_sh / (1+0.5*(Ksh_i*M_2_h)^3);
+    
+    i_S_mh  = i_S_c_h + (i_S_s_h - i_S_c_h)*R_S_ch/(R_S_ch+R_S_sh);
+    
+            % Stall angles (TIP)
+        
+    attack_S_c_t = [attack_S_h_design*2 attack_S_h_design];
+    while abs( (attack_S_c_t(end) - attack_S_c_t(end-1))/attack_S_c_t(end-1) ) > tol
+        attack_S_c_t(end-1) = attack_S_c_t(end);
+
+        alpha_c_t = -attack_S_c_t(end) + gamma_statt;
+        
+                if abs(alpha_c_t)<20
+            alpha_c_t = 20;
+                end
+        
+        attack_S_c_t(end+1) = attack_S_t_design - 9 + ( 1 - (30/abs(alpha_c_t))^0.48 )*teta_tip_stat/4.176;
+        
+    end
+    attack_S_c_t = attack_S_c_t(end);
+    
+    R_S_ct = attack_S_t_design - attack_S_c_t;
+    
+    i_S_c_t = i_opt_statt - R_S_ct / (1+0.5*M_2_t^3);
+    
+   attack_S_s_t = [attack_S_t_design*2 attack_S_t_design];
+    while abs( (attack_S_s_t(end) - attack_S_s_t(end-1))/attack_S_s_t(end-1) ) > tol
+        attack_S_s_t(end-1) = attack_S_s_t(end);
+        
+        alpha_s_t = -attack_S_s_t(end) + gamma_statt;
+        attack_S_s_t(end+1) = attack_S_t_design + 10.3 + ( 2.92 - (abs(alpha_s_t)/15.6) )*teta_tip_stat/8.2;
+        
+    end
+    attack_S_s_t = attack_S_s_t(end);
+    
+    R_S_st = - attack_S_t_design + attack_S_s_t;
+    
+    i_S_s_t = i_opt_statt + R_S_st / (1+0.5*(Ksh_i*M_2_t)^3);
+    
+    i_S_mt  = i_S_c_t + (i_S_s_t - i_S_c_t)*R_S_ct/(R_S_ct+R_S_st);
+    
         %Losses correlations
         
-        Km = abs(tand((alpha_2_m)) - V_3A(end)/V_2A_m * tand((alpha_3_m)));
-        Kt = abs(tand((alpha_2_t)) - V_3A(end)/V_2A_t * tand((alpha_3_t)));
-        Kh = abs(tand((alpha_2_h)) - V_3A(end)/V_2A_h * tand((alpha_3_h)));
+        K_S_m = abs(tand(alpha_2_m) - V_3A(end)/V_2A_m * tand(alpha_3_m));
+        K_S_t = abs(tand(alpha_2_t) - V_3A(end)/V_2A_t * tand(alpha_3_t));
+        K_S_h = abs(tand(alpha_2_h) - V_3A(end)/V_2A_h * tand(alpha_3_h));
         
-        V_max_over_V_2_m = 1.12 + 0.61 * cosd(alpha_2_m)^2/sigma_S_m * Km;
-        V_max_over_V_2_t = 1.12 + 0.61 * cosd(alpha_2_t)^2/sigma_S_t * Kt;
-        V_max_over_V_2_h = 1.12 + 0.61 * cosd(alpha_2_h)^2/sigma_S_h * Kh;
+        Vmax_V2_m = 1.12 + 0.61 * cosd(alpha_2_m)^2/sigma_S_m * K_S_m;
+        Vmax_V2_t = 1.12 + 0.61 * cosd(alpha_2_t)^2/sigma_S_t * K_S_t;
+        Vmax_V2_h = 1.12 + 0.61 * cosd(alpha_2_h)^2/sigma_S_h * K_S_h;
         
-        DmS = V_max_over_V_2_m * V_2_m / V_3_m;
-        DtS = V_max_over_V_2_t * V_2_t / V_3_t;
-        DhS = V_max_over_V_2_h * V_2_h / V_3_h;
+        DmS = Vmax_V2_m * V_2_m / V_3_m;
+        DtS = Vmax_V2_t * V_2_t / V_3_t;
+        DhS = Vmax_V2_h * V_2_h / V_3_h;
         
-        Y_3_p_tot_m = 0.004*(1+3.1*(DmS - 1)^2 + 0.4*(DmS - 1)^8)*2*sigma_S_m/cosd(alpha_3_m)* (V_3_m / V_2_m)^2;
-        Y_3_p_tot_t = 0.004*(1+3.1*(DtS - 1)^2 + 0.4*(DtS - 1)^8)*2*sigma_S_t/cosd(alpha_3_t)* (V_3_t / V_2_t)^2;
-        Y_3_p_tot_h = 0.004*(1+3.1*(DhS - 1)^2 + 0.4*(DhS - 1)^8)*2*sigma_S_h/cosd(alpha_3_h)* (V_3_h / V_2_h)^2;
+        Y_3_p_tot_m = 0.004 * ( 1 + 3.1*(DmS-1)^2 + 0.4*(DmS-1)^8 ) * 2 * sigma_S_m / cosd(alpha_3_m) * (V_3_m/V_2_m)^2;
+        Y_3_p_tot_t = 0.004 * ( 1 + 3.1*(DtS-1)^2 + 0.4*(DtS-1)^8 ) * 2 * sigma_S_t / cosd(alpha_3_t) * (V_3_t/V_2_t)^2;
+        Y_3_p_tot_h = 0.004 * ( 1 + 3.1*(DhS-1)^2 + 0.4*(DhS-1)^8 ) * 2 * sigma_S_h / cosd(alpha_3_h) * (V_3_h/V_2_h)^2;
+        
+        Y_3_p_tot_m = Y_3_p_tot_m * ( 1 + (i_S_mm - i_opt_statm)^2 / R_S_sm^2 ); 
+        Y_3_p_tot_h = Y_3_p_tot_h * ( 1 + (i_S_mh - i_opt_stath)^2 / R_S_sh^2 );
+        Y_3_p_tot_t = Y_3_p_tot_t * ( 1 + (i_S_mt - i_opt_statt)^2 / R_S_st^2 );
+        
+        % Critical Mach calculation
+        
+        T_cr_2_m = T_T2_m * 2 / (gamma+1);
+        T_cr_2_h = T_T2_h * 2 / (gamma+1);
+        T_cr_2_t = T_T2_t * 2 / (gamma+1);
+        
+        V_cr_2_m   = 1 * sqrt(gamma*R_star*T_cr_2_m);
+        V_cr_2_h   = 1 * sqrt(gamma*R_star*T_cr_2_h);
+        V_cr_2_t   = 1 * sqrt(gamma*R_star*T_cr_2_t);
+        
+        M_cr_2_m   = M_2_m * V_cr_2_m / ( V_2_m * Vmax_V2_m );
+        M_cr_2_h   = M_2_h * V_cr_2_h / ( V_2_h * Vmax_V2_h );
+        M_cr_2_t   = M_2_t * V_cr_2_t / ( V_2_t * Vmax_V2_t );
+        
+        if M_2_m > M_cr_2_m
+        Y_3_p_tot_m = Y_3_p_tot_m + Ksh_i * ((M_2_m/M_cr_2_m-1)*V_cr_2_m/V_2_m)^2;
+        end
+        
+        if M_2_h > M_cr_2_h
+        Y_3_p_tot_h = Y_3_p_tot_h + Ksh_i * ((M_2_h/M_cr_2_h-1)*V_cr_2_h/V_2_h)^2;
+        end
+        
+        if M_2_t > M_cr_2_t
+        Y_3_p_tot_t = Y_3_p_tot_t + Ksh_i * ((M_2_t/M_cr_2_t-1)*V_cr_2_t/V_2_t)^2;
+        end
         
         %TDN variables
         
@@ -110,10 +257,6 @@
         T_T3_m_is  = T_T2_m * ( p_T3_m / p_T2_m )^((gamma-1)/gamma);
         T_T3_t_is  = T_T2_t * ( p_T3_t / p_T2_t )^((gamma-1)/gamma);
         T_T3_h_is  = T_T2_h * ( p_T3_h / p_T2_h )^((gamma-1)/gamma);
-        
-        T_3_m = T_T3_m - V_3_m^2 / 2 / cp;
-        T_3_t = T_T3_t - V_3_t^2 / 2 / cp;
-        T_3_h = T_T3_h - V_3_h^2 / 2 / cp;
         
         %Update SS efficiency @ rotor outlet
         

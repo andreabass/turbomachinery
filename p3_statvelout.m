@@ -18,9 +18,9 @@ while abs(V_3A(end) - V_3A(end-1))> tol
         T_3_t = T_T3_t - V_3_t^2 / 2 / cp;
         T_3_h = T_T3_h - V_3_h^2 / 2 / cp;
         
-        T_3_t_is = T_2_t + eta_R_t(end) * (T_3_t - T_2_t);
-        T_3_m_is = T_2_m + eta_R_m(end) * (T_3_m - T_2_m);
-        T_3_h_is = T_2_h + eta_R_h(end) * (T_3_h - T_2_h);
+        T_3_t_is = T_2_t + eta_S_t(end) * (T_3_t - T_2_t);
+        T_3_m_is = T_2_m + eta_S_m(end) * (T_3_m - T_2_m);
+        T_3_h_is = T_2_h + eta_S_h(end) * (T_3_h - T_2_h);
         
         p_3_t = p_2_t * (T_2_t / T_3_t_is) ^ (gamma/(1-gamma));
         p_3_m = p_2_m * (T_2_m / T_3_m_is) ^ (gamma/(1-gamma));

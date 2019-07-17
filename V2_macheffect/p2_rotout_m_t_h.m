@@ -234,9 +234,17 @@
         M_cr_1_h   = M_R1_h * W_cr_1_h / ( W_1_h * Wmax_W1_h );
         M_cr_1_t   = M_R1_t * W_cr_1_t / ( W_1_t * Wmax_W1_t );
         
+                if M_R1_m > M_cr_1_m
         Y_2_p_tot_m = Y_2_p_tot_m + Ksh_i * ((M_R1_m/M_cr_1_m-1)*W_cr_1_m/W_1_m)^2;
+                end
+                
+                if M_R1_h > M_cr_1_h
         Y_2_p_tot_h = Y_2_p_tot_h + Ksh_i * ((M_R1_h/M_cr_1_h-1)*W_cr_1_h/W_1_h)^2;
+                end
+                
+                if M_R1_t > M_cr_1_t
         Y_2_p_tot_t = Y_2_p_tot_t + Ksh_i * ((M_R1_t/M_cr_1_t-1)*W_cr_1_t/W_1_t)^2;
+                end
         
         %TDN variables
         

@@ -10,9 +10,9 @@ options
 % 1
 D_t = 1; %m
 % 2
-lambda = 0.4639;
+lambda = 0.50712;
 % 3
-n = 8590; %rpm
+n = 11000; %rpm
 % 4
 c_IGV = 0.04;
 % 5
