@@ -62,7 +62,7 @@ AX_coord_AVsh = x_sAV*cosd(gamma_stath)-y_sAV*sind(gamma_stath);
 % CAMBER LINE PROFILE
 cl_sm=4*pi*epsi_m/log(2);
 y_sm = c_S_m*y_c_perc_m*cl_sm*100;
-dy_dx_sm = dy_dx_perc_m*c_S_m;
+dy_dx_sm = dy_dx_perc_m*cl_sm;
 eps_sm = atand(dy_dx_sm);
 
 % SUCTION SIDE PROFILE (X-Y)
@@ -87,8 +87,8 @@ AX_coord_AVsm = x_sAV*cosd(gamma_statm)-y_sAV*sind(gamma_statm);
 
 % CAMBER LINE PROFILE
 cl_st=4*pi*epsi_t/log(2);
-y_st = c_S_m*y_c_perc_t*cl_st*100;
-dy_dx_st = dy_dx_perc_t*c_S_m;
+y_st = c_S_m*y_c_perc_t*cl_st;
+dy_dx_st = dy_dx_perc_t*cl_st;
 eps_st = atand(dy_dx_st);
 
 % SUCTION SIDE PROFILE (X-Y)

@@ -18,7 +18,7 @@ midsps = plot(T_coord_ps_sm + TRASX_S,-AX_coord_ps_sm + TRASY_S,'k-.','LineWidth
 tipsss = plot(T_coord_ss_st_trans + TRASX_S,-AX_coord_ss_st_trans + TRASY_S,'k','LineWidth',1.5);
 tipsps = plot(T_coord_ps_st_trans + TRASX_S,-AX_coord_ps_st_trans + TRASY_S,'k','LineWidth',1.5);
 
-TRASX_R = 0;
+TRASX_R = 1;
 TRASY_R = 2.8;
 
 %ROTOR

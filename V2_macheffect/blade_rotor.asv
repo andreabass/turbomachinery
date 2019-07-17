@@ -26,21 +26,20 @@ dy_dx_perc_t = - (x_perc./100 - c_R_m/2).*(R_perc_t^2 - (x_perc./100 - 1/2).^2).
 
 
 % THICKNESS PROFILE
-x_r = x_perc*c_R_m;
+x_r = x_perc./100*c_R_m;
 y_t_r = c_R_m*y_t_perc*0.8;
 
 
 % MID-CHORD POINT
-x_rAV = 50*c_R_m;
-% cl_rm=4*pi*epsi_m/log(2);
-% y_rAV = c_R_m*y_c_perc_m(15)*100*cl_rm;
-y_rAV =0;
+x_rAV = 0.5*c_R_m;
+y_rAV = 0;
+
 %% HUB 
 
 % CAMBER LINE PROFILE
 cl_rh= 4*pi*epsi_h/log(2);
-y_rh = c_R_m*y_c_perc_h*100*cl_rh;
-dy_dx_rh = dy_dx_perc_h*c_R_m;
+y_rh = c_R_m*y_c_perc_h*cl_rh;
+dy_dx_rh = dy_dx_perc_h*cl_rh;
 eps_rh = atand(dy_dx_rh);
 
 % SUCTION SIDE PROFILE (X-Y)
@@ -66,7 +65,7 @@ AX_coord_AVrh = x_rAV*cosd(-gamma_roth)-y_rAV*sind(-gamma_roth);
 
 % CAMBER LINE PROFILE
 cl_rm=4*pi*epsi_m/log(2);
-y_rm = c_R_m*y_c_perc_m*100*cl_rm;
+y_rm = c_R_m*y_c_perc_m*cl_rm;
 dy_dx_rm = dy_dx_perc_m*cl_rm;
 eps_rm = atand(dy_dx_rm);
 
@@ -92,7 +91,7 @@ AX_coord_AVrm = x_rAV*cosd(-gamma_rotm)-y_rAV*sind(-gamma_rotm);
 
 % CAMBER LINE PROFILE
 cl_rt=4*pi*epsi_t/log(2);
-y_rt = c_R_m*y_c_perc_t*100*cl_rt;
+y_rt = c_R_m*y_c_perc_t*cl_rt;
 dy_dx_rt = dy_dx_perc_t*cl_rt;
 eps_rt = atand(dy_dx_rt);
 
