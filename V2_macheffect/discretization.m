@@ -55,6 +55,7 @@ alpha_2_geo_high = polyval(c,rhigh);
 c = polyfit([D_h/2 D_m/2 D_t/2],[alpha_3_h_geo alpha_3_m_geo alpha_3_t_geo],length([D_h/2 D_m/2 D_t/2])-1);
 alpha_3_geo_low = polyval(c,rlow);
 alpha_3_geo_high = polyval(c,rhigh);
+alpha_3_geo      =  [alpha_3_geo_low(end:-1:1) alpha_3_geo_high(2:end) ];
 
 % dev_opt_stat
 c = polyfit([D_h/2 D_m/2 D_t/2],[dev_opt_stath dev_opt_statm dev_opt_statt],length([D_h/2 D_m/2 D_t/2])-1);

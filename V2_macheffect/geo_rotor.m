@@ -70,14 +70,10 @@ dev_opt_rott = Ksh_d*Kth_dev*dev0_10t+m_t*teta_tip;
 dev_opt_rotm = Ksh_d*Kth_dev*dev0_10m+m_m*teta_mid;
 dev_opt_roth = Ksh_d*Kth_dev*dev0_10h+m_h*teta_hub;
 
-dev_opt_rott = dev_opt_rott + 10*(1-V_2A(end)/V_1A);
-dev_opt_rotm = dev_opt_rotm + 10*(1-V_2A(end)/V_1A);
-dev_opt_roth = dev_opt_roth + 10*(1-V_2A(end)/V_1A);
-
 % INLET GEOMETRICAL ANGLE
-beta_1_h_geo = beta_1_h - i_opt_roth;
-beta_1_m_geo = beta_1_m - i_opt_rotm;
-beta_1_t_geo = beta_1_t - i_opt_rott;
+beta_1_h_geo = beta_1_h + i_opt_roth;
+beta_1_m_geo = beta_1_m + i_opt_rotm;
+beta_1_t_geo = beta_1_t + i_opt_rott;
 
 % OUTLET GEOMETRICAL ANGLE
 beta_2_h_geo = beta_2_h + dev_opt_roth; 

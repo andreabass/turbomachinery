@@ -70,10 +70,6 @@ dev_opt_statt = Ksh_d*Kth_dev*dev0_10t+m_t*teta_tip_stat;
 dev_opt_statm = Ksh_d*Kth_dev*dev0_10m+m_m*teta_mid_stat;
 dev_opt_stath = Ksh_d*Kth_dev*dev0_10h+m_h*teta_hub_stat;
 
-dev_opt_statt = dev_opt_statt + 10*(1-V_3A(end)/V_2A(end));
-dev_opt_statm = dev_opt_statm + 10*(1-V_3A(end)/V_2A(end));
-dev_opt_stath = dev_opt_stath + 10*(1-V_3A(end)/V_2A(end));
-
 % INLET GEOMETRICAL ANGLE
 alpha_2_h_geo = alpha_2_h - i_opt_stath;
 alpha_2_m_geo = alpha_2_m - i_opt_statm;

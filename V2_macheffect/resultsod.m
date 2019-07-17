@@ -43,4 +43,64 @@ disp(['Rotor inlet rel. Mach numbers  (h/m/t)  :     ', num2str(M_R1(1)), '    '
 disp(['Stator inlet Mach numbers      (h/m/t)  :     ', num2str(M_2(1)), '    ', num2str(M_2_m), '    ', num2str(M_2(end))])
 
 
+% ROTOR
+figure(tvdrot)
+subplot(3,1,3)
+velt(V_1(1),W_1(1),omega*r(1),'r')
+velt(V_2(1),W_2(1),omega*r(1),'r--')
+
+subplot(3,1,2)
+velt(V_1_m,W_1_m,U_m,'r')
+velt(V_2_m,W_2_m,U_m,'r--')
+
+subplot(3,1,1)
+velt(V_1(end),W_1(end),omega*r(end),'r')
+velt(V_2(end),W_2(end),omega*r(end),'r--')
+
+% STATOR
+figure(tvdstat);
+subplot(3,1,3)
+velt(V_2A(1),V_2T(1),0,'r')
+velt(V_3A(1),V_3T(1),0,'r--')
+title('STATOR HUB')
+subplot(3,1,2)
+velt(V_2A_m,V_2T_m,0,'r')
+velt(V_3A_m,V_3T_m,0,'r--')
+title('STATOR MID')
+subplot(3,1,1)
+velt(V_2A(end),V_2T(end),0,'r')
+velt(V_3A(end),V_3T(end),0,'r--')
+title('STATOR TIP')
+
+%  OTHER OUTPUTS
+
+Y_offdesign      = [Yigv_av Yrot_av Ystat_av];
+D_offdesign_rot  = [D(1) Dm D(end)];
+D_offdesign_stat = [DS(1) DmS DS(end)];
+eta_offdesign   = [ eta_IGV_av eta_R_av eta_S_av ];
+
+outputs = figure;
+subplot(4,1,1)
+c = categorical({'IGV','ROTOR','STATOR'});
+y  = bar(c, [Y_design(1) Y_offdesign(1); Y_design(2) Y_offdesign(2); Y_design(3) Y_offdesign(3)]);
+y(1).FaceColor = 'k';
+title('PRESSURE LOSS COEFFICIENT')
+subplot(4,1,2)
+y = bar(c, [eta_design(1) eta_offdesign(1); eta_design(2) eta_offdesign(2); eta_design(3) eta_offdesign(3)] );
+y(1).FaceColor = 'k';
+ylim([0 1])
+title('STATIC EFFICIENCY')
+subplot(4,1,3)
+c = categorical({'HUB','MID','TIP'});
+y = bar(c,[D_design_rot(1) D_offdesign_rot(1); D_design_rot(2) D_offdesign_rot(2); D_design_rot(3) D_offdesign_rot(3)]);
+y(1).FaceColor = 'k';
+ylim([0 2.5])
+title('ROTOR EQ. GLOBAL DIFFUSION FACTOR')
+subplot(4,1,4)
+y = bar(c,[D_design_stat(1) D_offdesign_stat(1); D_design_stat(2) D_offdesign_stat(2); D_design_stat(3) D_offdesign_stat(3)]);
+y(1).FaceColor = 'k';
+ylim([0 2.5])
+title('STATOR EQ. GLOBAL DIFFUSION FACTOR')
+
+
 

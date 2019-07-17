@@ -33,3 +33,65 @@ Xi = cp * (T_2-T_1) / l_Eu;
 disp(['Reaction degree                (h/m/t)  :     ', num2str(Xi(1)), '    ', num2str(Xi(2)), '     ', num2str(Xi(3))])
 %disp(['According to Howell Statistics      :     ', Howell_R, Howell_S])
 
+
+
+
+%% TRIANGLES
+
+% MACHINE
+tvd = figure;
+subplot(2,2,1)
+velt(V_0,0,0)
+title('SECTION 0')
+subplot(2,2,2)
+velt(V_1_h,W_1_h,U_h,'k--')
+velt(V_1_m,W_1_m,U_m,'k-.')
+velt(V_1_t,W_1_t,U_t)
+title('SECTION 1')
+subplot(2,2,3)
+velt(V_2_h,W_2_h,U_h,'k--')
+velt(V_2_m,W_2_m,U_m,'k-.')
+velt(V_2_t,W_2_t,U_t)
+title('SECTION 2')
+subplot(2,2,4)
+velt(V_3A(end),V_3T_h,0,'k--')
+velt(V_3A(end),V_3T_m,0,'k-.')
+velt(V_3A(end),V_3T_t,0)
+title('SECTION 3')
+
+% ROTOR
+tvdrot = figure;
+subplot(3,1,3)
+velt(V_1_h,W_1_h,U_h)
+velt(V_2_h,W_2_h,U_h,'k--')
+title('ROTOR HUB')
+subplot(3,1,2)
+velt(V_1_m,W_1_m,U_m)
+velt(V_2_m,W_2_m,U_m,'k--')
+title('ROTOR MID')
+subplot(3,1,1)
+velt(V_1_t,W_1_t,U_t)
+velt(V_2_t,W_2_t,U_t,'k--')
+title('ROTOR TIP')
+
+% STATOR
+tvdstat = figure;
+subplot(3,1,3)
+velt(V_2A_h(end),V_2T_h,0)
+velt(V_3A(end),V_3T_h,0,'k--')
+title('STATOR HUB')
+subplot(3,1,2)
+velt(V_2A_m(end),V_2T_m,0)
+velt(V_3A(end),V_3T_m,0,'k--')
+title('STATOR MID')
+subplot(3,1,1)
+velt(V_2A_t(end),V_2T_t,0)
+velt(V_3A(end),V_3T_t,0,'k--')
+title('STATOR TIP')
+
+%% OTHER OUTPUTS
+
+Y_design      = [Y_p_IGV_av Y_p_R_av Y_p_S_av];
+D_design_rot  = [Dh Dm Dt];
+D_design_stat = [DhS DmS DtS];
+eta_design   = [ eta_IGV_av eta_R_av eta_S_av ];

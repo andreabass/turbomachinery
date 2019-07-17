@@ -35,7 +35,7 @@ y_sAV = 0;
 
 % CAMBER LINE PROFILE
 cl_sh=4*pi*epsi_h/log(2);         % Lift coefficient
-y_sh = c_S_m*y_c_perc_h*cl_sh*100;      % Circular arc camber line
+y_sh = c_S_m*y_c_perc_h*100;      % Circular arc camber line
 dy_dx_sh = dy_dx_perc_h*c_S_m;    % Circular arc camber line slope
 eps_sh = atand(dy_dx_sh);       % Blade angles
 
@@ -61,7 +61,7 @@ AX_coord_AVsh = x_sAV*cosd(gamma_stath)-y_sAV*sind(gamma_stath);
 
 % CAMBER LINE PROFILE
 cl_sm=4*pi*epsi_m/log(2);
-y_sm = c_S_m*y_c_perc_m*cl_sm*100;
+y_sm = c_S_m*y_c_perc_m*100;
 dy_dx_sm = dy_dx_perc_m*c_S_m;
 eps_sm = atand(dy_dx_sm);
 
@@ -87,7 +87,7 @@ AX_coord_AVsm = x_sAV*cosd(gamma_statm)-y_sAV*sind(gamma_statm);
 
 % CAMBER LINE PROFILE
 cl_st=4*pi*epsi_t/log(2);
-y_st = c_S_m*y_c_perc_t*cl_st*100;
+y_st = c_S_m*y_c_perc_t*100;
 dy_dx_st = dy_dx_perc_t*c_S_m;
 eps_st = atand(dy_dx_st);
 
