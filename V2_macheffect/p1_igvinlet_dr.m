@@ -46,3 +46,6 @@
         rho_0(end+1) = rho_0_m;              % (definition)
         
         end
+        
+        
+        V_0 = V_0A;

@@ -8,10 +8,10 @@ options
 %% INPUT VALUES
 
 % HUB/TIP RATIO
-lambda = 0.62;
+lambda = 0.55;
 
 % ROTATIONAL SPEED
-n = 5250; %rpm
+n = 9000; %rpm
 
 % ROTOR INLET RELATIVE MACH NUMBER @ TIP
 M_R1_t = 0.99;
@@ -49,7 +49,7 @@ while abs((eta_TT(end)-eta_TT(end-1))/eta_TT(end-1))>tol
 % 0 DOF
 
 if DR==1
-Xi_m=0.5;
+Xi_m=0.6;
 
 lambda = [2*lambda lambda];
 while abs((lambda(end)-lambda(end-1))/lambda(end-1))>tol
