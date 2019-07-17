@@ -1,0 +1,106 @@
+p_T3_av     = sum(p_T3_ave.*dm)/m;
+beta_TT     = p_T3_av/p_T0;
+T_T3_av     = sum(T_T3_ave.*dm)/m;
+deltaHis_TT = cp * T_T0 * (beta_TT ^ ((gamma - 1)/gamma)-1); % [J/kg]
+eta_TT      =  deltaHis_TT / ( cp*(T_T3_av - T_T0) );
+
+Yigv    = (p_T0 - p_T1) ./ (p_T1 - p_1);
+Yigv_av = sum(Yigv)/length(Yigv);
+
+Yrot    = (p_TR1 - p_TR2) ./ (p_TR1 - p_1);
+Yrot_av = sum(Yrot)/length(Yrot);
+
+Ystat    = (p_T2 - p_T3) ./ (p_T2 - p_2);
+Ystat_av = sum(Ystat)/length(Ystat);
+
+eta_IGV = (T_0_m-T_1)./(T_0_m-T_0_m.*(p_1./p_0_m).^((gamma-1)/gamma));
+eta_IGV_av = sum(eta_IGV)/length(eta_IGV);
+eta_R = (T_1-T_1.*(p_2./p_1).^((gamma-1)/gamma)) ./ (T_1-T_2);
+eta_R_av = sum(eta_R)/length(eta_R);
+eta_S = (T_2-T_2.*(p_3./p_2).^((gamma-1)/gamma)) ./ (T_2-T_3);
+eta_S_av = sum(eta_S)/length(eta_S);
+
+
+
+
+
+        disp('_________________________________________________________________________________')
+        disp(' ')
+        disp('                             RESULTS (OFF-DESIGN)')
+        disp('_________________________________________________________________________________')
+        disp(' ')
+
+disp(' ')
+disp(['Total-to-total stage efficiency         :     ', num2str(eta_TT*100),'%'])
+disp(['Static-to-static row efficiencies       :     ', num2str(eta_IGV_av*100), '%   ', num2str(eta_R_av*100), '%  ', num2str(eta_S_av*100),'%'])
+disp(['Pressure loss coefficients              :     ', num2str(Yigv_av*100), '%    ', num2str(Yrot_av*100), '%   ', num2str(Ystat_av*100),'%'])
+disp(' ')
+disp(['Rotor diffusion coefficients   (h/m/t)  :     ', num2str([D(1) Dm D(end)])])
+disp(['Stator diffusion coefficients  (h/m/t)  :     ', num2str([DS(1) DmS DS(end)])])
+disp(' ')
+disp(['IGV outlet Mach numbers        (h/m/t)  :     ', num2str(M_1(1)), '    ', num2str(M_1_m), '    ', num2str(M_1(end))])
+disp(['Rotor inlet rel. Mach numbers  (h/m/t)  :     ', num2str(M_R1(1)), '    ', num2str(M_R1_m), '     ', num2str(M_R1(end))])
+disp(['Stator inlet Mach numbers      (h/m/t)  :     ', num2str(M_2(1)), '    ', num2str(M_2_m), '    ', num2str(M_2(end))])
+
+
+% ROTOR
+figure(tvdrot)
+subplot(3,1,3)
+velt(V_1(1),W_1(1),omega*r(1),'r')
+velt(V_2(1),W_2(1),omega*r(1),'r--')
+
+subplot(3,1,2)
+velt(V_1_m,W_1_m,U_m,'r')
+velt(V_2_m,W_2_m,U_m,'r--')
+
+subplot(3,1,1)
+velt(V_1(end),W_1(end),omega*r(end),'r')
+velt(V_2(end),W_2(end),omega*r(end),'r--')
+
+% STATOR
+figure(tvdstat);
+subplot(3,1,3)
+velt(V_2A(1),V_2T(1),0,'r')
+velt(V_3A(1),V_3T(1),0,'r--')
+title('STATOR HUB')
+subplot(3,1,2)
+velt(V_2A_m,V_2T_m,0,'r')
+velt(V_3A_m,V_3T_m,0,'r--')
+title('STATOR MID')
+subplot(3,1,1)
+velt(V_2A(end),V_2T(end),0,'r')
+velt(V_3A(end),V_3T(end),0,'r--')
+title('STATOR TIP')
+
+%  OTHER OUTPUTS
+
+Y_offdesign      = [Yigv_av Yrot_av Ystat_av];
+D_offdesign_rot  = [D(1) Dm D(end)];
+D_offdesign_stat = [DS(1) DmS DS(end)];
+eta_offdesign   = [ eta_IGV_av eta_R_av eta_S_av ];
+
+outputs = figure;
+subplot(4,1,1)
+c = categorical({'IGV','ROTOR','STATOR'});
+y  = bar(c, [Y_design(1) Y_offdesign(1); Y_design(2) Y_offdesign(2); Y_design(3) Y_offdesign(3)]);
+y(1).FaceColor = 'k';
+title('PRESSURE LOSS COEFFICIENT')
+subplot(4,1,2)
+y = bar(c, [eta_design(1) eta_offdesign(1); eta_design(2) eta_offdesign(2); eta_design(3) eta_offdesign(3)] );
+y(1).FaceColor = 'k';
+ylim([0 1])
+title('STATIC EFFICIENCY')
+subplot(4,1,3)
+c = categorical({'HUB','MID','TIP'});
+y = bar(c,[D_design_rot(1) D_offdesign_rot(1); D_design_rot(2) D_offdesign_rot(2); D_design_rot(3) D_offdesign_rot(3)]);
+y(1).FaceColor = 'k';
+ylim([0 2.5])
+title('ROTOR EQ. GLOBAL DIFFUSION FACTOR')
+subplot(4,1,4)
+y = bar(c,[D_design_stat(1) D_offdesign_stat(1); D_design_stat(2) D_offdesign_stat(2); D_design_stat(3) D_offdesign_stat(3)]);
+y(1).FaceColor = 'k';
+ylim([0 2.5])
+title('STATOR EQ. GLOBAL DIFFUSION FACTOR')
+
+
+
