@@ -8,10 +8,10 @@ options
 %% INPUT VALUES
 
 % HUB/TIP RATIO
-lambda = 0.55;
+lambda = 0.6;
 
 % ROTATIONAL SPEED
-n = 9000; %rpm
+n = 6000; %rpm
 
 % ROTOR INLET RELATIVE MACH NUMBER @ TIP
 M_R1_t = 0.99;
