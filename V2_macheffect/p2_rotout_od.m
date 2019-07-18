@@ -31,7 +31,7 @@ M_R1_m = W_1_m / sqrt(gamma*R_star*T_1_m);
     T_2_m = T_TR2_m - W_2_m^2 / 2 / cp;
     T_T2_m = T_2_m + V_2_m^2/2/cp;
     
-    Km = abs(tand(beta_1_m) - V_2A(end)/V_1A_m * tand(beta_2_m));
+    Km = abs(tand(beta_1_m) - V_2A_m(k)/V_1A_m * tand(beta_2_m));
     
     Wmax_W1_m = 1.12 + 0.61 * cosd(beta_1_m)^2/sigma_R_m * Km;
     Dm = Wmax_W1_m * W_1_m / W_2_m;  

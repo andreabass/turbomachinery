@@ -1,13 +1,13 @@
 
 figure
 
-XXstart = -1.5;
-XXend = 6.25;
-YYstart = -9;
-YYend = 8.875;
+XXstart = -1.5*1.5;
+XXend = 6.25*1.5;
+YYstart = -11*1.5;
+YYend = 9*1.5;
 
-TRASX_S = 1;
-TRASY_S = -4;
+TRASX_S = 1*1.5;
+TRASY_S = -4.5*1.5;
 
 %STATOR
 hubsss = plot(T_coord_ss_sh_trans + TRASX_S,-AX_coord_ss_sh_trans + TRASY_S,'k--','LineWidth',1.5);
@@ -18,8 +18,8 @@ midsps = plot(T_coord_ps_sm + TRASX_S,-AX_coord_ps_sm + TRASY_S,'k-.','LineWidth
 tipsss = plot(T_coord_ss_st_trans + TRASX_S,-AX_coord_ss_st_trans + TRASY_S,'k','LineWidth',1.5);
 tipsps = plot(T_coord_ps_st_trans + TRASX_S,-AX_coord_ps_st_trans + TRASY_S,'k','LineWidth',1.5);
 
-TRASX_R = 1;
-TRASY_R = 2.8;
+TRASX_R = 0.5*1.5;
+TRASY_R = 2.8*1.5;
 
 %ROTOR
 hubrss = plot(T_coord_ss_rh_trans - T_coord_AVrt - T_coord_AVst + TRASX_R,     -AX_coord_ss_rh_trans + TRASY_R,'k--','LineWidth',1.5);
@@ -29,8 +29,8 @@ midrps = plot(T_coord_ps_rm - T_coord_AVrt - T_coord_AVst + TRASX_R,           -
 tiprss = plot(T_coord_ss_rt_trans - T_coord_AVrt - T_coord_AVst + TRASX_R,     -AX_coord_ss_rt_trans + TRASY_R,'k','LineWidth',1.5);
 tiprps = plot(T_coord_ps_rt_trans - T_coord_AVrt - T_coord_AVst + TRASX_R,     -AX_coord_ps_rt_trans + TRASY_R,'k','LineWidth',1.5);
 
-TRASX_IGV = 1;
-TRASY_IGV = 8;
+TRASX_IGV = 1*1.5;
+TRASY_IGV = 8*1.5;
 
 %IGV
 hubigvss = plot(T_coord_ss_IGVh + TRASX_IGV, AX_coord_ss_IGVh + TRASY_IGV,'k--','LineWidth',1.5);
