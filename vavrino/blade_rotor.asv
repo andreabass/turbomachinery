@@ -18,7 +18,7 @@ y_rAV =0;
 % CAMBER LINE PROFILE
 cl_rh= teta_hub/25;
 y_rh = c_R_m*y_c_perc*cl_rh;
-dy_dx_rh = dy_dx_perc*c_R_m;
+dy_dx_rh = dy_dx_perc_h*c_R_m;
 eps_rh = atand(dy_dx_rh);
 
 % SUCTION SIDE PROFILE (X-Y)
@@ -43,9 +43,9 @@ AX_coord_AVrh = x_rAV*cosd(-gamma_roth)-y_rAV*sind(-gamma_roth);
 %% MID 
 
 % CAMBER LINE PROFILE
-cl_rm=teta_mid/25;
-y_rm = c_R_m*y_c_perc*cl_rm;
-dy_dx_rm = dy_dx_perc*c_R_m;
+cl_rm=teta_hub/25;
+y_rm = c_R_m*y_c_perc_mcl_rm;
+dy_dx_rm = dy_dx_perc_m*cl_rm;
 eps_rm = atand(dy_dx_rm);
 
 % SUCTION SIDE PROFILE (X-Y)
@@ -69,9 +69,9 @@ AX_coord_AVrm = x_rAV*cosd(-gamma_rotm)-y_rAV*sind(-gamma_rotm);
 %% TIP 
 
 % CAMBER LINE PROFILE
-cl_rt=teta_tip/25;
-y_rt = c_R_m*y_c_perc*cl_rt;
-dy_dx_rt = dy_dx_perc*c_R_m;
+cl_rt=4*pi*epsi_t/log(2);
+y_rt = c_R_m*y_c_perc_t*100;
+dy_dx_rt = dy_dx_perc_t*cl_rt;
 eps_rt = atand(dy_dx_rt);
 
 % SUCTION SIDE PROFILE (X-Y)
