@@ -11,7 +11,7 @@
               
         % Velocity triangle @ stator outlet
         
-        V_3T_m = V2Tm_V1Tm * V_2T_m;
+        V_3T_m = V_1T_m;
         
         V_3T_t = V_3T_m * D_m / D_t;
         V_3T_h = V_3T_m * D_m / D_h(end);
@@ -31,7 +31,6 @@
         V_3A = V_2A;
         V_3A = [V_3A V_3A + 2*tol];
         
-        for i=1:KK
         while abs(eta_S_t(end) - eta_S_t(end-1))>tol || abs(eta_S_m(end) - eta_S_m(end-1))>tol || abs(eta_S_h(end) - eta_S_h(end-1))>tol
             eta_S_t(end-1) = eta_S_t(end);
             eta_S_m(end-1) = eta_S_m(end);
@@ -45,18 +44,8 @@
         M_2_m = V_2_m / sqrt(gamma*R_star*T_2_m);
         M_2_h = V_2_h / sqrt(gamma*R_star*T_2_h);
         M_2_t = V_2_t / sqrt(gamma*R_star*T_2_t);
-        
-        %   HOWELL CORRELATION %
-        %These assumptions are used to obtain the two correction
-        %coefficients of Howell correlation (Psi, Phi) equal to one. In
-        %principle is necessary to check also that the deflection Dbeta is
-        %sufficiently close to the optimal value associated to beta2
             
         Re_How = 3e5;
-  
-           if i==1
-             sigma_S_m = sigma_S_m_design;              
-           end
         
         %Chord calculation based on Howell value for Reynolds number
         
@@ -69,6 +58,7 @@
 
          %Rotor geometry
          
+         sigma_S_m=sigma_S_m_design;
          s_S_m = c_S_m / sigma_S_m;
          N_S = ceil(pi * D_m / s_S_m);
             s_S_m = pi * D_m / N_S;
@@ -272,32 +262,7 @@
             
             V_3A(end+1) = 3 * m / pi / b / D_m / (rho_3_t + rho_3_m + rho_3_h);        
 
-        end
-        
-        %Now we optimize the solidity with the Howell correlation and we
-        %evaluate again the efficiency
-        if i==1 && HOW_OPT == 1
-           Db_Psi = ppval(Dbeta_Psi_curve, abs(alpha_3_m));
-           Psi_opt = abs(alpha_3_m-alpha_2_m)/Db_Psi;          
-           if Psi_opt<1.329 && Psi_opt>0.749
-           x=0.4:0.001:1.6;
-           s_over_c_S = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));
-           Howell_S='Stator Optimized';
-           elseif Psi_opt>1.329
-           s_over_c_S = 0.4;
-           Howell_S='Stator Overloaded';
-           else
-           s_over_c_S = 1.6;        
-           Howell_S='Stator Underloaded';
-           end
-           sigma_S_m = 1/s_over_c_S;
-           eta_S_t = [eta_S_t(end) eta_S_t(end) + 2*tol];
-           eta_S_m = [eta_S_m(end) eta_S_m(end) + 2*tol];
-           eta_S_h = [eta_S_h(end) eta_S_h(end) + 2*tol];   
-        end
-        
-        end
-        
+        end        
         
         story_eta_S_t = eta_S_t;
         story_eta_S_m = eta_S_m; 

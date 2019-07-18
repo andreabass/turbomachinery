@@ -25,9 +25,9 @@ quiver(Wt,Wa,U,0,0,style,'LineWidth',1.5,'MaxHeadSize',0.1);
 
 end
 
-YYend = 300;
+YYend = 4;
 YYstart = 0;
-XXend = 400;
+XXend = 300;
 XXstart = -450;
 
 axis([XXstart XXend YYstart YYend])

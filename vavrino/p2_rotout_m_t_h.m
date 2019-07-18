@@ -25,17 +25,9 @@
         
         V_2A = V_1A_m;
         V_2A = [V_2A V_2A + 2*tol];
-        Howell_correlation
+        
         opt=1;
         
-        % Check if the Howell optimization procedure was selected
-        if HOW_OPT == 1
-            KK = 2;
-        else
-            KK = 1;
-        end
-        
-        for i=1:KK
         while abs(eta_R_t(end) - eta_R_t(end-1))>tol || abs(eta_R_m(end) - eta_R_m(end-1))>tol || abs(eta_R_h(end) - eta_R_h(end-1))>tol
             eta_R_t(end-1) = eta_R_t(end);
             eta_R_m(end-1) = eta_R_m(end);
@@ -46,19 +38,10 @@
         M_R1_m = W_1_m / sqrt(gamma*R_star*T_1_m);
         M_R1_h = W_1_h / sqrt(gamma*R_star*T_1_h);
         M_R1_t = W_1_t / sqrt(gamma*R_star*T_1_t);
-        
-        %   HOWELL CORRELATION %
-        %These assumptions are used to obtain the two correction
-        %coefficients of Howell correlation (Psi, Phi) equal to one. In
-        %principle is necessary to check also that the deflection Dbeta is
-        %sufficiently close to the optimal value associated to beta2
             
         Re_How = 3e5;
-       
-        if i==1
+     
             sigma_R_m = sigma_R_m_design; 
-        end
-        
         
         %Chord calculation based on Howell value for Reynolds number
         
@@ -299,35 +282,7 @@
         
            V_2A_m = V_2A(end);
            V_2A_h = V_2A_h(end);
-           V_2A_t = V_2A_t(end);
-        
-        %Now we optimize the solidity with the Howell correlation and we
-        %evaluate again the efficiency
-        
-           if i==1 && HOW_OPT == 1
-               
-           Db_Psi = ppval(Dbeta_Psi_curve, abs(beta_2_m));
-           Psi_opt = abs(beta_2_m-beta_1_m)/Db_Psi;        
-           if Psi_opt<1.329 && Psi_opt>0.749
-           x=0.4:0.001:1.6;
-           s_over_c_R = mean(x( find(ppval(Psi_curve, x)>Psi_opt-0.001 & ppval(Psi_curve, x)<Psi_opt+0.001)));
-           Howell_R='Rotor Optimized';
-           elseif Psi_opt>1.329
-           s_over_c_R = 0.4;
-           Howell_R='Rotor Overloaded';
-           else
-           s_over_c_R = 1.6;        
-           Howell_R='Rotor Underloaded';
-           end
-           sigma_R_m = 1/s_over_c_R;
-           eta_R_t = [2*eta_R_t(end) eta_R_t(end)];
-           eta_R_m = [2*eta_R_m(end) eta_R_m(end)];
-           eta_R_h = [2*eta_R_h(end) eta_R_h(end)];
-           
-           end
-        
-        end
-        
+           V_2A_t = V_2A_t(end); 
         
         story_eta_R_t = eta_R_t;
         story_eta_R_m = eta_R_m; 

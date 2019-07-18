@@ -2,7 +2,7 @@
 
 % Axial velocity @ rotor outlet (midspan) initialized to the inlet value
 
-V_2A_m = linspace(V_1A_high(1)*0.8,V_1A_high(1)*1.2,1000);
+V_2A_m = linspace(V_1A_high(1)*1.1,V_1A_high(1)*0.8,1000);
 
 % Incidence calculation
 
@@ -31,7 +31,7 @@ M_R1_m = W_1_m / sqrt(gamma*R_star*T_1_m);
     T_2_m = T_TR2_m - W_2_m^2 / 2 / cp;
     T_T2_m = T_2_m + V_2_m^2/2/cp;
     
-    Km = abs(tand(beta_1_m) - V_2A(end)/V_1A_m * tand(beta_2_m));
+    Km = abs(tand(beta_1_m) - V_2A_m(end)/V_1A_m * tand(beta_2_m));
     
     Wmax_W1_m = 1.12 + 0.61 * cosd(beta_1_m)^2/sigma_R_m * Km;
     Dm = Wmax_W1_m * W_1_m / W_2_m;  
@@ -508,7 +508,7 @@ M_R1_m = W_1_m / sqrt(gamma*R_star*T_1_m);
       dm = rho_2_av .* dA .* V_2A_av;
       mnew(k) = sum(dm);
       
-      if (mnew(k) > m*0.999) && (mnew(k) < m*1.001)
+      if (mnew(k) > m*0.99) && (mnew(k) < m*1.01)
           V_2A_m = V_2A_m(k);
           break
       end

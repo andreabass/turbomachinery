@@ -52,7 +52,7 @@ velt(V_2_m,W_2_m,U_m,'g-.')
 
 subplot(3,1,1)
 velt(V_1(end),W_1(end),omega*r(end),'g')
-velt(V_2(end),W_2(end),omega*r(end),'g-.')
+velt(V_2(end),W_2(end),omega*r(end),'r-.')
 
 % STATOR
 figure(tvdstat);

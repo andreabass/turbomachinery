@@ -8,7 +8,7 @@ options
 %% INPUT VALUES
 
 % HUB/TIP RATIO
-lambda = 0.55;
+lambda = 0.5;
 
 % ROTATIONAL SPEED
 n = 9000; %rpm
